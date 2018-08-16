@@ -102,3 +102,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# spacy models
+es_core_news_md-2.0.0/
