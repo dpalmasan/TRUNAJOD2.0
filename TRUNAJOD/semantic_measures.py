@@ -49,6 +49,9 @@ def avgW2VSemanticSimilarity(docs, N):
     Computes average semantic similarity between adjacent sentences, using 
     SpaCy word2vec word vectors.
     """
+    if N <= 1:
+        return 0.0
+
     avg_sim = 0
     prev_doc = docs.next()
     

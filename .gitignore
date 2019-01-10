@@ -1,3 +1,14 @@
+# Files for local experiments
+*xlsx
+*png
+*csv
+texto_debug
+*zip
+*back
+random*pickle*
+resumenes
+textosescolares18/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -105,3 +116,4 @@ venv.bak/
 
 # spacy models
 es_core_news_md-2.0.0/
+spacy_model/

@@ -83,10 +83,14 @@ class EntityGrid(object):
                 entity_features[entity_grid[entity][i] + entity_grid[entity][i + 1]] += 1
 
         for prob in entity_features:
-            entity_features[prob] /= float(total_transitions)
+            if total_transitions != 0:
+                entity_features[prob] /= float(total_transitions)
+            else:
+                entity_features[prob] = 0.0
 
 
         self.__grid = entity_grid
+        self.__n_sent = n_sent
         self.__prob = entity_features
 
     def get_ss_transitions(self):
@@ -136,5 +140,97 @@ class EntityGrid(object):
     
     def get_nn_transitions(self):
         return self.__prob[u"--"]
+
+    def get_egrid(self):
+        return self.__grid
+
+    def get_sentence_count(self):
+        return self.__n_sent
+
+def weighting_syntactic_role(entity_role):
+    """
+    Weighting scheme for syntactic role of an entity. This uses the heuristic 
+    from the paper, which is S = 3, O = 2, X = 1, - = 0
+
+        Input: entity_role (string, utf8)
+        Output: The value of the role. Int
+    """
+    if entity_role == u"S":
+        return 3
+    elif entity_role == u"O":
+        return 2
+    elif entity_role == u"X":
+        return 1
+
+    return 0
+
+
+# TODO: Implement PACC, and all the other measures using Distance 
+# between sentences as in the paper
+def get_local_coherence(egrid):
+    """
+    Computes local coherence using Graph-Based local coherence 
+    modeling
+
+        Input: EntityGrid
+        Output: A tuple with different local coherence scores
+    """
+    n_sent = egrid.get_sentence_count()
+    PW = [[0] * n_sent for i in xrange(n_sent)]
+    
+    # Weight Matrix for PACC, syntactic information is accounted for by
+    # integrating the edges of the bipartite graph
+    W = [[0] * n_sent for i in xrange(n_sent)]
+
+    grid = egrid.get_egrid()
+    for entity in grid:
+        for i in xrange(n_sent):
+            for j in xrange(i+1,n_sent):
+                if grid[entity][i] != u"-" and grid[entity][j] != u"-":
+                    PW[i][j] += 1
+                    W[i][j] += weighting_syntactic_role(grid[entity][i]) \
+                            * weighting_syntactic_role(grid[entity][j])
+
+    PU = [map(lambda x: x != 0, PWi) for PWi in PW]
+
+    local_coherence_PU = 0.0
+    local_coherence_PW = 0.0
+    local_coherence_PACC = 0.0
+    for i in xrange(n_sent):
+        local_coherence_PW += sum(PW[i])
+        local_coherence_PU += sum(PU[i])
+        local_coherence_PACC += sum(W[i])
+
+    
+    local_coherence_PW /= n_sent
+    local_coherence_PU /= n_sent
+    local_coherence_PACC /= n_sent
+
+
+    # Weighting projection graphs 
+    PU_weighted = list(PU)
+    PW_weighted = list(PW)
+    PACC_weighted = list(W)
+    for i in xrange(n_sent):
+        for j in xrange(i+1,n_sent):
+            PU_weighted[i][j] = PU[i][j] / float(j-i)
+            PW_weighted[i][j] = PW[i][j] / float(j-i)
+            PACC_weighted[i][j] = W[i][j] / float(j-i)
+
+    local_coherence_PU_dist = 0.0
+    local_coherence_PW_dist = 0.0
+    local_coherence_PACC_dist = 0.0
+    for i in xrange(n_sent):
+        local_coherence_PW_dist += sum(PW_weighted[i])
+        local_coherence_PU_dist += sum(PU_weighted[i])
+        local_coherence_PACC_dist += sum(PACC_weighted[i])
+    
+    local_coherence_PW_dist /= n_sent
+    local_coherence_PU_dist /= n_sent
+    local_coherence_PACC_dist /= n_sent
+    return (local_coherence_PU, local_coherence_PW, local_coherence_PACC,
+            local_coherence_PU_dist, local_coherence_PW_dist, 
+            local_coherence_PACC_dist)
+
 
 
