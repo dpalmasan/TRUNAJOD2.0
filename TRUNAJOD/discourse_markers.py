@@ -137,9 +137,10 @@ VAGUE_MEANING_CLOSED_CLASS_WORDS = set([
     u"a",
 ])
 
+
 def find_matches(text, list):
     """
-    Given a text and a list of possible matches (in this module, discourse 
+    Given a text and a list of possible matches (in this module, discourse
     markers list), returns the number of matches found in text.
     """
     counter = 0
@@ -147,6 +148,7 @@ def find_matches(text, list):
         results = re.findall(r"\b%s\b" % w, text, re.IGNORECASE)
         counter += len(results)
     return counter
+
 
 def get_revision_dm_count(text):
     return find_matches(text, REVISION_DISCOURSE_MARKERS)
@@ -159,16 +161,14 @@ def get_cause_dm_count(text):
 def get_equality_dm_count(text):
     return find_matches(text, EQUALITY_DISCOURSE_MARKERS)
 
+
 def get_context_dm_count(text):
     return find_matches(text, CONTEXT_DISCOURSE_MARKERS)
+
 
 def get_polysemic_dm_count(text):
     return find_matches(text, HIGHLY_POLYSEMIC_DISCOURSE_MARKERS)
 
+
 def get_closed_class_vague_meaning_count(text):
     return find_matches(text, VAGUE_MEANING_CLOSED_CLASS_WORDS)
-
-# Unit testing
-if __name__ == "__main__":
-    print "Found %d matches" % get_closed_class_vague_meaning_count(u"Esto es un texto a que no lo sabías a.")
-
