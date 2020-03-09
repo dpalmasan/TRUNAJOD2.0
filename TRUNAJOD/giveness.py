@@ -33,9 +33,9 @@ def pronounNounRatio(doc):
     third_person_pronouns = 0
 
     for token in doc:
-        if isNoun(token.pos_) or isPronoun(token.pos_):
+        if isNoun(token.pos_):
             noun_counter += 1
-            if token.pos_ == "PRON" and "Person=3" in token.tag_:
-                third_person_pronouns += 1
+        if isPronoun(token.pos_) and "Person=3" in token.tag_:
+            third_person_pronouns += 1
 
     return float(third_person_pronouns) / noun_counter
