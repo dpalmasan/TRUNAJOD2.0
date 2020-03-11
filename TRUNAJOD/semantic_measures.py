@@ -1,18 +1,26 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 
 def getSynsets(lemma, synset_dict):
+    """Return synonym set given a word lemma.
+
+    The function requires that the synset_dict is passed into it. In our case
+    we extract the synset from MCR (Multilingual-Central-Repository). If the
+    lemma is not found in the synset_dict, then this function returns a set
+    with the lemma in it.
+
+    :param lemma: Lemma to be look-up into the synset
+    :type lemma: string
+    :param synset_dict: key-value pairs, lemma to synset
+    :type synset_dict: Python dict
+    :return: The set of synonyms of a given lemma
+    :rtype: Python set of strings
     """
-    Given a lemma, and a synset_dict, returns a set of all the synonyms
-    for that lemma. If lemma not found in the synset_dict, it will return
-    a set with the lemma.
-    """
-    return synset_dict.get(lemma, set([lemma]))
+    return synset_dict.get(lemma, {lemma})
 
 
 def overlap(lemma_list_group, synset_dict):
-    """Computes average overlap in a text
+    """Compute average overlap in a text.
 
     Computes semantic synset overlap (synonyms), based on a lemma list group
     and a dictionary containing synsets. Note that the computations are carried
@@ -20,15 +28,16 @@ def overlap(lemma_list_group, synset_dict):
     implementation but not documentation. I will need to check why is this the
     case.
 
-    Args:
-        lemma_list_group (list) : A list of tokenized sentences.
-        synset_dict (dict)      : A dictionary containing synsets.
-
-    Returns:
-        float: Average of overlaps between 2 sentences.
+    :param lemma_list_group: List of tokenized and lemmatized sentences
+    :type lemma_list_group: List of List of strings
+    :param synset_dict: key-value pairs for lemma-synonyms
+    :type synset_dict: Python dict
+    :return: Average overlap between sentences
+    :rtype: float
     """
+    # TODO: Should this raise an exception?
     if len(lemma_list_group) < 2:
-        return 0
+        return 0.0
 
     N = len(lemma_list_group)
 
@@ -47,16 +56,25 @@ def overlap(lemma_list_group, synset_dict):
 
 
 def avgW2VSemanticSimilarity(docs, N):
+    """Compute average semantic similarity between adjacent sentences.
+
+    This is using word2vec model based on SPACY implementation.
+
+    :param docs: Docs generator provided by SPACY API
+    :type docs: Doc Generator
+    :param N: Number of sentences
+    :type N: int
+    :return: Average sentence similarity (cosine)
+    :rtype: float
     """
-    Computes average semantic similarity between adjacent sentences, using
-    SpaCy word2vec word vectors.
-    """
+    # TODO: Should this raise an exception?
     if N <= 1:
         return 0.0
 
     avg_sim = 0
     prev_doc = next(docs)
 
+    # FIXME: Investiagte an alternative to this nasty implementation
     done = False
     while not done:
         try:

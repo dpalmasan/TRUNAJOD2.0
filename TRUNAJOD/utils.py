@@ -1,35 +1,99 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 import codecs
 
 
 def flatten(list_of_lists):
-    """
-    Flattens a list of list. I use this for flattening list of lists of
-    tokens that are outputs of processing sentences.
+    """Flatten a list of list.
+
+    :param list_of_lists: List to be flattened
+    :type list_of_lists: Python List of Lists
+    :return: The list flattened
+    :rtype: Python List
     """
     return [item for sublist in list_of_lists for item in sublist]
 
 
 def lemmatize(lemma_dict, word):
-    """
+    """Lemmatize a word.
+
     Lemmatizes a word using a lemmatizer which is represented as a dict that
     has (word, lemma) as (key, value) pair. For experiments, I will be using
-    lemmas list from https://github.com/michmech/lemmatization-lists
+    lemmas list from https://github.com/michmech/lemmatization-lists.
 
     If the word is not found in the dictionary, the lemma returned will be the
-    word with a * at the end.
+    word.
+
+    :param lemma_dict: A dict (word, lemma)
+    :type lemma_dict: Python dict
+    :param word: The word to be lemmatized
+    :type word: string
+    :return: Lemmatized word
+    :rtype: string
     """
     return lemma_dict.get(word, word)
 
 
+def getSentencesLemmas(docs, lemma_dict, stopwords=[]):
+    """Get lemmas from sentences.
+
+    Get different types of lemma meeasurements, such as noun lemmas, verb
+    lemmas, content lemmas.
+
+    :param docs: List of sentences to be processed.
+    :type docs: List of Spacy Doc
+    :param lemma_dict: Lemmatizer
+    :type lemma_dict: Python Dict
+    :param stopwords: [description], defaults to []
+    :type stopwords: list, optional
+    :return: [description]
+    :rtype: [type]
+    """
+    sentences_noun_lemmas = []
+    sentences_verb_lemmas = []
+    sentences_function_lemmas = []
+    sentences_content_lemmas = []
+    sentences_adj_lemmas = []
+    sentences_adv_lemmas = []
+    sentences_prp_lemmas = []
+
+    for doc in docs:
+        (
+            noun_lemmas,
+            verb_lemmas,
+            function_lemmas,
+            content_lemmas,
+            adj_lemmas,
+            adv_lemmas,
+            prp_lemmas,
+        ) = getTokenLemmas(doc, lemma_dict, stopwords)
+
+        sentences_noun_lemmas.append(noun_lemmas)
+        sentences_verb_lemmas.append(verb_lemmas)
+        sentences_function_lemmas.append(function_lemmas)
+        sentences_content_lemmas.append(content_lemmas)
+        sentences_adj_lemmas.append(adj_lemmas)
+        sentences_adv_lemmas.append(adv_lemmas)
+        sentences_prp_lemmas.append(prp_lemmas)
+
+    return (
+        sentences_noun_lemmas, sentences_verb_lemmas,
+        sentences_function_lemmas, sentences_content_lemmas,
+        sentences_adj_lemmas, sentences_adv_lemmas, sentences_prp_lemmas,
+    )
+
+
 def getStopwords(filename):
+    """Read stopword list from file.
+
+    Assumes that the list is defined as a newline separated words.
+
+    :param filename: Name of the file containing stopword list.
+    :type filename: string
+    :return: List of stopwords
+    :rtype: Set
     """
-    Given a file with stopwords, generates a set from it and returns it.
-    """
-    stopwords = set([])
-    with codecs.open(filename, "r", "utf8") as fp:
+    stopwords = set()
+    with codecs.open(filename, 'r', 'utf8') as fp:
         for line in fp:
             word = line.strip()
             stopwords.add(word)
@@ -37,75 +101,17 @@ def getStopwords(filename):
     return stopwords
 
 
-def isStopword(word, stopwords):
-    """
-    Returns True if word in stopword list, false otherwise.
-    """
-    return word in stopwords
-
-
-def readText(filename):
-    """
-    Reads a utf-8 encoded text file and returns the text as string.
-    """
-    with codecs.open(filename, "r", "utf8") as fp:
-        text = fp.read()
-    return text
-
-
-def processText(text, sent_tokenize):
-    """
-    Processes text and returns sentences, paragraphs.
-    """
-    sentences = sent_tokenize(text)
-    return sentences
-
-
-def isNoun(pos_tag):
-    """
-    Returns True if pos_tag is NOUN, False otherwise.
-    """
-    return pos_tag == "PROPN" or pos_tag == "NOUN"
-
-
-def isPronoun(pos_tag):
-    """
-    Returns True is pos_tag is PRON, False otherwise
-    """
-    return pos_tag == "PRON"
-
-
-def isVerb(pos_tag):
-    """
-    Returns True if pos_tag is VERB, False otherwise.
-    """
-    return pos_tag == "VERB"
-
-
-def isAdverb(pos_tag):
-    """
-    Returns True if pos_tag is ADV, False otherwise.
-    """
-    return pos_tag == "ADV"
-
-
-def isAdjective(pos_tag):
-    """
-    Returns True if pos_tag is ADJ, False otherwise.
-    """
-    return pos_tag == "ADJ"
-
-
-def isWord(pos_tag):
-    """
-    Returns True if pos_tag is a word, False otherwise.
-    """
-    return pos_tag != "PUNCT" and pos_tag != "SYM" and pos_tag != "SPACE"
-
-
 def getTokenLemmas(doc, lemma_dict, stopwords=[]):
-    """
-    For a given doc, returns Noun and Verb Lemmas as lists.
+    """Return lemmas from a sentence.
+
+    :param doc: Doc containing tokens from text
+    :type doc: Spacy Doc
+    :param lemma_dict: Lemmatizer key-value pairs
+    :type lemma_dict: Dict
+    :param stopwords: list of stopwords, defaults to []
+    :type stopwords: set/list, optional
+    :return: All lemmas for noun, verb, etc.
+    :rtype: Tuple
     """
     noun_lemmas = []
     verb_lemmas = []
@@ -135,38 +141,112 @@ def getTokenLemmas(doc, lemma_dict, stopwords=[]):
             if isWord(token.pos_):
                 content_lemmas.append(word_lemma)
 
-    return (noun_lemmas, verb_lemmas, function_lemmas, content_lemmas,
-            adj_lemmas, adv_lemmas, prp_lemmas)
+    return (
+        noun_lemmas, verb_lemmas, function_lemmas, content_lemmas,
+        adj_lemmas, adv_lemmas, prp_lemmas,
+    )
 
 
-def getSentencesLemmas(docs, lemma_dict, stopwords=[]):
-    sentences_noun_lemmas = []
-    sentences_verb_lemmas = []
-    sentences_function_lemmas = []
-    sentences_content_lemmas = []
-    sentences_adj_lemmas = []
-    sentences_adv_lemmas = []
-    sentences_prp_lemmas = []
+def isAdjective(pos_tag):
+    """Return True if pos_tag is ADJ, False otherwise.
 
-    for doc in docs:
-        (
-            noun_lemmas,
-            verb_lemmas,
-            function_lemmas,
-            content_lemmas,
-            adj_lemmas,
-            adv_lemmas,
-            prp_lemmas
-        ) = getTokenLemmas(doc, lemma_dict, stopwords)
+    :param pos_tag: Part of Speech tag
+    :type pos_tag: string
+    :return: True if POS is adjective
+    :rtype: Boolean
+    """
+    return pos_tag == 'ADJ'
 
-        sentences_noun_lemmas.append(noun_lemmas)
-        sentences_verb_lemmas.append(verb_lemmas)
-        sentences_function_lemmas.append(function_lemmas)
-        sentences_content_lemmas.append(content_lemmas)
-        sentences_adj_lemmas.append(adj_lemmas)
-        sentences_adv_lemmas.append(adv_lemmas)
-        sentences_prp_lemmas.append(prp_lemmas)
 
-    return (sentences_noun_lemmas, sentences_verb_lemmas,
-            sentences_function_lemmas, sentences_content_lemmas,
-            sentences_adj_lemmas, sentences_adv_lemmas, sentences_prp_lemmas)
+def isAdverb(pos_tag):
+    """Return True if pos_tag is ADV, False otherwise.
+
+    :param pos_tag: Part of Speech tag
+    :type pos_tag: string
+    :return: True if POS is adverb
+    :rtype: Boolean
+    """
+    return pos_tag == 'ADV'
+
+
+def isNoun(pos_tag):
+    """Return True if pos_tag is NOUN or Proper Noun, False otherwise.
+
+    :param pos_tag: Part of Speech tag
+    :type pos_tag: string
+    :return: True if POS is noun or proper noun
+    :rtype: Boolean
+    """
+    return pos_tag == 'PROPN' or pos_tag == 'NOUN'
+
+
+def isPronoun(pos_tag):
+    """Return True if pos_tag is PRON, False otherwise.
+
+    :param pos_tag: Part of Speech tag
+    :type pos_tag: string
+    :return: True if POS is pronoun
+    :rtype: Boolean
+    """
+    return pos_tag == 'PRON'
+
+
+def isStopword(word, stopwords):
+    """Return True if word is in stopwords, False otherwise.
+
+    :param word: Word to be checked
+    :type word: string
+    :param stopwords: stopword list
+    :type stopwords: List of strings
+    :return: True if word in stopwords
+    :rtype: Boolean
+    """
+    return word in stopwords
+
+
+def isVerb(pos_tag):
+    """Return True if pos_tag is VERB, False otherwise.
+
+    :param pos_tag: Part of Speech tag
+    :type pos_tag: string
+    :return: True if POS is verb
+    :rtype: Boolean
+    """
+    return pos_tag == 'VERB'
+
+
+def isWord(pos_tag):
+    """Return True if pos_tag is not punctuation, False otherwise.
+
+    :param pos_tag: Part of Speech tag
+    :type pos_tag: string
+    :return: True if POS is a word
+    :rtype: Boolean
+    """
+    return pos_tag != 'PUNCT' and pos_tag != 'SYM' and pos_tag != 'SPACE'
+
+
+def processText(text, sent_tokenize):
+    """Process text by tokenizing sentences given a tokenizer
+
+    :param text: Text to be processed
+    :type text: string
+    :param sent_tokenize: Tokenizer
+    :type sent_tokenize: Python callable that returns list of strings
+    :return: Tokenized sentences
+    :rtype: List of strings
+    """
+    return sent_tokenize(text)
+
+
+def readText(filename):
+    """Read a `utf-8` encoded text file and returns the text as string
+
+    :param filename: File from which is the text to be read
+    :type filename: string
+    :return: Text in the file
+    :rtype: string
+    """
+    with codecs.open(filename, 'r', 'utf8') as fp:
+        text = fp.read()
+    return text

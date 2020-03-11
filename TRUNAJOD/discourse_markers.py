@@ -1,156 +1,169 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 import re
 
 
-CAUSE_DISCOURSE_MARKERS = set([
-    u"dado que",
-    u"porque",
-    u"debido a",
-    u"gracias a",
-    u"por si",
-    u"por",
-    u"por eso",
-    u"en conclusión",
-    u"así que",
-    u"como consecuencia",
-    u"para",
-    u"para que",
-    u"por esta razón",
-    u"por tanto",
-    u"en efecto",
-])
+CAUSE_DISCOURSE_MARKERS = {
+    'dado que',
+    'porque',
+    'debido a',
+    'gracias a',
+    'por si',
+    'por',
+    'por eso',
+    'en conclusión',
+    'así que',
+    'como consecuencia',
+    'para',
+    'para que',
+    'por esta razón',
+    'por tanto',
+    'en efecto',
+}
 
-REVISION_DISCOURSE_MARKERS = set([
-    u"a pesar de",
-    u"aunque",
-    u"excepto",
-    u"pese a",
-    u"no obstante",
-    u"sin embargo",
-    u"en realidad",
-    u"de hecho",
-    u"al contrario",
-    u"el hecho es que",
-    u"es cierto que",
-    u"pero",
-    u"con todo",
-    u"ahora bien",
-    u"de todos modos",
-])
+REVISION_DISCOURSE_MARKERS = {
+    'a pesar de',
+    'aunque',
+    'excepto',
+    'pese a',
+    'no obstante',
+    'sin embargo',
+    'en realidad',
+    'de hecho',
+    'al contrario',
+    'el hecho es que',
+    'es cierto que',
+    'pero',
+    'con todo',
+    'ahora bien',
+    'de todos modos',
+}
 
-EQUALITY_DISCOURSE_MARKERS = set([
-    u"en resumen",
-    u"concretamente",
-    u"en esencia",
-    u"en comparación",
-    u"en otras palabras",
-    u"en particular",
-    u"es decir",
-    u"por ejemplo",
-    u"precisamente",
-    u"tal como",
-    u"por último",
-    u"por un lado",
-    u"por otro lado",
-    u"a propósito",
-    u"no sólo",
-    u"sino también",
-    u"en dos palabras",
-    u"además",
-    u"también",
-    u"aparte",
-    u"aún es más",
-    u"incluso",
-    u"especialmente",
-    u"sobretodo",
-])
+EQUALITY_DISCOURSE_MARKERS = {
+    'en resumen',
+    'concretamente',
+    'en esencia',
+    'en comparación',
+    'en otras palabras',
+    'en particular',
+    'es decir',
+    'por ejemplo',
+    'precisamente',
+    'tal como',
+    'por último',
+    'por un lado',
+    'por otro lado',
+    'a propósito',
+    'no sólo',
+    'sino también',
+    'en dos palabras',
+    'además',
+    'también',
+    'aparte',
+    'aún es más',
+    'incluso',
+    'especialmente',
+    'sobretodo',
+}
 
-CAUSE_DISCOURSE_MARKERS = set([
-    u"dado que",
-    u"porque",
-    u"debido a",
-    u"gracias a",
-    u"por si",
-    u"por",
-    u"por eso",
-    u"en conclusión",
-    u"así que",
-    u"como consecuencia",
-    u"para",
-    u"para que",
-    u"por esta razón",
-    u"por tanto",
-    u"en efecto",
-])
+CAUSE_DISCOURSE_MARKERS = {
+    'dado que',
+    'porque',
+    'debido a',
+    'gracias a',
+    'por si',
+    'por',
+    'por eso',
+    'en conclusión',
+    'así que',
+    'como consecuencia',
+    'para',
+    'para que',
+    'por esta razón',
+    'por tanto',
+    'en efecto',
+}
 
-CONTEXT_DISCOURSE_MARKERS = set([
-    u"teniendo en cuenta",
-    u"después",
-    u"antes",
-    u"originalmente",
-    u"a condición de",
-    u"durante",
-    u"mientras",
-    u"a no ser que",
-    u"cuando",
-    u"donde",
-    u"de acuerdo con",
-    u"lejos de",
-    u"tan pronto como",
-    u"por el momento",
-    u"entre",
-    u"hacia",
-    u"hasta",
-    u"mediante",
-    u"según",
-    u"en cualquier caso",
-    u"entonces",
-    u"respecto a",
-    u"en ese caso",
-    u"si",
-    u"siempre que",
-    u"sin duda",
-    u"a la vez",
-])
+CONTEXT_DISCOURSE_MARKERS = {
+    'teniendo en cuenta',
+    'después',
+    'antes',
+    'originalmente',
+    'a condición de',
+    'durante',
+    'mientras',
+    'a no ser que',
+    'cuando',
+    'donde',
+    'de acuerdo con',
+    'lejos de',
+    'tan pronto como',
+    'por el momento',
+    'entre',
+    'hacia',
+    'hasta',
+    'mediante',
+    'según',
+    'en cualquier caso',
+    'entonces',
+    'respecto a',
+    'en ese caso',
+    'si',
+    'siempre que',
+    'sin duda',
+    'a la vez',
+}
 
-HIGHLY_POLYSEMIC_DISCOURSE_MARKERS = set([
-    u"como",
-    u"desde",
-    u"sobre",
-    u"antes que nada",
-    u"para empezar",
-])
+HIGHLY_POLYSEMIC_DISCOURSE_MARKERS = {
+    'como',
+    'desde',
+    'sobre',
+    'antes que nada',
+    'para empezar',
+}
 
-VAGUE_MEANING_CLOSED_CLASS_WORDS = set([
-    u"y",
-    u"e",
-    u"ni",
-    u"o",
-    u"u",
-    u"que",
-    u"con",
-    u"sin",
-    u"contra",
-    u"en",
-    u"a",
-])
+VAGUE_MEANING_CLOSED_CLASS_WORDS = {
+    'y',
+    'e',
+    'ni',
+    'o',
+    'u',
+    'que',
+    'con',
+    'sin',
+    'contra',
+    'en',
+    'a',
+}
 
 
 def find_matches(text, list):
-    """
+    """Return matches of words in list in a target text.
+
     Given a text and a list of possible matches (in this module, discourse
     markers list), returns the number of matches found in text.
+
+    :param text: Text to be processed
+    :type text: string
+    :param list: list of discourse markers
+    :type list: Python list of strings
+    :return: Number of ocurrences
+    :rtype: int
     """
     counter = 0
     for w in list:
-        results = re.findall(r"\b%s\b" % w, text, re.IGNORECASE)
+        results = re.findall(r'\b%s\b' % w, text, re.IGNORECASE)
         counter += len(results)
     return counter
 
 
 def get_revision_dm_count(text):
+    """Count discourse markers associated with revisions.
+
+    :param text: The text to be analized
+    :type text: Spacy Doc
+    :return: Average of revision discourse markers over sentences
+    :rtype: float
+    """
     sentences = [
         find_matches(sent.string.strip(), REVISION_DISCOURSE_MARKERS)
         for sent in text.sents
@@ -159,6 +172,13 @@ def get_revision_dm_count(text):
 
 
 def get_cause_dm_count(text):
+    """Count discourse markers associated with cause.
+
+    :param text: The text to be analized
+    :type text: Spacy Doc
+    :return: Average of revision cause markers over sentences
+    :rtype: float
+    """
     sentences = [
         find_matches(sent.string.strip(), CAUSE_DISCOURSE_MARKERS)
         for sent in text.sents
@@ -167,6 +187,13 @@ def get_cause_dm_count(text):
 
 
 def get_equality_dm_count(text):
+    """Count discourse markers associated with equality.
+
+    :param text: The text to be analized
+    :type text: Spacy Doc
+    :return: Average of equality discourse markers over sentences
+    :rtype: float
+    """
     sentences = [
         find_matches(sent.string.strip(), EQUALITY_DISCOURSE_MARKERS)
         for sent in text.sents
@@ -175,6 +202,13 @@ def get_equality_dm_count(text):
 
 
 def get_context_dm_count(text):
+    """Count discourse markers associated with context.
+
+    :param text: The text to be analized
+    :type text: Spacy Doc
+    :return: Average of context discourse markers over sentences
+    :rtype: float
+    """
     sentences = [
         find_matches(sent.string.strip(), CONTEXT_DISCOURSE_MARKERS)
         for sent in text.sents
@@ -183,6 +217,13 @@ def get_context_dm_count(text):
 
 
 def get_polysemic_dm_count(text):
+    """Count discourse markers that are highly polysemic.
+
+    :param text: The text to be analized
+    :type text: Spacy Doc
+    :return: Average of highly polysemic discourse markers over sentences
+    :rtype: float
+    """
     sentences = [
         find_matches(sent.string.strip(), HIGHLY_POLYSEMIC_DISCOURSE_MARKERS)
         for sent in text.sents
@@ -191,6 +232,13 @@ def get_polysemic_dm_count(text):
 
 
 def get_closed_class_vague_meaning_count(text):
+    """Count words that have vague meaning.
+
+    :param text: The text to be analized
+    :type text: Spacy Doc
+    :return: Average of vague meaning words over sentences
+    :rtype: float
+    """
     sentences = [
         find_matches(sent.string.strip(), VAGUE_MEANING_CLOSED_CLASS_WORDS)
         for sent in text.sents
@@ -199,6 +247,13 @@ def get_closed_class_vague_meaning_count(text):
 
 
 def get_overall_markers(text):
+    """Count all types of discourse markers.
+
+    :param text: The text to be analized
+    :type text: Spacy Doc
+    :return: Average discourse markers over sentences
+    :rtype: float
+    """
     sentences = []
     sentences += [
         find_matches(sent.string.strip(), VAGUE_MEANING_CLOSED_CLASS_WORDS)

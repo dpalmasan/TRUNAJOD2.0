@@ -1,41 +1,50 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-from .utils import isWord
 from .utils import isNoun
 from .utils import isPronoun
-
-# TODO: Do this in an object-oriented fashion. I should end up with a nice code
-# and also, efficient, since all the computations can be done when creating the
-# object instance, instead of repeating computations in the functions as it can
-# be noted with the current approach
+from .utils import isWord
 
 
 def pronounDensity(doc):
-    """
-    Given a SPACY doc, computes the pronoun density which is calculated as the
-    number of third person pronouns divided by number of words.
+    """Compute pronoun density.
+
+    This is a measurement of text complexity, in the sense that a text
+    with a higher pronoun density will be more difficult to read than
+    a text with lower pronoun density (due to inferences needed).
+
+    :param doc: Document to be processed.
+    :type doc: Spacy Doc
+    :return: Pronoun density
+    :rtype: float
     """
     word_counter = 0
     third_person_pronouns = 0
     for token in doc:
         if isWord(token.pos_):
             word_counter += 1
-            if token.pos_ == "PRON" and "Person=3" in token.tag_:
+            if isPronoun(token.pos_) and 'Person=3' in token.tag_:
                 third_person_pronouns += 1
 
     return float(third_person_pronouns) / word_counter
 
 
-# FIXME: I am not sure if I should consider Pronoun in noun counter.
 def pronounNounRatio(doc):
+    """Compute Pronoun Noun ratio.
+
+    This is an approximation of text complexity/readability, since pronouns
+    are co-references to a proper noun or a noun.
+
+    :param doc: Text to be processed
+    :type doc: Spacy doc
+    :return: pronoun-noun ratio
+    :rtype: float
+    """
     noun_counter = 0
     third_person_pronouns = 0
 
     for token in doc:
         if isNoun(token.pos_):
             noun_counter += 1
-        if isPronoun(token.pos_) and "Person=3" in token.tag_:
+        if isPronoun(token.pos_) and 'Person=3' in token.tag_:
             third_person_pronouns += 1
 
     return float(third_person_pronouns) / noun_counter
