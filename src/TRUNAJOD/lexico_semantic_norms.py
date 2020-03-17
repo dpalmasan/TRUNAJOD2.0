@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
-from .utils import lemmatize
+from utils import lemmatize
 
 
 class LexicoSemanticNorm(object):

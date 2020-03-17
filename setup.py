@@ -11,4 +11,5 @@ setup(
     description='TRUNAJOD readability utilities',
     author='Diego Palma',
     author_email='dipalma@udec.cl',
-    packages=['TRUNAJOD'])
+    packages=['TRUNAJOD'],
+    package_dir={'': 'src'})

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-from .utils import isNoun
-from .utils import isPronoun
-from .utils import isWord
+from utils import isNoun
+from utils import isPronoun
+from utils import isWord
 
 
 def pronounDensity(doc):

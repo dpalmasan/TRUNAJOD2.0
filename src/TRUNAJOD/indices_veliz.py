@@ -10,7 +10,7 @@ import re
 import numpy as np
 import pandas as pd
 from math import log
-from .Silabizator import Silabizer
+from silabizator import Silabizer
 
 
 def IndicesVeliz(doc):
