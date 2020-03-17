@@ -1,7 +1,11 @@
 #!/usr/bin/env python
-from utils import isNoun
-from utils import isPronoun
-from utils import isWord
+"""Giveness module."""
+from TRUNAJOD.utils import isNoun
+from TRUNAJOD.utils import isPronoun
+from TRUNAJOD.utils import isWord
+
+# Based on SPACY docs
+THIRD_PERSON_LABEL = 'Person=3'
 
 
 def pronounDensity(doc):
@@ -21,7 +25,7 @@ def pronounDensity(doc):
     for token in doc:
         if isWord(token.pos_):
             word_counter += 1
-            if isPronoun(token.pos_) and 'Person=3' in token.tag_:
+            if isPronoun(token.pos_) and THIRD_PERSON_LABEL in token.tag_:
                 third_person_pronouns += 1
 
     return float(third_person_pronouns) / word_counter
@@ -44,7 +48,7 @@ def pronounNounRatio(doc):
     for token in doc:
         if isNoun(token.pos_):
             noun_counter += 1
-        if isPronoun(token.pos_) and 'Person=3' in token.tag_:
+        if isPronoun(token.pos_) and THIRD_PERSON_LABEL in token.tag_:
             third_person_pronouns += 1
 
     return float(third_person_pronouns) / noun_counter

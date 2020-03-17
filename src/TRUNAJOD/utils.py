@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import codecs
+"""Utility functions for TRUNAJOD library."""
 
 
 def flatten(list_of_lists):
@@ -33,7 +33,7 @@ def lemmatize(lemma_dict, word):
     return lemma_dict.get(word, word)
 
 
-def getSentencesLemmas(docs, lemma_dict, stopwords=[]):
+def getSentencesLemmas(docs, lemma_dict, stopwords=[]):  # pragma: no cover
     """Get lemmas from sentences.
 
     Get different types of lemma meeasurements, such as noun lemmas, verb
@@ -97,7 +97,7 @@ def getStopwords(filename):
     :rtype: Set
     """
     stopwords = set()
-    with codecs.open(filename, 'r', 'utf8') as fp:
+    with open(filename, 'r', 'utf8') as fp:
         for line in fp:
             word = line.strip()
             stopwords.add(word)
@@ -105,7 +105,7 @@ def getStopwords(filename):
     return stopwords
 
 
-def getTokenLemmas(doc, lemma_dict, stopwords=[]):
+def getTokenLemmas(doc, lemma_dict, stopwords=[]):  # pragma: no cover
     """Return lemmas from a sentence.
 
     :param doc: Doc containing tokens from text
@@ -236,7 +236,7 @@ def isWord(pos_tag):
 
 
 def processText(text, sent_tokenize):
-    """Process text by tokenizing sentences given a tokenizer
+    """Process text by tokenizing sentences given a tokenizer.
 
     :param text: Text to be processed
     :type text: string
@@ -249,13 +249,13 @@ def processText(text, sent_tokenize):
 
 
 def readText(filename):
-    """Read a `utf-8` encoded text file and returns the text as string
+    """Read a `utf-8` encoded text file and returns the text as string.
 
     :param filename: File from which is the text to be read
     :type filename: string
     :return: Text in the file
     :rtype: string
     """
-    with codecs.open(filename, 'r', 'utf8') as fp:
+    with open(filename, 'r', 'utf8') as fp:
         text = fp.read()
     return text

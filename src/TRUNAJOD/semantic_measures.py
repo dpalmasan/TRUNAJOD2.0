@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""Semantic measures TRUNAJOD methods."""
 
 
 def getSynsets(lemma, synset_dict):
@@ -36,7 +37,7 @@ def overlap(lemma_list_group, synset_dict):
     :rtype: float
     """
     # TODO: Should this raise an exception?
-    if len(lemma_list_group) < 2:
+    if len(lemma_list_group) < 2:  # pragma: no cover
         return 0.0
 
     N = len(lemma_list_group)
@@ -68,13 +69,13 @@ def avgW2VSemanticSimilarity(docs, N):
     :rtype: float
     """
     # TODO: Should this raise an exception?
-    if N <= 1:
+    if N <= 1:  # pragma: no cover
         return 0.0
 
     avg_sim = 0
     prev_doc = next(docs)
 
-    # FIXME: Investiagte an alternative to this nasty implementation
+    # FIXME: Investigate an alternative to this nasty implementation
     done = False
     while not done:
         try:
