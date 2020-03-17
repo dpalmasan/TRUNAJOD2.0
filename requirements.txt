@@ -31,7 +31,6 @@ docutils==0.14
 docx2txt==0.6
 EbookLib==0.15
 entrypoints==0.3
-es-core-news-sm==2.0.0
 et-xmlfile==1.0.1
 filelock==3.0.12
 flake8==3.7.9
