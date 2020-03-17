@@ -1,6 +1,5 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
-
 from utils import lemmatize
 
 
@@ -25,34 +24,26 @@ class LexicoSemanticNorm(object):
                 valence += lexico_semantic_norm_dict[word].get("valence")
                 arousal += lexico_semantic_norm_dict[word].get("arousal")
                 concreteness += (
-                    lexico_semantic_norm_dict[word].get("concreteness")
-                )
+                    lexico_semantic_norm_dict[word].get("concreteness"))
                 imageability += (
-                    lexico_semantic_norm_dict[word].get("imageability")
-                )
-                context_availability += (
-                    lexico_semantic_norm_dict[word].get("context_availability")
-                )
+                    lexico_semantic_norm_dict[word].get("imageability"))
+                context_availability += (lexico_semantic_norm_dict[word].get(
+                    "context_availability"))
                 familiarity += (
-                    lexico_semantic_norm_dict[word].get("familiarity")
-                )
+                    lexico_semantic_norm_dict[word].get("familiarity"))
                 count += 1
             elif word_lemma in lexico_semantic_norm_dict:
                 word = word_lemma
                 valence += lexico_semantic_norm_dict[word].get("valence")
                 arousal += lexico_semantic_norm_dict[word].get("arousal")
                 concreteness += (
-                    lexico_semantic_norm_dict[word].get("concreteness")
-                )
+                    lexico_semantic_norm_dict[word].get("concreteness"))
                 imageability += (
-                    lexico_semantic_norm_dict[word].get("imageability")
-                )
-                context_availability += (
-                    lexico_semantic_norm_dict[word].get("context_availability")
-                )
+                    lexico_semantic_norm_dict[word].get("imageability"))
+                context_availability += (lexico_semantic_norm_dict[word].get(
+                    "context_availability"))
                 familiarity += (
-                    lexico_semantic_norm_dict[word].get("familiarity")
-                )
+                    lexico_semantic_norm_dict[word].get("familiarity"))
                 count += 1.0
 
         self.__valence = valence

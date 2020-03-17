@@ -42,9 +42,9 @@ def overlap(lemma_list_group, synset_dict):
     N = len(lemma_list_group)
 
     overlap_counter = 0
-    for i in range(N-1):
+    for i in range(N - 1):
         cur_list = set(lemma_list_group[i])
-        next_list = set(lemma_list_group[i+1])
+        next_list = set(lemma_list_group[i + 1])
         for lemma in cur_list:
             for lemma_next in next_list:
                 if lemma in getSynsets(lemma_next, synset_dict):
@@ -52,7 +52,7 @@ def overlap(lemma_list_group, synset_dict):
 
     # I got this from original TAACO code, it seems it is divided by the total
     # segments.
-    return overlap_counter / float(N-1)
+    return overlap_counter / float(N - 1)
 
 
 def avgW2VSemanticSimilarity(docs, N):
@@ -84,4 +84,4 @@ def avgW2VSemanticSimilarity(docs, N):
         except StopIteration:
             done = True
 
-    return avg_sim / float(N-1)
+    return avg_sim / float(N - 1)

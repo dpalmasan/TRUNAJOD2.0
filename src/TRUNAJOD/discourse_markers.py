@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import re
 
-
 CAUSE_DISCOURSE_MARKERS = {
     'dado que',
     'porque',
@@ -168,7 +167,7 @@ def get_revision_dm_count(text):
         find_matches(sent.string.strip(), REVISION_DISCOURSE_MARKERS)
         for sent in text.sents
     ]
-    return sum(sentences)/len(sentences)
+    return sum(sentences) / len(sentences)
 
 
 def get_cause_dm_count(text):
@@ -183,7 +182,7 @@ def get_cause_dm_count(text):
         find_matches(sent.string.strip(), CAUSE_DISCOURSE_MARKERS)
         for sent in text.sents
     ]
-    return sum(sentences)/len(sentences)
+    return sum(sentences) / len(sentences)
 
 
 def get_equality_dm_count(text):
@@ -198,7 +197,7 @@ def get_equality_dm_count(text):
         find_matches(sent.string.strip(), EQUALITY_DISCOURSE_MARKERS)
         for sent in text.sents
     ]
-    return sum(sentences)/len(sentences)
+    return sum(sentences) / len(sentences)
 
 
 def get_context_dm_count(text):
@@ -213,7 +212,7 @@ def get_context_dm_count(text):
         find_matches(sent.string.strip(), CONTEXT_DISCOURSE_MARKERS)
         for sent in text.sents
     ]
-    return sum(sentences)/len(sentences)
+    return sum(sentences) / len(sentences)
 
 
 def get_polysemic_dm_count(text):
@@ -228,7 +227,7 @@ def get_polysemic_dm_count(text):
         find_matches(sent.string.strip(), HIGHLY_POLYSEMIC_DISCOURSE_MARKERS)
         for sent in text.sents
     ]
-    return sum(sentences)/len(sentences)
+    return sum(sentences) / len(sentences)
 
 
 def get_closed_class_vague_meaning_count(text):
@@ -243,7 +242,7 @@ def get_closed_class_vague_meaning_count(text):
         find_matches(sent.string.strip(), VAGUE_MEANING_CLOSED_CLASS_WORDS)
         for sent in text.sents
     ]
-    return sum(sentences)/len(sentences)
+    return sum(sentences) / len(sentences)
 
 
 def get_overall_markers(text):
@@ -284,4 +283,4 @@ def get_overall_markers(text):
         find_matches(sent.string.strip(), REVISION_DISCOURSE_MARKERS)
         for sent in text.sents
     ]
-    return sum(sentences)/len(sentences)
+    return sum(sentences) / len(sentences)

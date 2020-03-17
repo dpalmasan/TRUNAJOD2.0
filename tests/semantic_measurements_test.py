@@ -26,5 +26,6 @@ def test_overlap():
 
 def test_avgW2VSemanticSimilarity():
     assert semantic_measures.avgW2VSemanticSimilarity(
-        [], 0,
+        [],
+        0,
     ) == 0.0

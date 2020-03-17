@@ -1,6 +1,7 @@
 #!/usr/local/bin/python
-from spanish_emotion_lexicon import SPANISH_EMOTION_LEXICON
 from utils import lemmatize
+
+from spanish_emotion_lexicon import SPANISH_EMOTION_LEXICON
 
 
 class Emotions:

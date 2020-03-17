@@ -76,9 +76,13 @@ def getSentencesLemmas(docs, lemma_dict, stopwords=[]):
         sentences_prp_lemmas.append(prp_lemmas)
 
     return (
-        sentences_noun_lemmas, sentences_verb_lemmas,
-        sentences_function_lemmas, sentences_content_lemmas,
-        sentences_adj_lemmas, sentences_adv_lemmas, sentences_prp_lemmas,
+        sentences_noun_lemmas,
+        sentences_verb_lemmas,
+        sentences_function_lemmas,
+        sentences_content_lemmas,
+        sentences_adj_lemmas,
+        sentences_adv_lemmas,
+        sentences_prp_lemmas,
     )
 
 
@@ -142,8 +146,13 @@ def getTokenLemmas(doc, lemma_dict, stopwords=[]):
                 content_lemmas.append(word_lemma)
 
     return (
-        noun_lemmas, verb_lemmas, function_lemmas, content_lemmas,
-        adj_lemmas, adv_lemmas, prp_lemmas,
+        noun_lemmas,
+        verb_lemmas,
+        function_lemmas,
+        content_lemmas,
+        adj_lemmas,
+        adv_lemmas,
+        prp_lemmas,
     )
 
 

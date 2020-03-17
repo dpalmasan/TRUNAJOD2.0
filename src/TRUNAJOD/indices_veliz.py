@@ -4,12 +4,12 @@ Created on Wed Jun 27 10:34:13 2018
 
 @author: Bruko
 """
-
 import os
 import re
+from math import log
+
 import numpy as np
 import pandas as pd
-from math import log
 from silabizator import Silabizer
 
 
@@ -22,7 +22,7 @@ def IndicesVeliz(doc):
     
     Salida:
         string: Agrega a [global html] una tabla con la salida de spacy
-    """		
+    """
     frec = FrecuenciaCREA()
     dataFCI = ImagFamiConc()
     dtConju = CargarConjugaciones()
@@ -30,22 +30,38 @@ def IndicesVeliz(doc):
     doc = CorrectorDeArbol(doc, dtConju)
 
     salida = {
-        "Promedio Longitud Palabras sílaba": NSilabas(doc) / NPalabras(doc),
-        "Promedio Longitud Palabras letra": PromedioLongitudPalabras(doc),
-        "Promedio Longitud Oracion": PromedioLongitudOracion(doc),
-        "Promedio Longitud Cláusula": PromedioLongitudClausula(doc),
-        "Densidad de Cláusula": Subordinacion(doc),
-        "Palabras antes de la raíz": PalabrasAntesRoot(doc),
-        "Densidad Número de 1,2 persona": PrimeraSegundaPersona(doc) / NPalabras(doc),
-        "Densidad de la Frase Nominal": DensidadFraseNominal(doc),
-        "Diversidad léxica MTLD": DiversidadLexicaMTLD(doc),
-        "Similaridad Sintáctica": SimilaridadSintactica(doc),
-        "Densidad Léxica": DensidadLexica(doc),
-        "Índice de frecuencia": IndiceFrecuencia(doc, frec),
-        "Palabras de conexión de base lógica": PalabrasConexion(doc),
-        "Densidad de negación": DensidadDeNegacion(doc),
-        "Verbos / Sustantivos": VerbosPorNombres(doc),
-        "Disimilaridad PoS por oración": DisimiliradiadPoS(doc)
+        "Promedio Longitud Palabras sílaba":
+        NSilabas(doc) / NPalabras(doc),
+        "Promedio Longitud Palabras letra":
+        PromedioLongitudPalabras(doc),
+        "Promedio Longitud Oracion":
+        PromedioLongitudOracion(doc),
+        "Promedio Longitud Cláusula":
+        PromedioLongitudClausula(doc),
+        "Densidad de Cláusula":
+        Subordinacion(doc),
+        "Palabras antes de la raíz":
+        PalabrasAntesRoot(doc),
+        "Densidad Número de 1,2 persona":
+        PrimeraSegundaPersona(doc) / NPalabras(doc),
+        "Densidad de la Frase Nominal":
+        DensidadFraseNominal(doc),
+        "Diversidad léxica MTLD":
+        DiversidadLexicaMTLD(doc),
+        "Similaridad Sintáctica":
+        SimilaridadSintactica(doc),
+        "Densidad Léxica":
+        DensidadLexica(doc),
+        "Índice de frecuencia":
+        IndiceFrecuencia(doc, frec),
+        "Palabras de conexión de base lógica":
+        PalabrasConexion(doc),
+        "Densidad de negación":
+        DensidadDeNegacion(doc),
+        "Verbos / Sustantivos":
+        VerbosPorNombres(doc),
+        "Disimilaridad PoS por oración":
+        DisimiliradiadPoS(doc)
     }
 
     posL = ['NOUN|PROPN', 'NOUN', 'ADJ', 'ADV|ADP', 'VERB|AUX']
@@ -147,8 +163,10 @@ def DisimiliradiadPoS(doc, ver=False):
             dif = dif + abs(vali - vali1)
             tot = tot + vali + vali1
         Disimil = Disimil + dif / tot
-        if(ver):
-            html = html + "<br>Comparando <b> " + str(frases[i]) + "</b> con <b>" + str(frases[i + 1]) + "</b>: " + str(dif) + " / " + str(tot)
+        if (ver):
+            html = html + "<br>Comparando <b> " + str(
+                frases[i]) + "</b> con <b>" + str(
+                    frases[i + 1]) + "</b>: " + str(dif) + " / " + str(tot)
     if len(DistPoS) > 1:
         return Disimil / (len(DistPoS) - 1)
     else:
@@ -192,13 +210,17 @@ def DensidadDeNegacion(doc, ver=False):
     for token in doc:
         if (token.pos_ != "PUNCT") and (token.pos_ != "SPACE"):
             n = n + 1
-            if (
-                    (token.lemma_.lower() == "no") or (token.lemma_.lower() == "ni") or 
-                    (token.lemma_.lower() == "nunca") or (token.lemma_.lower() == "jamás") or
-                    (token.lemma_.lower() == "jamás") or (token.lemma_.lower() == "tampoco") or
-                    (token.lemma_.lower() == "nadie") or (token.lemma_.lower() == "nada") or
-                    (token.lemma_.lower() == "ningún") or (token.lemma_.lower() == "ninguno") or
-                    (token.lemma_.lower() == "ninguna")):
+            if ((token.lemma_.lower() == "no")
+                    or (token.lemma_.lower() == "ni")
+                    or (token.lemma_.lower() == "nunca")
+                    or (token.lemma_.lower() == "jamás")
+                    or (token.lemma_.lower() == "jamás")
+                    or (token.lemma_.lower() == "tampoco")
+                    or (token.lemma_.lower() == "nadie")
+                    or (token.lemma_.lower() == "nada")
+                    or (token.lemma_.lower() == "ningún")
+                    or (token.lemma_.lower() == "ninguno")
+                    or (token.lemma_.lower() == "ninguna")):
 
                 aviso = True
                 k = k + 1
@@ -251,7 +273,9 @@ def PalabrasConexion(doc, ver=False):
     for token in doc:
         if (token.pos_ != "PUNCT") and (token.pos_ != "SPACE"):
             n = n + 1
-            if ((token.lemma_.lower() == "o") or (token.lemma_.lower() == "y") or (token.lemma_.lower() == "no") or (token.lemma_.lower() == "si")):
+            if ((token.lemma_.lower() == "o") or (token.lemma_.lower() == "y")
+                    or (token.lemma_.lower() == "no")
+                    or (token.lemma_.lower() == "si")):
                 aviso = True
                 k = k + 1
             else:
@@ -275,13 +299,17 @@ def VerMarcas(doc, ver=False):
     if ver:
         html = html + "<p><table class='table table-striped table-sm table-borderless'><tr><th>Texto<th>Lemma<th>POS<th>TAG<th>DEP<th>Padre<th>Hijos"
         for a in doc:
-            html = html + "<tr><td>" + str(a.text) + "<td>" + str(a.lemma_) + "<td>" + str(a.pos_) + "<td><font size=1>" + str(a.tag_) + "</font><td>" + str(a.dep_) + "<td>" + str(a.head) + "<td>"
+            html = html + "<tr><td>" + str(a.text) + "<td>" + str(
+                a.lemma_) + "<td>" + str(a.pos_) + "<td><font size=1>" + str(
+                    a.tag_) + "</font><td>" + str(a.dep_) + "<td>" + str(
+                        a.head) + "<td>"
             for child in a.children:
                 html = html + str(child) + ", "
         html = html + "</table>"
     else:
         for a in doc:
-            print(a.text, a.pos_, a.tag_, a.dep_, [child for child in a.children])
+            print(a.text, a.pos_, a.tag_, a.dep_,
+                  [child for child in a.children])
 
 
 def MarcarTexto(titulo, token, aviso, ver, n):
@@ -300,12 +328,12 @@ def MarcarTexto(titulo, token, aviso, ver, n):
     """
     if ver:
         global html
-        if (len(html)==0) or html[len(html)-1]==':':
+        if (len(html) == 0) or html[len(html) - 1] == ':':
             html = html + "<p>" + titulo + ":<br>"
         if hasattr(token, 'text'):
-            toklen=token.text
+            toklen = token.text
         else:
-            toklen=token
+            toklen = token
         if aviso:
             html = html + " <b>" + toklen + " (" + str(n) + ")</b>"
         else:
@@ -325,15 +353,16 @@ def NOraciones(doc, ver=False):
     Salida:
         int : nº de oraciones
     """
-    n=0
+    n = 0
     for token in doc:
-        if token.dep_=="ROOT":
-            n=n+1
-            aviso=True
+        if token.dep_ == "ROOT":
+            n = n + 1
+            aviso = True
         else:
-            aviso=False
+            aviso = False
         #MarcarTexto("Número de oraciones",token,aviso,ver,n)
     return n
+
 
 def NPalabras(doc):
     """ Entrega el número de palabras de un texto
@@ -352,10 +381,10 @@ def NPalabras(doc):
         int : nº de palabras
     
     """
-    n=0
+    n = 0
     for token in doc:
-        if (token.pos_!="PUNCT"):
-            n=n+1
+        if (token.pos_ != "PUNCT"):
+            n = n + 1
     return n
 
 
@@ -384,11 +413,20 @@ def CorrectorDeArbol(doc, dtConju, ver=False):
             if conjugado is not None:
                 token.lemma_ = conjugado
 
-    pi = open("{}/verbos_i.txt".format(os.path.dirname(os.path.realpath(__file__))), "r", encoding="utf-8").read().split('\n')
+    pi = open(
+        "{}/verbos_i.txt".format(os.path.dirname(os.path.realpath(__file__))),
+        "r",
+        encoding="utf-8").read().split('\n')
     pi[:] = [x.split(' ') for x in pi]
-    pp = open("{}/verbos_p.txt".format(os.path.dirname(os.path.realpath(__file__))), "r", encoding="utf-8").read().split('\n')
+    pp = open(
+        "{}/verbos_p.txt".format(os.path.dirname(os.path.realpath(__file__))),
+        "r",
+        encoding="utf-8").read().split('\n')
     pp[:] = [x.split(' ') for x in pp]
-    pg = open("{}/verbos_g.txt".format(os.path.dirname(os.path.realpath(__file__))), "r", encoding="utf-8").read().split('\n')
+    pg = open(
+        "{}/verbos_g.txt".format(os.path.dirname(os.path.realpath(__file__))),
+        "r",
+        encoding="utf-8").read().split('\n')
     pg[:] = [x.split(' ') for x in pg]
 
     doc = MarcarPerifrasis(doc, 'VerbForm=Inf', pi)
@@ -433,28 +471,29 @@ def MarcarPerifrasis(doc, tipo, pi):
     #infinitivo
     regexp = re.compile(tipo)
     for token in doc:
-        if (token.pos_=="VERB") or (token.pos_=="AUX") or regexp.search(token.tag_):
+        if (token.pos_ == "VERB") or (token.pos_ == "AUX") or regexp.search(
+                token.tag_):
             if regexp.search(token.tag_):
                 for col in pi:
                     pos = token.i - len(col)
-                    if(pos>=0):
+                    if (pos >= 0):
                         falla = False
                         for ro in col:
                             #print(str(ro) + " vs " + str(doc[pos].lemma_) + " " + tipo)
-                            if ro.lower()!=doc[pos].lemma_:
+                            if ro.lower() != doc[pos].lemma_:
                                 falla = True
                                 break
                             pos = pos + 1
                         if not falla:
-                            pos = token.i - len(col) +1
+                            pos = token.i - len(col) + 1
                             for k in range(len(col)):
-                                doc[pos].tag_=doc[pos].tag_ + "|Perif"
+                                doc[pos].tag_ = doc[pos].tag_ + "|Perif"
                                 pos = pos + 1
 
     return doc
-    
 
-def NClausulas(doc,ver=False):   ## VerbForm=Fin
+
+def NClausulas(doc, ver=False):  ## VerbForm=Fin
     """ Entrega el número de cláusulas finitas de un texto
     
     El número de cláusulas finitas se considera como el número total de 
@@ -470,25 +509,29 @@ def NClausulas(doc,ver=False):   ## VerbForm=Fin
         int :    nº de clásulas finitas
      
     """
-    n=0
+    n = 0
     #regexp = re.compile('VerbForm=Inf|VerbForm=Ger|VerbForm=Part')
     regexp = re.compile('VerbForm=Fin')
     regexperif = re.compile('Perif')
     for token in doc:
-        if ((token.pos_=="VERB") or (token.pos_=="AUX")) and not regexperif.search(token.tag_):
+        if ((token.pos_ == "VERB") or
+            (token.pos_ == "AUX")) and not regexperif.search(token.tag_):
             #if not regexp.search(token.tag_):
             if regexp.search(token.tag_):
-                aviso=True
-                n=n+1
+                aviso = True
+                n = n + 1
                 #print(token.text)
             else:
-                aviso=False
-        else: 
-            aviso=False
+                aviso = False
+        else:
+            aviso = False
         #MarcarTexto("Número de cláusulas",token,aviso,ver,n)
     return n
 
-def NClausulasInfinitas(doc,ver=False):   ## Cuenta verbos conjugados y sin conjugar pero no considera perífrasis: (he estado) cuenta una.
+
+def NClausulasInfinitas(
+        doc, ver=False
+):  ## Cuenta verbos conjugados y sin conjugar pero no considera perífrasis: (he estado) cuenta una.
     """ Entrega el número de cláusulas finitas e infinitas de un texto
     
     Calcula el total de palabras que sean verbos conjugados o sin conjugar,
@@ -506,23 +549,25 @@ def NClausulasInfinitas(doc,ver=False):   ## Cuenta verbos conjugados y sin conj
         "Ellas deben saber para dónde ir", entrega 2
      
     """
-    n=0
+    n = 0
     #regexp = re.compile('VerbForm=Inf|VerbForm=Ger|VerbForm=Part')
     regexp = re.compile('VerbForm')
     regexperif = re.compile('Perif')
     for token in doc:
-        if ((token.pos_=="VERB") or (token.pos_=="AUX") ) and not regexperif.search(token.tag_):
+        if ((token.pos_ == "VERB") or
+            (token.pos_ == "AUX")) and not regexperif.search(token.tag_):
             #if not regexp.search(token.tag_):
-            if (token.dep_!="xcomp"):# and (token.dep_!="aux"):
-                aviso=True
-                n=n+1
+            if (token.dep_ != "xcomp"):  # and (token.dep_!="aux"):
+                aviso = True
+                n = n + 1
                 #print(token.text)
             else:
-                aviso=False
-        else: 
-            aviso=False
+                aviso = False
+        else:
+            aviso = False
         #MarcarTexto("Número de cláusulas infinitas",token,aviso,ver,n)
     return n
+
 
 def PromedioLongitudOracion(doc):
     """ Entrega el largo, en palabras, medio de las oraciones
@@ -534,10 +579,11 @@ def PromedioLongitudOracion(doc):
         float :  palabras / nº oraciones
 
     """
-    if NOraciones(doc)!=0:
-        return (NPalabras(doc)/NOraciones(doc))
+    if NOraciones(doc) != 0:
+        return (NPalabras(doc) / NOraciones(doc))
     else:
         return 0
+
 
 def PromedioLongitudClausula(doc):
     """ Entrega el número de palabras por cláusulas finitas
@@ -549,12 +595,13 @@ def PromedioLongitudClausula(doc):
         float :  palabras / nº cláusulas finitas
 
     """
-    if NClausulas(doc)!=0:
-        return (NPalabras(doc)/NClausulas(doc))
+    if NClausulas(doc) != 0:
+        return (NPalabras(doc) / NClausulas(doc))
     else:
         return 0
 
-def PromedioLongitudPalabras(doc,ver=False):
+
+def PromedioLongitudPalabras(doc, ver=False):
     """ Entrega el número de palabras por cláusulas finitas
     
     Argumentos:
@@ -564,18 +611,20 @@ def PromedioLongitudPalabras(doc,ver=False):
         float :  palabras / nº cláusulas finitas
 
     """
-    n=0
-    l=0
+    n = 0
+    l = 0
     for token in doc:
-        if (token.pos_!="PUNCT") and (token.pos_!="SPACE"):
-            n=n+1
-            l=l+len(token.text)
+        if (token.pos_ != "PUNCT") and (token.pos_ != "SPACE"):
+            n = n + 1
+            l = l + len(token.text)
             if ver:
-                print(token.text + " " + token.pos_ + " " + str(len(token.text)))
-                
-    return (l/n)
+                print(token.text + " " + token.pos_ + " " +
+                      str(len(token.text)))
 
-def ProporcionPOS(doc,tipo,ver=False):
+    return (l / n)
+
+
+def ProporcionPOS(doc, tipo, ver=False):
     """ Entrega la proporcion de palabras con POS=[tipo] en el documento
     
     Argumentos:
@@ -587,20 +636,21 @@ def ProporcionPOS(doc,tipo,ver=False):
 
     """
     regexp = re.compile(tipo)
-    n=0
-    l=0
+    n = 0
+    l = 0
     for token in doc:
-        if (token.pos_!="PUNCT") and (token.pos_!="SPACE"):
-            n=n+1
+        if (token.pos_ != "PUNCT") and (token.pos_ != "SPACE"):
+            n = n + 1
             if regexp.search(token.tag_):
-                l=l+1
+                l = l + 1
                 aviso = True
             else:
                 aviso = False
         else:
             aviso = False
         #MarcarTexto("Contar ",token,aviso,ver,l)
-    return (l/n)
+    return (l / n)
+
 
 def Subordinacion(doc):
     """ Densidad de cláusulas
@@ -612,12 +662,13 @@ def Subordinacion(doc):
         float :  nº de cláusulas / nº oraciones
 
     """
-    if NOraciones(doc)>0:
-        return (NClausulas(doc)/NOraciones(doc))
+    if NOraciones(doc) > 0:
+        return (NClausulas(doc) / NOraciones(doc))
     else:
         return 0
 
-def SimilaridadDosNodos(to1,to2,primera=False,ver=False):
+
+def SimilaridadDosNodos(to1, to2, primera=False, ver=False):
     """ Similaridad entre dos nodos
     
     Argumentos:
@@ -635,33 +686,39 @@ def SimilaridadDosNodos(to1,to2,primera=False,ver=False):
     lista1 = []
     lista2 = []
     global html
-    
-    if(primera):    #Si es la primera vez, compara las palabras antes de los hijos
-        if (to1.pos_==to2.pos_):
-            if(ver):
-                html = html + "<br>1era coincide " + str(to1.text) + " - " + str(to2.text)
+
+    if (primera
+        ):  #Si es la primera vez, compara las palabras antes de los hijos
+        if (to1.pos_ == to2.pos_):
+            if (ver):
+                html = html + "<br>1era coincide " + str(
+                    to1.text) + " - " + str(to2.text)
             buenas = buenas + 1
         else:
             return 0
     #if(ver):
-        #html = html + "<br> estoy viendo " + str(to1.text) + " con " + str(to2.text)
+    #html = html + "<br> estoy viendo " + str(to1.text) + " con " + str(to2.text)
     for child1 in to1.children:
         total = total + 1
         for child2 in to2.children:
-            if (child1.pos_==child2.pos_) and (child1 not in lista1) and (child2 not in lista2):
+            if (child1.pos_ == child2.pos_) and (child1 not in lista1) and (
+                    child2 not in lista2):
                 buenas = buenas + 1
                 lista1.append(child1)
                 lista2.append(child2)
-                if(ver):
-                    html = html + "<br>coincide " + str(child1.text) + " - " + str(child2.text)
-                buenas = buenas + SimilaridadDosNodos(child1,child2,False,ver)
+                if (ver):
+                    html = html + "<br>coincide " + str(
+                        child1.text) + " - " + str(child2.text)
+                buenas = buenas + SimilaridadDosNodos(child1, child2, False,
+                                                      ver)
                 #Ya no puede usar ni child1 ni child2
             #else:
-                #if(ver):
-                    #html = html + "<br> No pude revisar " + str(child1.text) + " con " + str(child2.text)
+            #if(ver):
+            #html = html + "<br> No pude revisar " + str(child1.text) + " con " + str(child2.text)
     return buenas
-            
-def SimilaridadSintactica(doc,ver=False):
+
+
+def SimilaridadSintactica(doc, ver=False):
     """ Promedio de similaridad sintáctica entre oraciones continguas en el texto
     
     Argumentos:
@@ -674,25 +731,30 @@ def SimilaridadSintactica(doc,ver=False):
                 to2 que tienen la misma etiqueta.
 
     """
-    var1=[]
-    var2=[]
+    var1 = []
+    var2 = []
     t = 0
     global html
     for sen in doc.sents:
-        var1=sen
-        if(len(var2)>0):
+        var1 = sen
+        if (len(var2) > 0):
             #compara entre raices
-            if(ver):
-                html = html + "<br>Comparando <b> " + str(var1) + "</b> con <b>" + str(var2) + "</b>"
-            palabrasComunes=SimilaridadDosNodos(var1.root,var2.root,True,ver)
-            if(ver):
-                html = html + "<br>Coincidieron " + str(palabrasComunes) + " palabras de " + str(len(var1)+len(var2)-palabrasComunes)
-            t = t + palabrasComunes/(len(var1)+len(var2)-palabrasComunes)
-        var2=sen
-    if(len(list(doc.sents))>1):
-        return (t/(len(list(doc.sents))-1))
+            if (ver):
+                html = html + "<br>Comparando <b> " + str(
+                    var1) + "</b> con <b>" + str(var2) + "</b>"
+            palabrasComunes = SimilaridadDosNodos(var1.root, var2.root, True,
+                                                  ver)
+            if (ver):
+                html = html + "<br>Coincidieron " + str(
+                    palabrasComunes) + " palabras de " + str(
+                        len(var1) + len(var2) - palabrasComunes)
+            t = t + palabrasComunes / (len(var1) + len(var2) - palabrasComunes)
+        var2 = sen
+    if (len(list(doc.sents)) > 1):
+        return (t / (len(list(doc.sents)) - 1))
     else:
         return 0
+
 
 '''
 def NVerbosNoConjugados(doc,ver=False):
@@ -712,7 +774,8 @@ def NVerbosNoConjugados(doc,ver=False):
     return n
 '''
 
-def NNombres(doc,ver=False):
+
+def NNombres(doc, ver=False):
     """ Total de sustantivos en el texto
     
     Argumentos:
@@ -723,19 +786,19 @@ def NNombres(doc,ver=False):
         int : nº de palabras con etiqueta NOUN o PROPN (sustantivos comunes o propios)
 
     """
-    n=0
+    n = 0
     for token in doc:
-        if (token.pos_=="NOUN") or (token.pos_=="PROPN"):
-            aviso=True
-            n=n+1
+        if (token.pos_ == "NOUN") or (token.pos_ == "PROPN"):
+            aviso = True
+            n = n + 1
         else:
-            aviso=False
+            aviso = False
 
         #MarcarTexto("Número de sustantivos",token,aviso,ver,n)
     return n
 
 
-def NSilabas(doc,ver=False):
+def NSilabas(doc, ver=False):
     """ Total de sílabas del texto
     
     Argumentos:
@@ -747,20 +810,21 @@ def NSilabas(doc,ver=False):
 
     """
     s = Silabizer()
-    m=0
-    n=0
+    m = 0
+    n = 0
     for token in doc:
-        if (token.pos_!="PUNCT"):
-            aviso=True
-            n=len(s(str(token)))
+        if (token.pos_ != "PUNCT"):
+            aviso = True
+            n = len(s(str(token)))
             m = n + m
         else:
-            aviso=False
+            aviso = False
 
         #MarcarTexto("Número de sustantivos",token,aviso,ver,n)
     return m
 
-def DiversidadLexica(doc,ver=False):
+
+def DiversidadLexica(doc, ver=False):
     """ Diversidad Léxica à la trunajod.
     
     Argumentos:
@@ -771,30 +835,31 @@ def DiversidadLexica(doc,ver=False):
         int : promedio de palabras diferentes por cada bloque de [T] palabras
 
     """
-    m=0 # palabras hasta T
-    n=0 # suma de RTTs
-    k=0 # cuantas pilas ha armado
-    T=10
+    m = 0  # palabras hasta T
+    n = 0  # suma de RTTs
+    k = 0  # cuantas pilas ha armado
+    T = 10
     lista = []
     for token in doc:
-        if (token.pos_!="PUNCT"):
-            m=m+1
+        if (token.pos_ != "PUNCT"):
+            m = m + 1
             lista.append(token.lemma_)
-        if (m==T):
-            n=RTT(lista)
-            lista=[]
-            m=0
-            k=k+1
+        if (m == T):
+            n = RTT(lista)
+            lista = []
+            m = 0
+            k = k + 1
     #if (m>0):
-        #n=n+RTT(lista)
-        #k=k+1
+    #n=n+RTT(lista)
+    #k=k+1
     #print(lista)
-    if(k>0):
-        return (n/k)
+    if (k > 0):
+        return (n / k)
     else:
         return 0
 
-def DiversidadLexicaMTLDunLado(dok,ver=False):
+
+def DiversidadLexicaMTLDunLado(dok, ver=False):
     """ Diversidad Léxica según MTLD desde atrás hacia adelante
     
     Argumentos:
@@ -805,26 +870,27 @@ def DiversidadLexicaMTLDunLado(dok,ver=False):
         float : tamaño promedio de trozos de texto con RTT = 0.72
 
     """
-    f = 0   #faktor
-    k = 0   #palabras totales
+    f = 0  #faktor
+    k = 0  #palabras totales
     lista = []
     for token in dok:
         lista.append(token)
-        k=k+1
+        k = k + 1
         valo = RTT(lista)
-        if (valo<0.72):
-            lista=[]
-            f=f+1
+        if (valo < 0.72):
+            lista = []
+            f = f + 1
         #MarcarTexto("Frecuencia",token,True,ver,round(valo,2))
-    if (len(lista)>0):   #Qué hace con lo que sobra
-        f=f+1-(RTT(lista)-0.72)/(0.28)
-        k=k+1
-    if (f>0):
-        return (k/f)
+    if (len(lista) > 0):  #Qué hace con lo que sobra
+        f = f + 1 - (RTT(lista) - 0.72) / (0.28)
+        k = k + 1
+    if (f > 0):
+        return (k / f)
     else:
         return 0
 
-def DiversidadLexicaMTLD(doc,ver=False):
+
+def DiversidadLexicaMTLD(doc, ver=False):
     """ Diversidad Léxica según MTLD desde atrás hacia adelante promediado con de adelante hacia atrás
     
     Argumentos:
@@ -837,11 +903,12 @@ def DiversidadLexicaMTLD(doc,ver=False):
     """
     lista = []
     for token in doc:
-        if (token.pos_!="PUNCT"):
+        if (token.pos_ != "PUNCT"):
             lista.append(token.lemma_)
-    lista2=lista[::-1]
-    return ((DiversidadLexicaMTLDunLado(lista,ver)+DiversidadLexicaMTLDunLado(lista2,False))/2)
-    
+    lista2 = lista[::-1]
+    return ((DiversidadLexicaMTLDunLado(lista, ver) +
+             DiversidadLexicaMTLDunLado(lista2, False)) / 2)
+
 
 def RTT(lista):
     """ type-token ratio
@@ -853,9 +920,9 @@ def RTT(lista):
         float : fracción de palabras diferentes en el texto.
 
     """
-    m=len(lista)
-    npl=np.asarray(lista)
-    return (len(np.unique(npl))/m)
+    m = len(lista)
+    npl = np.asarray(lista)
+    return (len(np.unique(npl)) / m)
 
 
 def FrecuenciaCREA():
@@ -872,9 +939,14 @@ def FrecuenciaCREA():
         "{}/crea.csv".format(os.path.dirname(os.path.realpath(__file__))),
         delimiter='\t',
         encoding="latin-1",
-        dtype={'Orden': np.float16, 'Mot': object, 'Frec.absoluta': object, 'Frec.normalizada': np.float16}
-    )
-    dt["Frec.absoluta"] = dt["Frec.absoluta"].apply(lambda x: x.replace(',', ''))
+        dtype={
+            'Orden': np.float16,
+            'Mot': object,
+            'Frec.absoluta': object,
+            'Frec.normalizada': np.float16
+        })
+    dt["Frec.absoluta"] = dt["Frec.absoluta"].apply(
+        lambda x: x.replace(',', ''))
     dt["Frec.absoluta"] = dt["Frec.absoluta"].astype(int)
     return dt
 
@@ -887,7 +959,8 @@ def ImagFamiConc():
         de todas las palabras que tienen valores en algunas de ellas.
 
     """
-    dt = pd.read_csv("{}/ImagFamiConc.csv".format(os.path.dirname(os.path.realpath(__file__))))
+    dt = pd.read_csv("{}/ImagFamiConc.csv".format(
+        os.path.dirname(os.path.realpath(__file__))))
     return dt
 
 
@@ -898,7 +971,8 @@ def CargarConjugaciones():
         dataset:lista de conjugaciones
 
     """
-    dt = pd.read_csv("{}/conjugacionesLimpo.csv".format(os.path.dirname(os.path.realpath(__file__))))
+    dt = pd.read_csv("{}/conjugacionesLimpo.csv".format(
+        os.path.dirname(os.path.realpath(__file__))))
     return dt
 
 
@@ -913,15 +987,14 @@ def FrecuenciaPalabra(mot, dt):
         float: frecuencia normalizada de la palabra según CREA
 
     """
-    ploc = dt[dt["Mot"]==mot.lower()]["Frec.normalizada"]
-    if(len(ploc)==0):
+    ploc = dt[dt["Mot"] == mot.lower()]["Frec.normalizada"]
+    if (len(ploc) == 0):
         return 0
     else:
-        return(ploc.iloc[0])
+        return (ploc.iloc[0])
 
 
-
-def IndiceFrecuencia(doc,dt,ver=False): #El mínimo de la frecuencia
+def IndiceFrecuencia(doc, dt, ver=False):  #El mínimo de la frecuencia
     """ Índice de frecuencia
     
     Argumentos:
@@ -933,25 +1006,25 @@ def IndiceFrecuencia(doc,dt,ver=False): #El mínimo de la frecuencia
         float: Por cada oración, toma la palabra con menor frecuencia y promedia sus log(frecuencia)
 
     """
-    n=0
-    total=0
+    n = 0
+    total = 0
     for sen in doc.sents:
         mini = 99999999999999
         for token in sen:
-            if (token.pos_!="PUNCT"):
-                frecok = FrecuenciaPalabra(token.text,dt)
-                if (frecok<mini) and (mini>0):
+            if (token.pos_ != "PUNCT"):
+                frecok = FrecuenciaPalabra(token.text, dt)
+                if (frecok < mini) and (mini > 0):
                     mini = frecok
-                aviso=True
+                aviso = True
             else:
-                aviso=False
-                frecok=""
-           # MarcarTexto("Frecuencia",token,aviso,ver,frecok)
-        if mini>0:
-            total = total + log(mini,10)
+                aviso = False
+                frecok = ""
+        # MarcarTexto("Frecuencia",token,aviso,ver,frecok)
+        if mini > 0:
+            total = total + log(mini, 10)
             n = n + 1
-    if n>0:
-        return (total/n)
+    if n > 0:
+        return (total / n)
     else:
         return 0
 
@@ -963,10 +1036,14 @@ def Concrecion():
         dataset: Valor de conreción según EsPal de todas las palabras del diccionario X (usado en trunajod 1.0)
 
     """
-    dt=pd.read_csv("{}/concrecionTr.csv".format(os.path.dirname(os.path.realpath(__file__))), delimiter=',')
+    dt = pd.read_csv(
+        "{}/concrecionTr.csv".format(
+            os.path.dirname(os.path.realpath(__file__))),
+        delimiter=',')
     return dt
 
-def IndiceConcrecion(doc,dt,ver=False):
+
+def IndiceConcrecion(doc, dt, ver=False):
     """ Índice de concreción
     
     Argumentos:
@@ -978,32 +1055,34 @@ def IndiceConcrecion(doc,dt,ver=False):
         float: promedio de concreción de cada sustantivo que tiene valor de concreción
 
     """
-    
-    
-    n=0
-    total=0
-    ploce=""
+
+    n = 0
+    total = 0
+    ploce = ""
     for token in doc:
-        if (token.pos_=="NOUN"):
+        if (token.pos_ == "NOUN"):
             mot = token.lemma_
             #print(mot.lower())
-            ploc = dt[dt["word"]==mot.lower()]["concreteness"]
-            if (len(ploc)>0) and (ploc.iloc[0]>0):
-                n=n+1
+            ploc = dt[dt["word"] == mot.lower()]["concreteness"]
+            if (len(ploc) > 0) and (ploc.iloc[0] > 0):
+                n = n + 1
                 #print(ploc.iloc[0])
                 total = total + ploc.iloc[0]
-                ploce=round(ploc.iloc[0],3)
-                aviso=True
+                ploce = round(ploc.iloc[0], 3)
+                aviso = True
         else:
-            aviso=False
-            ploc=0
+            aviso = False
+            ploc = 0
         #MarcarTexto("Frecuencia",token,aviso,ver,ploce)
-    if n>0:
-        return (total/n)
+    if n > 0:
+        return (total / n)
     else:
         return 0
 
-def PalabrasAntesRoot(doc,ver=False):           ### Contar palabras antes del verbo principal (verbo conjugado más arriba) à confirmer (MV)
+
+def PalabrasAntesRoot(
+        doc, ver=False
+):  ### Contar palabras antes del verbo principal (verbo conjugado más arriba) à confirmer (MV)
     """ Palabras antes de la raíz
     
     Argumentos:
@@ -1017,9 +1096,9 @@ def PalabrasAntesRoot(doc,ver=False):           ### Contar palabras antes del ve
 
     """
     # Si la raíz no es verbo/aux, entonces toma el verbo/aux el más alto
-    
+
     suma = 0
-    total=0
+    total = 0
     for sen in doc.sents:
         #Revisa si en la oración 'sen' la raíz es o no verb
         esVerb = False
@@ -1028,50 +1107,53 @@ def PalabrasAntesRoot(doc,ver=False):           ### Contar palabras antes del ve
         achei = False
         raiz = None
         while mot != mot2:
-            mot=mot.head
-            mot2=mot2.head
-        if (mot.dep_ == "ROOT") and ((mot.pos_ == "VERB") or (mot.pos_ == "AUX")): # ¿El ROOT es un verbo?
+            mot = mot.head
+            mot2 = mot2.head
+        if (mot.dep_ == "ROOT") and (
+            (mot.pos_ == "VERB") or
+            (mot.pos_ == "AUX")):  # ¿El ROOT es un verbo?
             esVerb = True
             raiz = mot
         if esVerb == False:
             #Busca el verbo con mayor nivel
             achei = False
-            for i in range(2,4):
+            for i in range(2, 4):
                 if achei == False:
                     for token in sen:
-                        if (token.pos_=="VERB") or (token.pos_=="AUX"):
-                            if Nivel(token.i,doc)==i:
+                        if (token.pos_ == "VERB") or (token.pos_ == "AUX"):
+                            if Nivel(token.i, doc) == i:
                                 raiz = token
                                 achei = True
                                 break
-        
-        motsAvant=0
+
+        motsAvant = 0
         hay = False
         if 'raiz' in locals():
             aviso = False
             for token in sen:
-                if (token==raiz) and (achei or esVerb):
+                if (token == raiz) and (achei or esVerb):
                     hay = True
-                    total=total+1
-                    suma=suma+motsAvant
-                    aviso=False
+                    total = total + 1
+                    suma = suma + motsAvant
+                    aviso = False
                 else:
-                    if (hay==False) and (token.pos_!="PUNCT") and (achei or esVerb):
-                        motsAvant=motsAvant+1
-                        aviso=True
+                    if (hay == False) and (token.pos_ != "PUNCT") and (achei or
+                                                                       esVerb):
+                        motsAvant = motsAvant + 1
+                        aviso = True
                     else:
-                        aviso=False
-                
+                        aviso = False
+
                 #MarcarTexto("Palabras antes de la raíz",token,aviso,ver,motsAvant)
         else:
             suma = 0
-    if(total>0):
-        return (suma/total)
+    if (total > 0):
+        return (suma / total)
     else:
         return 0
 
 
-def DensidadFraseNominal(doc,ver=False):    ### Contar hijos de NOUN y PROPN 
+def DensidadFraseNominal(doc, ver=False):  ### Contar hijos de NOUN y PROPN
     """ Densidad de la frase nominal
     
     Argumentos:
@@ -1083,7 +1165,7 @@ def DensidadFraseNominal(doc,ver=False):    ### Contar hijos de NOUN y PROPN
         cc (y,o) ni case. Entrega el número de modificadores totales / sustantivos totales
 
     """
-    
+
     #diferentes de ADP y CC (otro: con o sin coordinados: conj)
     #Qué hacer con FN compuestas por más de un N
     nouns = NNombres(doc)
@@ -1093,7 +1175,7 @@ def DensidadFraseNominal(doc,ver=False):    ### Contar hijos de NOUN y PROPN
             if (token.head.pos_ == "NOUN") or (token.head.pos_ == "PROPN"):
                 if ((token.text.upper() == 'AL') or (token.text.upper() == 'DEL')) or \
                    ((token.dep_ != "cc") and (token.dep_ != "case") and (token.pos_ != "PUNCT") and \
-                   (token.head != token) and (token.dep_ != "cop")):  # and (token.dep_ != "conj") 
+                   (token.head != token) and (token.dep_ != "cop")):  # and (token.dep_ != "conj")
                     hijos = hijos + 1
                     aviso = True
                     #print(str(token) + " - " + str(token.head) + " - " + str(token.head.pos_))
@@ -1102,15 +1184,17 @@ def DensidadFraseNominal(doc,ver=False):    ### Contar hijos de NOUN y PROPN
             else:
                 aviso = False
             #MarcarTexto("Densidad Frase Nominal",token,aviso,ver,hijos)
-    if nouns==0:
+    if nouns == 0:
         return 0
     else:
-        return (hijos/nouns)
-# contar adv, 
+        return (hijos / nouns)
+
+
+# contar adv,
 # comparar grafos
 
 
-def DensidadLexica(doc,ver=False):
+def DensidadLexica(doc, ver=False):
     """ Densidad léxica
     
     Argumentos:
@@ -1121,30 +1205,30 @@ def DensidadLexica(doc,ver=False):
         float: total de palabras de significado (verbos, adjetivos, sustantivos o adverbios) / total de palabras
 
     """
-    return ProporcionPOS(doc,"VERB|AUX|ADJ|NOUN|PROPN|ADV")
+    return ProporcionPOS(doc, "VERB|AUX|ADJ|NOUN|PROPN|ADV")
 
-    
+
 #índice de inscrustación: profundiad del árbol
+
 
 def GuardarHtml():
     global html
     file = open('trunajod.html', 'w+')
     file.write(html)
     file.close()
-    
+
+
 def MostrarHtml():
     global html
     print(html)
 
+
 #Mide la profundidad del árbol, considerando los saltos entre NOUN y VERB/AUX
-
-
-
-
 
 ####  Otras funciones
 
-def Nivel(i,doc):
+
+def Nivel(i, doc):
     """ Nivel de la palabra
     
     Argumentos:
@@ -1159,10 +1243,7 @@ def Nivel(i,doc):
     mot2 = doc[i].head
     n = 1
     while mot != mot2:
-        mot=mot.head
-        mot2=mot2.head
-        n = n  + 1
+        mot = mot.head
+        mot2 = mot2.head
+        n = n + 1
     return n
-
-
-
