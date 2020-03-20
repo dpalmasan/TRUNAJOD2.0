@@ -1,11 +1,28 @@
-#!/usr/local/bin/python
-# -*- coding: utf-8 -*-
-from utils import lemmatize
+"""TRUNAJOD lexico semantic norms module."""
+from TRUNAJOD.utils import lemmatize
 
 
 class LexicoSemanticNorm(object):
-    def __init__(self, doc, lexico_semantic_norm_dict, lemmatizer=None):
+    """Create a lexico semantic norm calculator for text.
 
+    This requires a lexico semantic norm dict, with key-value pairs specified
+    as word -> {"arousal", "concreteness", "context_availability",
+    "familiarity", "imageability", "valence"}. Average over number of
+    tokens will be computed.
+    """
+
+    def __init__(self, doc, lexico_semantic_norm_dict, lemmatizer=None):
+        """Initialize lexico semantic norm object.
+
+        Calculate average over number of tokens given a text.
+
+        :param doc: Text to be processed
+        :type doc: Spacy Doc
+        :param lexico_semantic_norm_dict: Lexico semantic norms for words
+        :type lexico_semantic_norm_dict: dict
+        :param lemmatizer: Lemmatizer, defaults to None
+        :type lemmatizer: dict, optional
+        """
         valence = 0
         arousal = 0
         concreteness = 0
@@ -60,20 +77,50 @@ class LexicoSemanticNorm(object):
             self.__context_avilability /= count
             self.__familiarity /= count
 
-    def get_valence(self):
-        return self.__valence
-
     def get_arousal(self):
+        """Get arousal.
+
+        :return: Average arousal.
+        :rtype: float
+        """
         return self.__arousal
 
     def get_concreteness(self):
+        """Get concreteness.
+
+        :return: Average concreteness.
+        :rtype: float
+        """
         return self.__concreteness
 
-    def get_imageability(self):
-        return self.__imageability
-
     def get_context_availability(self):
+        """Get context_availability.
+
+        :return: Average context_availability.
+        :rtype: float
+        """
         return self.__context_avilability
 
     def get_familiarity(self):
+        """Get familiarity.
+
+        :return: Average familiarity.
+        :rtype: float
+        """
         return self.__familiarity
+
+    def get_imageability(self):
+        """Get imageability.
+
+        :return: Average imageability.
+        :rtype: float
+        """
+        return self.__imageability
+
+    def get_valence(self):
+        """Get valence.
+
+        :return: Average valence.
+        :rtype: float
+        """
+        return self.__valence

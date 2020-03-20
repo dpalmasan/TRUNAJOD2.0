@@ -1,68 +1,5 @@
-#!/usr/bin/env python
+"""TRUNAJOD discourse markers module."""
 import re
-
-CAUSE_DISCOURSE_MARKERS = {
-    'dado que',
-    'porque',
-    'debido a',
-    'gracias a',
-    'por si',
-    'por',
-    'por eso',
-    'en conclusión',
-    'así que',
-    'como consecuencia',
-    'para',
-    'para que',
-    'por esta razón',
-    'por tanto',
-    'en efecto',
-}
-
-REVISION_DISCOURSE_MARKERS = {
-    'a pesar de',
-    'aunque',
-    'excepto',
-    'pese a',
-    'no obstante',
-    'sin embargo',
-    'en realidad',
-    'de hecho',
-    'al contrario',
-    'el hecho es que',
-    'es cierto que',
-    'pero',
-    'con todo',
-    'ahora bien',
-    'de todos modos',
-}
-
-EQUALITY_DISCOURSE_MARKERS = {
-    'en resumen',
-    'concretamente',
-    'en esencia',
-    'en comparación',
-    'en otras palabras',
-    'en particular',
-    'es decir',
-    'por ejemplo',
-    'precisamente',
-    'tal como',
-    'por último',
-    'por un lado',
-    'por otro lado',
-    'a propósito',
-    'no sólo',
-    'sino también',
-    'en dos palabras',
-    'además',
-    'también',
-    'aparte',
-    'aún es más',
-    'incluso',
-    'especialmente',
-    'sobretodo',
-}
 
 CAUSE_DISCOURSE_MARKERS = {
     'dado que',
@@ -112,12 +49,57 @@ CONTEXT_DISCOURSE_MARKERS = {
     'a la vez',
 }
 
+EQUALITY_DISCOURSE_MARKERS = {
+    'en resumen',
+    'concretamente',
+    'en esencia',
+    'en comparación',
+    'en otras palabras',
+    'en particular',
+    'es decir',
+    'por ejemplo',
+    'precisamente',
+    'tal como',
+    'por último',
+    'por un lado',
+    'por otro lado',
+    'a propósito',
+    'no sólo',
+    'sino también',
+    'en dos palabras',
+    'además',
+    'también',
+    'aparte',
+    'aún es más',
+    'incluso',
+    'especialmente',
+    'sobretodo',
+}
+
 HIGHLY_POLYSEMIC_DISCOURSE_MARKERS = {
     'como',
     'desde',
     'sobre',
     'antes que nada',
     'para empezar',
+}
+
+REVISION_DISCOURSE_MARKERS = {
+    'a pesar de',
+    'aunque',
+    'excepto',
+    'pese a',
+    'no obstante',
+    'sin embargo',
+    'en realidad',
+    'de hecho',
+    'al contrario',
+    'el hecho es que',
+    'es cierto que',
+    'pero',
+    'con todo',
+    'ahora bien',
+    'de todos modos',
 }
 
 VAGUE_MEANING_CLOSED_CLASS_WORDS = {
@@ -155,21 +137,6 @@ def find_matches(text, list):
     return counter
 
 
-def get_revision_dm_count(text):
-    """Count discourse markers associated with revisions.
-
-    :param text: The text to be analized
-    :type text: Spacy Doc
-    :return: Average of revision discourse markers over sentences
-    :rtype: float
-    """
-    sentences = [
-        find_matches(sent.string.strip(), REVISION_DISCOURSE_MARKERS)
-        for sent in text.sents
-    ]
-    return sum(sentences) / len(sentences)
-
-
 def get_cause_dm_count(text):
     """Count discourse markers associated with cause.
 
@@ -180,51 +147,6 @@ def get_cause_dm_count(text):
     """
     sentences = [
         find_matches(sent.string.strip(), CAUSE_DISCOURSE_MARKERS)
-        for sent in text.sents
-    ]
-    return sum(sentences) / len(sentences)
-
-
-def get_equality_dm_count(text):
-    """Count discourse markers associated with equality.
-
-    :param text: The text to be analized
-    :type text: Spacy Doc
-    :return: Average of equality discourse markers over sentences
-    :rtype: float
-    """
-    sentences = [
-        find_matches(sent.string.strip(), EQUALITY_DISCOURSE_MARKERS)
-        for sent in text.sents
-    ]
-    return sum(sentences) / len(sentences)
-
-
-def get_context_dm_count(text):
-    """Count discourse markers associated with context.
-
-    :param text: The text to be analized
-    :type text: Spacy Doc
-    :return: Average of context discourse markers over sentences
-    :rtype: float
-    """
-    sentences = [
-        find_matches(sent.string.strip(), CONTEXT_DISCOURSE_MARKERS)
-        for sent in text.sents
-    ]
-    return sum(sentences) / len(sentences)
-
-
-def get_polysemic_dm_count(text):
-    """Count discourse markers that are highly polysemic.
-
-    :param text: The text to be analized
-    :type text: Spacy Doc
-    :return: Average of highly polysemic discourse markers over sentences
-    :rtype: float
-    """
-    sentences = [
-        find_matches(sent.string.strip(), HIGHLY_POLYSEMIC_DISCOURSE_MARKERS)
         for sent in text.sents
     ]
     return sum(sentences) / len(sentences)
@@ -245,7 +167,52 @@ def get_closed_class_vague_meaning_count(text):
     return sum(sentences) / len(sentences)
 
 
-def get_overall_markers(text):
+def get_context_dm_count(text):
+    """Count discourse markers associated with context.
+
+    :param text: The text to be analized
+    :type text: Spacy Doc
+    :return: Average of context discourse markers over sentences
+    :rtype: float
+    """
+    sentences = [
+        find_matches(sent.string.strip(), CONTEXT_DISCOURSE_MARKERS)
+        for sent in text.sents
+    ]
+    return sum(sentences) / len(sentences)
+
+
+def get_equality_dm_count(text):
+    """Count discourse markers associated with equality.
+
+    :param text: The text to be analized
+    :type text: Spacy Doc
+    :return: Average of equality discourse markers over sentences
+    :rtype: float
+    """
+    sentences = [
+        find_matches(sent.string.strip(), EQUALITY_DISCOURSE_MARKERS)
+        for sent in text.sents
+    ]
+    return sum(sentences) / len(sentences)
+
+
+def get_polysemic_dm_count(text):
+    """Count discourse markers that are highly polysemic.
+
+    :param text: The text to be analized
+    :type text: Spacy Doc
+    :return: Average of highly polysemic discourse markers over sentences
+    :rtype: float
+    """
+    sentences = [
+        find_matches(sent.string.strip(), HIGHLY_POLYSEMIC_DISCOURSE_MARKERS)
+        for sent in text.sents
+    ]
+    return sum(sentences) / len(sentences)
+
+
+def get_overall_markers(text):  # pragma: no cover
     """Count all types of discourse markers.
 
     :param text: The text to be analized
@@ -280,6 +247,21 @@ def get_overall_markers(text):
     ]
 
     sentences += [
+        find_matches(sent.string.strip(), REVISION_DISCOURSE_MARKERS)
+        for sent in text.sents
+    ]
+    return sum(sentences) / len(sentences)
+
+
+def get_revision_dm_count(text):
+    """Count discourse markers associated with revisions.
+
+    :param text: The text to be analized
+    :type text: Spacy Doc
+    :return: Average of revision discourse markers over sentences
+    :rtype: float
+    """
+    sentences = [
         find_matches(sent.string.strip(), REVISION_DISCOURSE_MARKERS)
         for sent in text.sents
     ]

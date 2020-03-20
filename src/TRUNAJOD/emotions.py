@@ -1,7 +1,6 @@
-#!/usr/local/bin/python
-from utils import lemmatize
-
-from spanish_emotion_lexicon import SPANISH_EMOTION_LEXICON
+"""TRUNAJOD emotions module."""
+from TRUNAJOD.spanish_emotion_lexicon import SPANISH_EMOTION_LEXICON
+from TRUNAJOD.utils import lemmatize
 
 
 class Emotions:
@@ -15,7 +14,9 @@ class Emotions:
     """
 
     def __init__(self, doc, lemmatizer=None):
-        """Constructor de la instancia de emociones.
+        """Initialize emotions class.
+
+        Average over number of tokens.
 
         :param doc: Texto a ser procesado
         :type doc: Spacy Doc
@@ -83,19 +84,49 @@ class Emotions:
             self.__tristeza /= count
 
     def get_alegria(self):
+        """Get alegria.
+
+        :return: Average alegria over number of tokens
+        :rtype: float
+        """
         return self.__alegria
 
     def get_enojo(self):
+        """Get enojo.
+
+        :return: Average enojo over number of tokens
+        :rtype: float
+        """
         return self.__enojo
 
     def get_miedo(self):
+        """Get miedo.
+
+        :return: Average miedo over number of tokens
+        :rtype: float
+        """
         return self.__miedo
 
     def get_repulsion(self):
+        """Get repulsion.
+
+        :return: Average repulsion over number of tokens
+        :rtype: float
+        """
         return self.__repulsion
 
     def get_sorpresa(self):
+        """Get sorpresa.
+
+        :return: Average sorpresa over number of tokens
+        :rtype: float
+        """
         return self.__sorpresa
 
     def get_tristeza(self):
+        """Get tristeza.
+
+        :return: Average tristeza over number of tokens
+        :rtype: float
+        """
         return self.__tristeza
