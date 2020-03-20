@@ -1,6 +1,8 @@
 # .coveragerc to control coverage.py
 [run]
 branch = True
+include = 
+    src/*
 omit = 
     src/TRUNAJOD/silabizator.py
     src/TRUNAJOD/indices_veliz.py
