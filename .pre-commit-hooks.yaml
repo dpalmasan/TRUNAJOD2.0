@@ -1,0 +1,23 @@
+fail_fast: false
+repos:
+-   repo: https://github.com/pre-commit/mirrors-yapf
+    rev: 'v0.22.0'
+    hooks:
+    -   id: yapf
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.5.0
+    hooks:
+    -   id: flake8
+        stages: [commit]
+        id: check-docstring-first
+        stages: [commit]
+-   repo: https://github.com/asottile/reorder_python_imports
+    rev: v2.1.0
+    hooks:
+    -   id: reorder-python-imports
+        language_version: python3.6
+-   repo: git://github.com/chewse/pre-commit-mirrors-pydocstyle
+    rev: v2.1.1
+    hooks:
+    -   id: pydocstyle
+        stages: [commit]

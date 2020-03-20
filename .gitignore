@@ -100,6 +100,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.vscode
 
 # Spyder project settings
 .spyderproject
@@ -119,8 +120,6 @@ es_core_news_md-2.0.0/
 spacy_model/
 
 TENSOR_FLOW
-TRUNAJOD/Emotions.py
-TRUNAJOD/SpanishEmotionLexicon.py
 VIU/
 ann_experiment.py
 app_modificado.py
@@ -138,7 +137,6 @@ media_random_forest_importance_exp.py
 plotex.py
 rename.sh
 semantic_spaces/
-spanish_emotion_lexicon.py
 test_sel.py
 trunajod_env/
 viu_app.py

@@ -4,10 +4,8 @@
 SPACY_UNIVERSAL_NOUN_TAGS = set([u'NOUN', u'PRON', u'PROPN'])
 
 ordered_transitions = [
-    u'SS', u'SO', u'SX', u'S-',
-    u'OS', u'OO', u'OX', u'O-',
-    u'XS', u'XO', u'XX', u'X-',
-    u'-S', u'-O', u'-X', u'--'
+    u'SS', u'SO', u'SX', u'S-', u'OS', u'OO', u'OX', u'O-', u'XS', u'XO',
+    u'XX', u'X-', u'-S', u'-O', u'-X', u'--'
 ]
 
 
@@ -29,6 +27,7 @@ class EntityGrid(object):
     applying spacy.nlp(text) to a text. Thus, this class depends on spacy
     module. It only supports 2-transitions entity grid.
     """
+
     def __init__(self, doc):
         """
         Construct entity grid and gets probabilities. Then stores it in the
@@ -40,10 +39,22 @@ class EntityGrid(object):
         i = 1
         entity_map['s%d' % i] = []
         entity_features = {
-            u'SS': 0, u'SO': 0, u'SX': 0, u'S-': 0,
-            u'OS': 0, u'OO': 0, u'OX': 0, u'O-': 0,
-            u'XS': 0, u'XO': 0, u'XX': 0, u'X-': 0,
-            u'-S': 0, u'-O': 0, u'-X': 0, u'--': 0
+            u'SS': 0,
+            u'SO': 0,
+            u'SX': 0,
+            u'S-': 0,
+            u'OS': 0,
+            u'OO': 0,
+            u'OX': 0,
+            u'O-': 0,
+            u'XS': 0,
+            u'XO': 0,
+            u'XX': 0,
+            u'X-': 0,
+            u'-S': 0,
+            u'-O': 0,
+            u'-X': 0,
+            u'--': 0
         }
 
         # Get number of sentences in the text
@@ -57,12 +68,10 @@ class EntityGrid(object):
         for sent in doc.sents:
             for token in sent:
                 if token.pos_ in SPACY_UNIVERSAL_NOUN_TAGS:
-                    entity_map['s%d' % i].append((
-                        token.text.upper(),
-                        token.dep_
-                    ))
+                    entity_map['s%d' % i].append((token.text.upper(),
+                                                  token.dep_))
                     if token.text.upper() not in entity_grid:
-                        entity_grid[token.text.upper()] = [u'-']*n_sent
+                        entity_grid[token.text.upper()] = [u'-'] * n_sent
             i += 1
             entity_map['s%d' % i] = []
 
@@ -77,8 +86,8 @@ class EntityGrid(object):
                     entity_grid[entity][i] = dependency_mapping(dep)
                 elif dependency_mapping(dep) == u'S':
                     entity_grid[entity][i] = dependency_mapping(dep)
-                elif (dependency_mapping(dep) == u'O' and
-                      entity_grid[entity][i] == u'X'):
+                elif (dependency_mapping(dep) == u'O'
+                      and entity_grid[entity][i] == u'X'):
                     entity_grid[entity][i] = dependency_mapping(dep)
 
         # Compute feature vector, we consider transitions of length 2
@@ -88,9 +97,7 @@ class EntityGrid(object):
             for i in range(n_sent - 1):
                 # Transition type found (e.g. S-)
                 transition = (
-                    entity_grid[entity][i]
-                    + entity_grid[entity][i + 1]
-                )
+                    entity_grid[entity][i] + entity_grid[entity][i + 1])
 
                 # Adding 1 to transition count
                 entity_features[transition] += 1
@@ -201,13 +208,11 @@ def get_local_coherence(egrid):
     grid = egrid.get_egrid()
     for entity in grid:
         for i in range(n_sent):
-            for j in range(i+1, n_sent):
+            for j in range(i + 1, n_sent):
                 if grid[entity][i] != u"-" and grid[entity][j] != u"-":
                     PW[i][j] += 1
-                    W[i][j] += (
-                        weighting_syntactic_role(grid[entity][i])
-                        * weighting_syntactic_role(grid[entity][j])
-                    )
+                    W[i][j] += (weighting_syntactic_role(grid[entity][i]) *
+                                weighting_syntactic_role(grid[entity][j]))
 
     PU = [list(map(lambda x: x != 0, PWi)) for PWi in PW]
 
@@ -228,10 +233,10 @@ def get_local_coherence(egrid):
     PW_weighted = list(PW)
     PACC_weighted = list(W)
     for i in range(n_sent):
-        for j in range(i+1, n_sent):
-            PU_weighted[i][j] = PU[i][j] / float(j-i)
-            PW_weighted[i][j] = PW[i][j] / float(j-i)
-            PACC_weighted[i][j] = W[i][j] / float(j-i)
+        for j in range(i + 1, n_sent):
+            PU_weighted[i][j] = PU[i][j] / float(j - i)
+            PW_weighted[i][j] = PW[i][j] / float(j - i)
+            PACC_weighted[i][j] = W[i][j] / float(j - i)
 
     local_coherence_PU_dist = 0.0
     local_coherence_PW_dist = 0.0
