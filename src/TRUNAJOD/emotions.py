@@ -1,16 +1,32 @@
-"""TRUNAJOD emotions module."""
+"""TRUNAJOD emotions module.
+
+These measurements are based on the lexicon from :cite:`rangel2014creacion`.
+TRUNAJOD already comes bundled with this lexicon, in the following module
+constant ``TRUNAJOD.spanish_emotion_lexicon.SPANISH_EMOTION_LEXICON``.
+
+.. caution:: Keep in mind
+   this module is still under development. Moreover
+   only Spanish language is supported by this module as we are directly
+   feeding the class with the lexicon.
+
+The following emotions are captured: alegría, enojo, miedo, repulsión,
+sorpresa, tristeza.
+"""
 from TRUNAJOD.spanish_emotion_lexicon import SPANISH_EMOTION_LEXICON
 from TRUNAJOD.utils import lemmatize
 
 
-class Emotions:
-    """Clase para definir emociones en español.
+class Emotions(object):
+    """Compute emotions from SPANISH EMOTION LEXICON :cite:`rangel2014creacion`.
 
-    Calcula emociones en base a PFA y promediando considerando todas las
-    palabras que generan emociones (respecto al total de palabras analizadas).
+    Computes emotions based on Probability Factor of Affective use (PFA) and
+    averaging over the total analized words from the text (that are found
+    in the lexicon).
+
     Ideas:
-    - Probar sin PFA?
-    - Ponderar PFA respecto a emociones y no del total?
+
+    - How about not using PFA?
+    - Averaging over emotions and not the total count?
     """
 
     def __init__(self, doc, lemmatizer=None):
