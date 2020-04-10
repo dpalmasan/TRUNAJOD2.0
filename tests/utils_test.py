@@ -3,11 +3,11 @@ import mock
 from TRUNAJOD import utils
 
 
-def test_isStopword():
+def test_is_stopword():
     """Test is stopword method."""
     stopwords = ['el', 'la']
-    assert utils.isStopword('la', stopwords)
-    assert not utils.isStopword('perro', stopwords)
+    assert utils.is_stopword('la', stopwords)
+    assert not utils.is_stopword('perro', stopwords)
 
 
 def test_flatten():
@@ -26,26 +26,26 @@ def test_lemmatize():
 
 def test_pos_booleans():
     """Test POS boolean methods."""
-    assert utils.isAdjective("ADJ")
-    assert utils.isAdverb("ADV")
-    assert utils.isNoun("NOUN")
-    assert utils.isNoun("PROPN")
-    assert utils.isPronoun("PRON")
-    assert utils.isVerb("VERB")
-    assert utils.isWord("NOUN")
+    assert utils.is_adjective("ADJ")
+    assert utils.is_adverb("ADV")
+    assert utils.is_noun("NOUN")
+    assert utils.is_noun("PROPN")
+    assert utils.is_pronoun("PRON")
+    assert utils.is_verb("VERB")
+    assert utils.is_word("NOUN")
 
 
 @mock.patch("builtins.open", mock.mock_open(read_data='the'))
-def test_getStopwords():
+def test_get_stopwords():
     """Test get stopwords method."""
-    result = utils.getStopwords("stopwords")
+    result = utils.get_stopwords("stopwords")
     assert result == {'the'}
-    open.assert_called_with('stopwords', 'r', 'utf8')
+    open.assert_called_with('stopwords', 'r', encoding='utf8')
 
 
 @mock.patch("builtins.open", mock.mock_open(read_data='the'))
-def test_readText():
+def test_read_text():
     """Test read text method."""
-    result = utils.readText("stopwords")
+    result = utils.read_text("stopwords")
     assert result == 'the'
-    open.assert_called_with('stopwords', 'r', 'utf8')
+    open.assert_called_with('stopwords', 'r', encoding='utf8')
