@@ -4,9 +4,11 @@ branch = True
 include = 
     src/*
 omit = 
-    src/TRUNAJOD/silabizator.py
-    src/TRUNAJOD/indices_veliz.py
     src/TRUNAJOD/entity_grid.py
+    src/TRUNAJOD/infinitive_map.py
+    src/TRUNAJOD/crea_frequency.py
+    src/TRUNAJOD/lexicosemantic_norms_espal.py
+    src/TRUNAJOD/verb_types.py
 
 [report]
 # Regexes for lines to exclude from consideration
