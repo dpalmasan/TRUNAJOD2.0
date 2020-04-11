@@ -144,4 +144,5 @@ viu_random_forest_exp.pickle
 viu_random_forest_experiment.py
 indices_veliz.py
 map_backup.py
-modelo_adecuacion
+modelo_adecuacion/
+.vscode/
