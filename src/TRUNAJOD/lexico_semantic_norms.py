@@ -1,4 +1,20 @@
-"""TRUNAJOD lexico semantic norms module."""
+"""TRUNAJOD lexico semantic norms module.
+
+Lexico-Semantic norms do also require external knowledge to be computed. We compute
+the following lexico-semantic variables:
+
+* Arousal
+* Concreteness
+* Context Availability
+* Familiarity
+* Imageability
+* Valence
+
+We provide two downloadable models of these variables, which come from
+:cite:`duchon2013espal` and :cite:`guasch2016spanish`.
+"""
+from TRUNAJOD.lexicosemantic_norms_espal import LEXICOSEMANTIC_ESPAL
+from TRUNAJOD.lexicosemantic_norms_espal import LSNorm
 from TRUNAJOD.utils import lemmatize
 
 
@@ -6,9 +22,10 @@ class LexicoSemanticNorm(object):
     """Create a lexico semantic norm calculator for text.
 
     This requires a lexico semantic norm dict, with key-value pairs specified
-    as word -> {"arousal", "concreteness", "context_availability",
-    "familiarity", "imageability", "valence"}. Average over number of
-    tokens will be computed.
+    as ``word -> {"arousal", "concreteness", "context_availability",
+    "familiarity", "imageability", "valence"}``. Average over number of
+    tokens will be computed. The values are obtained from
+    :cite:`guasch2016spanish`.
     """
 
     def __init__(self, doc, lexico_semantic_norm_dict, lemmatizer=None):
@@ -124,3 +141,39 @@ class LexicoSemanticNorm(object):
         :rtype: float
         """
         return self.__valence
+
+
+def get_conc_imag_familiarity(doc):
+    """Get lexico-semantic variables.
+
+    Computes three lexico-semantic variables: Concreteness, Imageability and
+    Familiarity. The values are obtained from the EsPal dictionary (Spanish)
+    and average of each metric is computed over sentences. To get each metric,
+    the best practice is using `LSNorm Enum` defined in
+    `lexicosemantic_norms_espal` module. The enums are `CONCRETENESS`,
+    `IMAGEABILITY` and `FAMILIARITY`. This implementation uses values of the
+    lexico-semantic norms from :cite:`duchon2013espal`.
+
+    :param doc: Tokenized text
+    :type doc: Spacy Doc
+    :return: Concreteness imageability and familiarity averaged over sentences
+    :rtype: List of float
+    """
+    n_found_tokens = [0, 0, 0]
+    lsnorm_total = [0, 0, 0]
+
+    for token in doc:
+        if (token.pos_ == "NOUN"):
+            lemma = token.lemma_
+            if lemma in LEXICOSEMANTIC_ESPAL:
+                concreteness, imageability, familiarity =\
+                    LEXICOSEMANTIC_ESPAL[lemma.lower()]
+                n_found_tokens = [x + 1 for x in n_found_tokens]
+                lsnorm_total[LSNorm.CONCRETENESS] += concreteness
+                lsnorm_total[LSNorm.IMAGEABILITY] += imageability
+                lsnorm_total[LSNorm.FAMILIARITY] += familiarity
+
+    lsnorm_total[LSNorm.CONCRETENESS] /= n_found_tokens[LSNorm.CONCRETENESS]
+    lsnorm_total[LSNorm.IMAGEABILITY] /= n_found_tokens[LSNorm.IMAGEABILITY]
+    lsnorm_total[LSNorm.FAMILIARITY] /= n_found_tokens[LSNorm.FAMILIARITY]
+    return lsnorm_total
