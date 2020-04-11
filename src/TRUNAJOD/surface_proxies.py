@@ -31,9 +31,9 @@ NEGATION_WORDS = {
 
 def _fix_doc(func):
     @wraps(func)
-    def function_wrapper(doc):
-        fixed_doc = fix_parse_tree(doc)
-        return func(fixed_doc)
+    def function_wrapper(doc, infinitive_map):
+        fixed_doc = fix_parse_tree(doc, infinitive_map)
+        return func(fixed_doc, infinitive_map)
 
     return function_wrapper
 
@@ -138,7 +138,7 @@ def char_count(doc):
 
 
 @_fix_doc
-def clause_count(doc):
+def clause_count(doc, infinitive_map):
     """Return clause count (heuristic).
 
     This function is decorated by the
@@ -147,6 +147,8 @@ def clause_count(doc):
 
     :param doc: Text to be processed.
     :type doc: Spacy Doc
+    :param infinitve_map: Lexicon containing maps from conjugate to infinitive.
+    :type infinitive_map: dict
     :return: Clause count
     :rtype: int
     """
@@ -184,7 +186,7 @@ def first_second_person_density(doc):
     return first_second_person_count(doc) / word_count(doc)
 
 
-def fix_parse_tree(doc):
+def fix_parse_tree(doc, infinitive_map):
     """Fix SPACY parse tree.
 
     We found that for Spanish texts, spaCy tags do not deal appropiately
@@ -194,13 +196,15 @@ def fix_parse_tree(doc):
 
     :param doc: Processed text
     :type doc: Spacy Doc
+    :param infinitve_map: Lexicon containing maps from conjugate to infinitive.
+    :type infinitive_map: dict
     :return: Fixed Doc
     :rtype: Spacy Doc
     """
     fixed_doc = deepcopy(doc)
     for token in fixed_doc:
         if token.pos_ in {"VERB", "AUX"}:
-            conjugate = infinitve(token.text)
+            conjugate = infinitve(token.text, infinitive_map)
             if conjugate is not None:
                 token.lemma_ = conjugate
     fixed_doc = add_periphrasis(fixed_doc, PERIPHRASIS_INF, INFINITIVE_VERBS)
@@ -270,6 +274,8 @@ def infinitve(conjugate, infinitive_map):
 
     :param conjugate: Verb to be processed
     :type conjugate: string
+    :param infinitve_map: Lexicon containing maps from conjugate to infinitive.
+    :type infinitive_map: dict
     :return: Infinitive form of the verb, None if not found
     :rtype: string
     """
@@ -577,7 +583,7 @@ def subordination(doc):
     """Return subordination, defined as the clause density.
 
     The subordination is defined as the ratio between # of clauses and
-    the # of sentences. To compute number of clauses, a heuristic is used. 
+    the # of sentences. To compute number of clauses, a heuristic is used.
 
     :param doc: Text to be processed.
     :type doc: Spacy Doc
