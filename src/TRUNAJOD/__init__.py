@@ -1,1 +1,0 @@
-"""TRUNAJOD init file."""
