@@ -79,7 +79,7 @@ def add_periphrasis(doc, periphrasis_type, periphrasis_list):
     return doc
 
 
-def average_clause_length(doc):
+def average_clause_length(doc, infinitive_map):
     """Return average clause length (heuristic).
 
     This measurement is computed as the ratio of # of words / # of clauses.
@@ -88,10 +88,12 @@ def average_clause_length(doc):
 
     :param doc: Text to be processed
     :type doc: Spacy Doc
+    :param infinitve_map: Lexicon containing maps from conjugate to infinitive.
+    :type infinitive_map: dict
     :return: Average clause length
     :rtype: float
     """
-    return word_count(doc) / clause_count(doc)
+    return word_count(doc) / clause_count(doc, infinitive_map)
 
 
 def average_sentence_length(doc):
@@ -579,7 +581,7 @@ def syllable_word_ratio(doc):
     return syllable_count(doc) / word_count(doc)
 
 
-def subordination(doc):
+def subordination(doc, infinitive_map):
     """Return subordination, defined as the clause density.
 
     The subordination is defined as the ratio between # of clauses and
@@ -587,10 +589,12 @@ def subordination(doc):
 
     :param doc: Text to be processed.
     :type doc: Spacy Doc
+    :param infinitve_map: Lexicon containing maps from conjugate to infinitive.
+    :type infinitive_map: dict
     :return: Subordination index
     :rtype: float
     """
-    return clause_count(doc) / sentence_count(doc)
+    return clause_count(doc, infinitive_map) / sentence_count(doc)
 
 
 def verb_noun_ratio(doc):
