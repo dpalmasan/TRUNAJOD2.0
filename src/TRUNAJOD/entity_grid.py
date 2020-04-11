@@ -1,5 +1,23 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
+"""Entity grid module for TRUNAJOD.
+
+In this module, entity grid based features are implemented. On one side,
+an entity grid :cite:`barzilay2008modeling` implementation is provided.
+We also provide an implementation of the entity graph coherence modeling
+:cite:`guinaudeau2013graph`.
+
+.. danger:: These set of features or measurements
+   Really depends on the dependency parsing accuracy, which relies on the
+   CORPUS the dependency parsed was trained. There is no guarantee that this
+   will work with all types of texts. On the other hand, the implementation
+   is simple and we do not do any coreference resolution for noun-phrases and
+   just rely on simple heuristics.
+
+It is also worth noting, that we consider an entity grid of two-sentence
+sequence and the API currently does not provide any hyper-parameter tunning to
+change this.
+"""
 
 SPACY_UNIVERSAL_NOUN_TAGS = set([u'NOUN', u'PRON', u'PROPN'])
 
@@ -10,8 +28,24 @@ ordered_transitions = [
 
 
 def dependency_mapping(dep):
-    """
-    Maps SPACY dependency tags, to Entity Grid Dependencies
+    """Map dependency tag to entity grid tag.
+
+    We consider the notation provided in :cite:`barzilay2008modeling`:
+
+    +-----------+-----------------------------------+
+    | EGrid Tag | Dependency Tag                    |
+    +===========+===================================+
+    | S         | nsub, csubj, csubjpass, dsubjpass |
+    +-----------+-----------------------------------+
+    | O         | iobj, obj, pobj, dobj             |
+    +-----------+-----------------------------------+
+    | X         | For any other dependency tag      |
+    +-----------+-----------------------------------+
+
+    :param dep: Dependency tag
+    :type dep: string
+    :return: EGrid tag
+    :rtype: string
     """
     if dep in {u'nsubj', u'csubj', u'csubjpass', u'dsubjpass'}:
         return u'S'
@@ -22,17 +56,15 @@ def dependency_mapping(dep):
 
 
 class EntityGrid(object):
-    """
+    """Entity grid class.
+
     Class Entity Grid, creates an entity grid from a doc, which is output of
     applying spacy.nlp(text) to a text. Thus, this class depends on spacy
     module. It only supports 2-transitions entity grid.
     """
 
     def __init__(self, doc):
-        """
-        Construct entity grid and gets probabilities. Then stores it in the
-        created instance. Note it needs as input a Doc type (Spacy)
-        """
+        """Construct EntityGrid object."""
         # Initialization
         entity_map = dict()
         entity_grid = dict()
@@ -61,8 +93,10 @@ class EntityGrid(object):
         n_sent = len(list(doc.sents))
 
         # To get coherence measurements we need at least 2 sentences
-        if n_sent == 0:
-            return entity_features
+        if n_sent < 2:
+            raise RuntimeError(
+                "Entity grid needs at least two sentences, found: {}"
+                .format(n_sent))
 
         # For each sentence, get dependencies and its grammatical role
         for sent in doc.sents:
@@ -113,67 +147,172 @@ class EntityGrid(object):
         self.__prob = entity_features
 
     def get_ss_transitions(self):
+        """Get SS transitions.
+
+        :return: Ratio of transitions
+        :rtype: float
+        """
         return self.__prob[u"SS"]
 
     def get_so_transitions(self):
+        """Get SO transitions.
+
+        :return: Ratio of transitions
+        :rtype: float
+        """
         return self.__prob[u"SO"]
 
     def get_sx_transitions(self):
+        """Get SX transitions.
+
+        :return: Ratio of transitions
+        :rtype: float
+        """
         return self.__prob[u"SX"]
 
     def get_sn_transitions(self):
+        """Get S- transitions.
+
+        :return: Ratio of transitions
+        :rtype: float
+        """
         return self.__prob[u"S-"]
 
     def get_os_transitions(self):
+        """Get OS transitions.
+
+        :return: Ratio of transitions
+        :rtype: float
+        """
         return self.__prob[u"OS"]
 
     def get_oo_transitions(self):
+        """Get OO transitions.
+
+        :return: Ratio of transitions
+        :rtype: float
+        """
         return self.__prob[u"OO"]
 
     def get_ox_transitions(self):
+        """Get OX transitions.
+
+        :return: Ratio of transitions
+        :rtype: float
+        """
         return self.__prob[u"OX"]
 
     def get_on_transitions(self):
+        """Get O- transitions.
+
+        :return: Ratio of transitions
+        :rtype: float
+        """
         return self.__prob[u"O-"]
 
     def get_xs_transitions(self):
+        """Get XS transitions.
+
+        :return: Ratio of transitions
+        :rtype: float
+        """
         return self.__prob[u"XS"]
 
     def get_xo_transitions(self):
+        """Get XO transitions.
+
+        :return: Ratio of transitions
+        :rtype: float
+        """
         return self.__prob[u"XO"]
 
     def get_xx_transitions(self):
+        """Get XX transitions.
+
+        :return: Ratio of transitions
+        :rtype: float
+        """
         return self.__prob[u"XX"]
 
     def get_xn_transitions(self):
+        """Get X- transitions.
+
+        :return: Ratio of transitions
+        :rtype: float
+        """
         return self.__prob[u"X-"]
 
     def get_ns_transitions(self):
+        """Get -S transitions.
+
+        :return: Ratio of transitions
+        :rtype: float
+        """
         return self.__prob[u"-S"]
 
     def get_no_transitions(self):
+        """Get -O transitions.
+
+        :return: Ratio of transitions
+        :rtype: float
+        """
         return self.__prob[u"-O"]
 
     def get_nx_transitions(self):
+        """Get -X transitions.
+
+        :return: Ratio of transitions
+        :rtype: float
+        """
         return self.__prob[u"-X"]
 
     def get_nn_transitions(self):
+        """Get -- transitions.
+
+        :return: Ratio of transitions
+        :rtype: float
+        """
         return self.__prob[u"--"]
 
     def get_egrid(self):
+        """Return obtained entity grid (for debugging purposes).
+
+        :return: entity grid represented as a dict
+        :rtype: dict
+        """
         return self.__grid
 
     def get_sentence_count(self):
+        """Return sentence count obtained while processing.
+
+        :return: Number of sentences
+        :rtype: int
+        """
         return self.__n_sent
 
 
 def weighting_syntactic_role(entity_role):
-    """
-    Weighting scheme for syntactic role of an entity. This uses the heuristic
-    from the paper, which is S = 3, O = 2, X = 1, - = 0
+    """Return weight given an entity grammatical role.
 
-        Input: entity_role (string, utf8)
-        Output: The value of the role. Int
+    Weighting scheme for syntactic role of an entity. This uses the heuristic
+    from :cite:`guinaudeau2013graph`, which is:
+
+    +-----------+--------+
+    | EGrid Tag | Weight |
+    +===========+========+
+    | S         | 3      |
+    +-----------+--------+
+    | O         | 2      |
+    +-----------+--------+
+    | X         | 1      |
+    +-----------+--------+
+    | dash      | 0      |
+    +-----------+--------+
+
+    :param entity_role: Entity grammatical role (S, O, X, -)
+    :type entity_role: string
+    :return: Role weight
+    :rtype: int
     """
     if entity_role == u"S":
         return 3
@@ -186,12 +325,22 @@ def weighting_syntactic_role(entity_role):
 
 
 def get_local_coherence(egrid):
-    """
-    Computes local coherence using Graph-Based local coherence
-    modeling
+    """Get local coherence from entity grid.
 
-        Input: EntityGrid
-        Output: A tuple with different local coherence scores
+    This method gets the coherence value using all the approaches described
+    in :cite:`guinaudeau2013graph`. This include:
+
+    * local_coherence_PU
+    * local_coherence_PW
+    * local_coherence_PACC
+    * local_coherence_PU_dist
+    * local_coherence_PW_dist
+    * local_coherence_PACC_dist
+
+    :param egrid: An EntityGrid object.
+    :type egrid: EntityGrid
+    :return: Local coherence based on different heuristics
+    :rtype: tuple of floats
     """
     n_sent = egrid.get_sentence_count()
 
