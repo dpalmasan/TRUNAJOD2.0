@@ -12,7 +12,6 @@
 import os
 import sys
 
-import sphinx_glpi_theme
 sys.path.insert(0, os.path.abspath('../src'))
 
 # -- Project information -----------------------------------------------------
@@ -90,6 +89,3 @@ html_static_path = ['_static']
 # 'searchbox.html']``.
 #
 # html_sidebars = {}
-
-html_theme = 'glpi'
-html_theme_path = sphinx_glpi_theme.get_html_themes_path()
