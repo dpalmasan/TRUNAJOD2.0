@@ -1,5 +1,4 @@
-TRUNAJOD: A text complexity library for text analysis built on spaCy
-====================================================================
+# TRUNAJOD: A text complexity library for text analysis built on spaCy
 
 ``TRUNAJOD`` is a Python library for text complexity analysis build on the 
 high-performance [spaCy](https://spacy.io/) library. With all the basic NLP capabilities provided by
@@ -9,8 +8,8 @@ Currently we only support Spanish.
 
 [![Build Status](https://travis-ci.com/dpalmasan/TRUNAJOD2.0.svg?branch=master)](https://travis-ci.com/dpalmasan/TRUNAJOD2.0) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/dpalmasan/TRUNAJOD2.0) ![PyPI](https://img.shields.io/pypi/v/TRUNAJOD)
 
-Features
-========
+## Features
+
 * Utilities for text processing such as lemmatization, POS checkings.
 * Semantic measurements from text such as average coherence between sentences and average synonym overlap.
 * Giveness measurements such as pronoun density and pronoun noun ratio.
@@ -25,8 +24,7 @@ Features
 * Entity Grid and entity graphs model implementation as a measure of coherence.
 * An easy to use and user-friendly API.
 
-Installation
-============
+## Installation
 
 To install the package:
 
@@ -34,10 +32,11 @@ To install the package:
 pip install TRUNAJOD
 ```
 
-Getting Started
-===============
+## Getting Started
 
 Using this package has some other pre-requisites. It assumes that you already have your model set up on spacy. If not, please first install or download a model (for Spanish users, a spanish model). Then you can get started with the following code snippet.
+
+You can download pre-build `TRUNAJOD` models from the repo, under the `models` directory.
 
 Below is a small snippet of code that can help you in getting started with this lib. Don´t forget to take a look at the [documentation](https://trunajod20.readthedocs.io/en/latest).
 
@@ -132,8 +131,7 @@ Entity grid:
 ```
 
 
-References
-==========
+## References
 
 If you find anything of this useful, feel free to cite the following papers, from which a lot of this python library was made for (I am also in the process of submitting this lib to an open software journal):
 
