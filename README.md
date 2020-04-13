@@ -6,7 +6,13 @@ spaCy (dependency parsing, POS tagging, tokenizing), ``TRUNAJOD`` focuses on ext
 measurements from texts that might be interesting for different applications and use cases.
 Currently we only support Spanish.
 
-[![Build Status](https://travis-ci.com/dpalmasan/TRUNAJOD2.0.svg?branch=master)](https://travis-ci.com/dpalmasan/TRUNAJOD2.0) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/dpalmasan/TRUNAJOD2.0) ![PyPI](https://img.shields.io/pypi/v/TRUNAJOD)
+<p align="center">
+<a href="https://travis-ci.com/dpalmasan/TRUNAJOD2.0"><img alt="Build Status" src="https://travis-ci.com/dpalmasan/TRUNAJOD2.0.svg?branch=master"></a>
+<a href="https://trunajod20.readthedocs.io/en/latest/?badge=latest"><img alt="Documentation Status" src="https://readthedocs.org/projects/trunajod20/badge/?version=latest"></a>
+<a href="https://github.com/dpalmasan/TRUNAJOD2.0/blob/master/LICENSE"><img alt="License: MIT" src="https://img.shields.io/github/license/dpalmasan/TRUNAJOD2.0"></a>
+<a href="https://pypi.org/project/TRUNAJOD/"><img alt="PyPI" src="https://img.shields.io/pypi/v/TRUNAJOD"></a>
+<a href="https://pepy.tech/project/trunajod"><img alt="Downloads" src="https://static.pepy.tech/badge/TRUNAJOD"></a>
+</p>
 
 ## Features
 
