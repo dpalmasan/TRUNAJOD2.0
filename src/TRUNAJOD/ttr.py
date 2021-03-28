@@ -10,6 +10,9 @@ lengths, as when the number of tokens increases, the TTR tends flatten.
 """
 from TRUNAJOD.utils import is_word
 
+# dev import
+# from src.TRUNAJOD.utils import is_word
+
 
 def type_token_ratio(word_list):
     """Return Type Token Ratio of a word list.
@@ -22,27 +25,33 @@ def type_token_ratio(word_list):
     return len(set(word_list)) / len(word_list)
 
 
-def lexical_diversity_mtld(doc, ttr_segment=0.72):
+def lexical_diversity_mtld(doc, model="spacy", ttr_segment=0.72):
     """Compute MTLD lexical diversity in a bi-directional fashion.
 
     :param doc: Processed text
-    :type doc: Spacy Doc
+    :type doc: NLP Doc
     :return: Bi-directional lexical diversity MTLD
     :rtype: float
     """
     word_list = []
-    for token in doc:
-        if is_word(token.pos_):
-            word_list.append(token.lemma_)
-    return (one_side_lexical_diversity_mtld(word_list, ttr_segment) +
-            one_side_lexical_diversity_mtld(word_list[::-1], ttr_segment)) / 2
+    if model == "spacy":
+        for token in doc:
+            if is_word(token.pos_):
+                word_list.append(token.lemma_)
+    elif model == "stanza":
+        for sent in doc.sentences:
+            for word in sent.words:
+                if is_word(word.upos):
+                    word_list.append(word.lemma)
+    return (one_side_lexical_diversity_mtld(word_list, model, ttr_segment) +
+            one_side_lexical_diversity_mtld(word_list[::-1], model, ttr_segment)) / 2
 
 
-def one_side_lexical_diversity_mtld(doc, ttr_segment=0.72):
+def one_side_lexical_diversity_mtld(doc, model="spacy", ttr_segment=0.72):
     """Lexical diversity per MTLD.
 
     :param doc: Tokenized text
-    :type doc: Spacy Doc
+    :type doc: NLP Doc
     :param ttr_segment: Threshold for TTR mean computation
     :type ttr_segment: float
     :return: MLTD lexical diversity
@@ -52,13 +61,25 @@ def one_side_lexical_diversity_mtld(doc, ttr_segment=0.72):
     total_words = 0
     non_ttr_segment = 1 - ttr_segment
     word_list = []
-    for token in doc:
-        word_list.append(token.lower())
-        total_words += 1
-        ttr = type_token_ratio(word_list)
-        if ttr < ttr_segment:
-            word_list = []
-            factor += 1
+
+    if model == "spacy" or type(doc) == list:
+        for token in doc:
+            word_list.append(token.lower())
+            total_words += 1
+            ttr = type_token_ratio(word_list)
+            if ttr < ttr_segment:
+                word_list = []
+                factor += 1
+    elif model == "stanza":
+        if type(doc) != list:
+            for sent in doc.sentences:
+                for word in sent.words:
+                    word_list.append(word.text.lower())
+                    total_words += 1
+                    ttr = type_token_ratio(word_list)
+                    if ttr < ttr_segment:
+                        word_list = []
+                        factor += 1
 
     if word_list:
         factor += 1 - (
