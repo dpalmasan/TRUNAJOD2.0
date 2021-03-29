@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 """Utility functions for TRUNAJOD library."""
+from enum import Enum
 
+
+class SupportedModels(str, Enum):
+    SPACY = "spacy"
+    STANZA = "stanza"
 
 def flatten(list_of_lists):
     """Flatten a list of list.

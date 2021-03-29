@@ -18,6 +18,7 @@ It is also worth noting, that we consider an entity grid of two-sentence
 sequence and the API currently does not provide any hyper-parameter tunning to
 change this.
 """
+from TRUNAJOD.utils import SupportedModels
 
 UNIVERSAL_NOUN_TAGS = set([u'NOUN', u'PRON', u'PROPN'])
 
@@ -63,7 +64,7 @@ class EntityGrid(object):
     module. It only supports 2-transitions entity grid.
     """
 
-    def __init__(self, doc, model="spacy"):
+    def __init__(self, doc, model_name="spacy"):
         """Construct EntityGrid object."""
         # Initialization
         entity_map = dict()
@@ -88,11 +89,13 @@ class EntityGrid(object):
             u'-X': 0,
             u'--': 0
         }
+        # check model
+        model = SupportedModels(model_name)
 
         # Get number of sentences in the text
-        if model == "spacy":
+        if model == SupportedModels.SPACY:
             n_sent = len(list(doc.sents))
-        elif model == "stanza":
+        elif model == SupportedModels.STANZA:
             n_sent = len(list(doc.sentences))
 
         # To get coherence measurements we need at least 2 sentences
@@ -102,7 +105,7 @@ class EntityGrid(object):
                 .format(n_sent))
 
         # For each sentence, get dependencies and its grammatical role
-        if model == "spacy":
+        if model == SupportedModels.SPACY:
             for sent in doc.sents:
                 for token in sent:
                     if token.pos_ in UNIVERSAL_NOUN_TAGS:
@@ -112,7 +115,7 @@ class EntityGrid(object):
                             entity_grid[token.text.upper()] = [u'-'] * n_sent
                 i += 1
                 entity_map['s%d' % i] = []
-        elif model == "stanza":
+        elif model == SupportedModels.STANZA:
             for sent in doc.sentences:
                 for word in sent.words:
                     if word.upos in UNIVERSAL_NOUN_TAGS:

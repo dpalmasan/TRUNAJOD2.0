@@ -1,5 +1,5 @@
-from src.TRUNAJOD.entity_grid import EntityGrid
-from src.TRUNAJOD.ttr import lexical_diversity_mtld, one_side_lexical_diversity_mtld
+from TRUNAJOD.entity_grid import EntityGrid
+from TRUNAJOD.ttr import lexical_diversity_mtld, one_side_lexical_diversity_mtld
 import spacy
 import stanza
 """
@@ -29,12 +29,12 @@ doc_s = nlp_s(example_text)
 # TTR Check - change TTR import to test
 print("spacy result: ", lexical_diversity_mtld(doc))
 # or
-# print("spacy result: ", lexical_diversity_mtld(doc, model="spacy"))
-print("stanza result: ", lexical_diversity_mtld(doc_s, model="stanza"))
+# print("spacy result: ", lexical_diversity_mtld(doc, model_name="spacy"))
+print("stanza result: ", lexical_diversity_mtld(doc_s, model_name="stanza"))
 
 # Entity Grid Check
 egrid = EntityGrid(doc)
-egrid_s = EntityGrid(doc_s, model="stanza")
+egrid_s = EntityGrid(doc_s, model_name="stanza")
 
 print("spacy Entity grid:")
 print(egrid.get_egrid())
