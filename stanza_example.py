@@ -1,15 +1,15 @@
-from TRUNAJOD.entity_grid import EntityGrid
-from TRUNAJOD.ttr import lexical_diversity_mtld, one_side_lexical_diversity_mtld
+"""Example of using stanza model."""
 import spacy
 import stanza
-"""
-MUST CHANGE TTR IMPORT TO WORK
-"""
+from TRUNAJOD.entity_grid import EntityGrid
+from TRUNAJOD.ttr import lexical_diversity_mtld
+from TRUNAJOD.ttr import one_side_lexical_diversity_mtld
+
 # Load spaCy model
 nlp = spacy.load("es_core_news_sm")
 
 # Load stanza model
-nlp_s = stanza.Pipeline('es', use_gpu=False)
+nlp_s = stanza.Pipeline("es", use_gpu=False)
 
 # Example
 example_text = (

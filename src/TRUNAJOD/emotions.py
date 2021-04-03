@@ -55,15 +55,15 @@ class Emotions(object):
 
             if word in SPANISH_EMOTION_LEXICON:
                 pfa, emotion = SPANISH_EMOTION_LEXICON[word]
-                if emotion == 'Alegría':
+                if emotion == "Alegría":
                     alegria += pfa
-                elif emotion == 'Enojo':
+                elif emotion == "Enojo":
                     enojo += pfa
-                elif emotion == 'Miedo':
+                elif emotion == "Miedo":
                     miedo += pfa
-                elif emotion == 'Repulsión':
+                elif emotion == "Repulsión":
                     repulsion += pfa
-                elif emotion == 'Sorpresa':
+                elif emotion == "Sorpresa":
                     sorpresa += pfa
                 else:
                     tristeza += pfa
@@ -71,15 +71,15 @@ class Emotions(object):
             elif word_lemma in SPANISH_EMOTION_LEXICON:
                 word = word_lemma
                 pfa, emotion = SPANISH_EMOTION_LEXICON[word]
-                if emotion == 'Alegría':
+                if emotion == "Alegría":
                     alegria += pfa
-                elif emotion == 'Enojo':
+                elif emotion == "Enojo":
                     enojo += pfa
-                elif emotion == 'Miedo':
+                elif emotion == "Miedo":
                     miedo += pfa
-                elif emotion == 'Repulsión':
+                elif emotion == "Repulsión":
                     repulsion += pfa
-                elif emotion == 'Sorpresa':
+                elif emotion == "Sorpresa":
                     sorpresa += pfa
                 else:
                     tristeza += pfa

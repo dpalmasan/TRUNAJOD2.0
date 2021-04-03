@@ -8,7 +8,8 @@ the text this measurement is 1, and if there is infinite repetition, it will
 tend to 0. This measurement is not recommended if analyzing texts of different
 lengths, as when the number of tokens increases, the TTR tends flatten.
 """
-from TRUNAJOD.utils import SupportedModels,is_word
+from TRUNAJOD.utils import is_word
+from TRUNAJOD.utils import SupportedModels
 
 # dev import
 # from src.TRUNAJOD.utils import is_word
@@ -46,8 +47,10 @@ def lexical_diversity_mtld(doc, model_name="spacy", ttr_segment=0.72):
             for word in sent.words:
                 if is_word(word.upos):
                     word_list.append(word.lemma)
-    return (one_side_lexical_diversity_mtld(word_list, model, ttr_segment) +
-            one_side_lexical_diversity_mtld(word_list[::-1], model, ttr_segment)) / 2
+    return (
+        one_side_lexical_diversity_mtld(word_list, model, ttr_segment)
+        + one_side_lexical_diversity_mtld(word_list[::-1], model, ttr_segment)
+    ) / 2
 
 
 def one_side_lexical_diversity_mtld(doc, model_name="spacy", ttr_segment=0.72):
@@ -88,7 +91,8 @@ def one_side_lexical_diversity_mtld(doc, model_name="spacy", ttr_segment=0.72):
                         factor += 1
 
     if word_list:
-        factor += 1 - (
-            type_token_ratio(word_list) - ttr_segment) / non_ttr_segment
+        factor += (
+            1 - (type_token_ratio(word_list) - ttr_segment) / non_ttr_segment
+        )
         total_words += 1
     return total_words / factor

@@ -10,7 +10,7 @@ from TRUNAJOD.utils import is_pronoun
 from TRUNAJOD.utils import is_word
 
 # Based on SPACY docs
-THIRD_PERSON_LABEL = 'Person=3'
+THIRD_PERSON_LABEL = "Person=3"
 
 
 def pronoun_density(doc):

@@ -6,24 +6,27 @@ from TRUNAJOD import semantic_measures
 def test_get_synsets():
     """Test get syn sets method."""
     synset = {
-        'dummy1': {'dummy2', 'dummy3'},
+        "dummy1": {"dummy2", "dummy3"},
     }
-    assert semantic_measures.get_synsets('dummy1', synset) \
-        == {'dummy2', 'dummy3'}
+    assert semantic_measures.get_synsets("dummy1", synset) == {
+        "dummy2",
+        "dummy3",
+    }
 
-    assert semantic_measures.get_synsets('placeholder', synset) \
-        == {'placeholder'}
+    assert semantic_measures.get_synsets("placeholder", synset) == {
+        "placeholder"
+    }
 
 
 def test_overlap():
     """Test get overlap method."""
     synset = {
-        'dummy1': {'dummy2', 'dummy3'},
-        'dummyx': {'dummy1'},
+        "dummy1": {"dummy2", "dummy3"},
+        "dummyx": {"dummy1"},
     }
     sentences = [
-        ['dummy1', 'dummy4'],
-        ['dummyx'],
+        ["dummy1", "dummy4"],
+        ["dummyx"],
     ]
     assert semantic_measures.overlap(sentences, synset) == 1.0
 

@@ -43,13 +43,29 @@ The following rules are applied:
 +----------------+------------------------------------------------------------+
 """
 
-STRONG_VOWELS = {'a', 'á', 'e', 'é', 'o', 'ó', 'í', 'ú'}
-WEAK_VOWELS = {'i', 'u'}
-RULES = [('VV', 1), ('cccc', 2), ('xcc', 1), ('ccx', 2), ('csc', 2), ('xc', 1),
-         ('cc', 1), ('vcc', 2), ('Vcc', 2), ('sc', 1), ('cs', 1), ('Vc', 1),
-         ('vc', 1), ('Vs', 1), ('vs', 1), ('vxv', 1), ('VxV', 1), ('vxV',
-                                                                   1), ('Vxv',
-                                                                        1)]
+STRONG_VOWELS = {"a", "á", "e", "é", "o", "ó", "í", "ú"}
+WEAK_VOWELS = {"i", "u"}
+RULES = [
+    ("VV", 1),
+    ("cccc", 2),
+    ("xcc", 1),
+    ("ccx", 2),
+    ("csc", 2),
+    ("xc", 1),
+    ("cc", 1),
+    ("vcc", 2),
+    ("Vcc", 2),
+    ("sc", 1),
+    ("cs", 1),
+    ("Vc", 1),
+    ("vc", 1),
+    ("Vs", 1),
+    ("vs", 1),
+    ("vxv", 1),
+    ("VxV", 1),
+    ("vxV", 1),
+    ("Vxv", 1),
+]
 
 
 class CharLine(object):
@@ -70,7 +86,7 @@ class CharLine(object):
         """
         self.word = word
         charline = [(char, self.char_type(char)) for char in word]
-        self.type_line = ''.join(chartype for _, chartype in charline)
+        self.type_line = "".join(chartype for _, chartype in charline)
 
     @staticmethod
     def char_type(char):
@@ -89,9 +105,9 @@ class CharLine(object):
         :rtype: string
         """
         if char in STRONG_VOWELS:
-            return 'V'
+            return "V"
         if char in WEAK_VOWELS:
-            return 'v'
+            return "v"
 
         # c stands for consonant
         return char if char in {"x", "s"} else "c"
@@ -116,8 +132,10 @@ class CharLine(object):
         :return: Tuple with two charlines split
         :rtype: Tuple (CharLine, CharLine)
         """
-        return (CharLine(self.word[0:pos + where]),
-                CharLine(self.word[pos + where:]))
+        return (
+            CharLine(self.word[0 : pos + where]),
+            CharLine(self.word[pos + where :]),
+        )
 
     def split_by(self, finder, where):
         """Split charline by `finder` occurrence on `type_char`.
@@ -141,7 +159,7 @@ class CharLine(object):
         :return: <word:char_types>
         :rtype: string
         """
-        return '<' + self.word + ':' + self.type_line + '>'
+        return "<" + self.word + ":" + self.type_line + ">"
 
     def __repr__(self):
         """Implement representation of a CharLine object.
@@ -149,7 +167,7 @@ class CharLine(object):
         :return: <word:char_types>
         :rtype: string
         """
-        return '<' + repr(self.word) + ':' + self.type_line + '>'
+        return "<" + repr(self.word) + ":" + self.type_line + ">"
 
     def __eq__(self, other):
         """Equal operator implementation.
@@ -181,16 +199,24 @@ class Syllabizer(object):
         for split_rule, where in RULES:
             first, second = chars.split_by(split_rule, where)
             if second:
-                if (first.type_line in {'c', 's', 'x', 'cs'}
-                        or second.type_line in {'c', 's', 'x', 'cs'}):
+                if (
+                    first.type_line
+                    in {
+                        "c",
+                        "s",
+                        "x",
+                        "cs",
+                    }
+                    or second.type_line in {"c", "s", "x", "cs"}
+                ):
                     continue
-                if first.type_line[-1] == 'c' and second.word[0] in {'l', 'r'}:
+                if first.type_line[-1] == "c" and second.word[0] in {"l", "r"}:
                     continue
-                if first.word[-1] == 'l' and second.word[-1] == 'l':
+                if first.word[-1] == "l" and second.word[-1] == "l":
                     continue
-                if first.word[-1] == 'r' and second.word[-1] == 'r':
+                if first.word[-1] == "r" and second.word[-1] == "r":
                     continue
-                if first.word[-1] == 'c' and second.word[-1] == 'h':
+                if first.word[-1] == "c" and second.word[-1] == "h":
                     continue
                 return Syllabizer.split(first) + Syllabizer.split(second)
         return [chars]

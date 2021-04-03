@@ -20,11 +20,25 @@ change this.
 """
 from TRUNAJOD.utils import SupportedModels
 
-UNIVERSAL_NOUN_TAGS = set([u'NOUN', u'PRON', u'PROPN'])
+UNIVERSAL_NOUN_TAGS = set([u"NOUN", u"PRON", u"PROPN"])
 
 ordered_transitions = [
-    u'SS', u'SO', u'SX', u'S-', u'OS', u'OO', u'OX', u'O-', u'XS', u'XO',
-    u'XX', u'X-', u'-S', u'-O', u'-X', u'--'
+    u"SS",
+    u"SO",
+    u"SX",
+    u"S-",
+    u"OS",
+    u"OO",
+    u"OX",
+    u"O-",
+    u"XS",
+    u"XO",
+    u"XX",
+    u"X-",
+    u"-S",
+    u"-O",
+    u"-X",
+    u"--",
 ]
 
 
@@ -48,12 +62,12 @@ def dependency_mapping(dep):
     :return: EGrid tag
     :rtype: string
     """
-    if dep in {u'nsubj', u'csubj', u'csubjpass', u'dsubjpass'}:
-        return u'S'
-    if dep in {u'iobj', u'obj', u'pobj', u'dobj'}:
-        return u'O'
+    if dep in {u"nsubj", u"csubj", u"csubjpass", u"dsubjpass"}:
+        return u"S"
+    if dep in {u"iobj", u"obj", u"pobj", u"dobj"}:
+        return u"O"
 
-    return 'X'
+    return "X"
 
 
 class EntityGrid(object):
@@ -70,24 +84,24 @@ class EntityGrid(object):
         entity_map = dict()
         entity_grid = dict()
         i = 1
-        entity_map['s%d' % i] = []
+        entity_map["s%d" % i] = []
         entity_features = {
-            u'SS': 0,
-            u'SO': 0,
-            u'SX': 0,
-            u'S-': 0,
-            u'OS': 0,
-            u'OO': 0,
-            u'OX': 0,
-            u'O-': 0,
-            u'XS': 0,
-            u'XO': 0,
-            u'XX': 0,
-            u'X-': 0,
-            u'-S': 0,
-            u'-O': 0,
-            u'-X': 0,
-            u'--': 0
+            u"SS": 0,
+            u"SO": 0,
+            u"SX": 0,
+            u"S-": 0,
+            u"OS": 0,
+            u"OO": 0,
+            u"OX": 0,
+            u"O-": 0,
+            u"XS": 0,
+            u"XO": 0,
+            u"XX": 0,
+            u"X-": 0,
+            u"-S": 0,
+            u"-O": 0,
+            u"-X": 0,
+            u"--": 0,
         }
         # check model
         model = SupportedModels(model_name)
@@ -101,44 +115,50 @@ class EntityGrid(object):
         # To get coherence measurements we need at least 2 sentences
         if n_sent < 2:
             raise RuntimeError(
-                "Entity grid needs at least two sentences, found: {}"
-                .format(n_sent))
+                "Entity grid needs at least two sentences, found: {}".format(
+                    n_sent
+                )
+            )
 
         # For each sentence, get dependencies and its grammatical role
         if model == SupportedModels.SPACY:
             for sent in doc.sents:
                 for token in sent:
                     if token.pos_ in UNIVERSAL_NOUN_TAGS:
-                        entity_map['s%d' % i].append((token.text.upper(),
-                                                    token.dep_))
+                        entity_map["s%d" % i].append(
+                            (token.text.upper(), token.dep_)
+                        )
                         if token.text.upper() not in entity_grid:
-                            entity_grid[token.text.upper()] = [u'-'] * n_sent
+                            entity_grid[token.text.upper()] = [u"-"] * n_sent
                 i += 1
-                entity_map['s%d' % i] = []
+                entity_map["s%d" % i] = []
         elif model == SupportedModels.STANZA:
             for sent in doc.sentences:
                 for word in sent.words:
                     if word.upos in UNIVERSAL_NOUN_TAGS:
-                        entity_map['s%d' % i].append((word.text.upper(),
-                                                    word.deprel))
+                        entity_map["s%d" % i].append(
+                            (word.text.upper(), word.deprel)
+                        )
                         if word.text.upper() not in entity_grid:
-                            entity_grid[word.text.upper()] = ['-'] * n_sent
+                            entity_grid[word.text.upper()] = ["-"] * n_sent
                 i += 1
-                entity_map['s%d' % i] = []
+                entity_map["s%d" % i] = []
 
         # Last iteration will create an extra element, so I remove it.
-        entity_map.pop('s%d' % i)
+        entity_map.pop("s%d" % i)
 
         # Fill entity grid
         for i in range(n_sent):
             sentence = "s%d" % (i + 1)
             for entity, dep in entity_map[sentence]:
-                if entity_grid[entity][i] == u'-':
+                if entity_grid[entity][i] == u"-":
                     entity_grid[entity][i] = dependency_mapping(dep)
-                elif dependency_mapping(dep) == u'S':
+                elif dependency_mapping(dep) == u"S":
                     entity_grid[entity][i] = dependency_mapping(dep)
-                elif (dependency_mapping(dep) == u'O'
-                      and entity_grid[entity][i] == u'X'):
+                elif (
+                    dependency_mapping(dep) == u"O"
+                    and entity_grid[entity][i] == u"X"
+                ):
                     entity_grid[entity][i] = dependency_mapping(dep)
 
         # Compute feature vector, we consider transitions of length 2
@@ -148,7 +168,8 @@ class EntityGrid(object):
             for i in range(n_sent - 1):
                 # Transition type found (e.g. S-)
                 transition = (
-                    entity_grid[entity][i] + entity_grid[entity][i + 1])
+                    entity_grid[entity][i] + entity_grid[entity][i + 1]
+                )
 
                 # Adding 1 to transition count
                 entity_features[transition] += 1
@@ -377,8 +398,9 @@ def get_local_coherence(egrid):
             for j in range(i + 1, n_sent):
                 if grid[entity][i] != u"-" and grid[entity][j] != u"-":
                     PW[i][j] += 1
-                    W[i][j] += (weighting_syntactic_role(grid[entity][i]) *
-                                weighting_syntactic_role(grid[entity][j]))
+                    W[i][j] += weighting_syntactic_role(
+                        grid[entity][i]
+                    ) * weighting_syntactic_role(grid[entity][j])
 
     PU = [list(map(lambda x: x != 0, PWi)) for PWi in PW]
 
@@ -415,6 +437,11 @@ def get_local_coherence(egrid):
     local_coherence_PW_dist /= n_sent
     local_coherence_PU_dist /= n_sent
     local_coherence_PACC_dist /= n_sent
-    return (local_coherence_PU, local_coherence_PW, local_coherence_PACC,
-            local_coherence_PU_dist, local_coherence_PW_dist,
-            local_coherence_PACC_dist)
+    return (
+        local_coherence_PU,
+        local_coherence_PW,
+        local_coherence_PACC,
+        local_coherence_PU_dist,
+        local_coherence_PW_dist,
+        local_coherence_PACC_dist,
+    )

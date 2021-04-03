@@ -9,7 +9,7 @@ doc = [
     Token("perro", "NOUN", "perro", "perro"),
     Token("es", "", "es", "es"),
     Token("extraordinario", "ADJ", "extraordinario", "extraordinario"),
-    Token(".", "PUNCT", ".", ".")
+    Token(".", "PUNCT", ".", "."),
 ]
 
 

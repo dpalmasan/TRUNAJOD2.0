@@ -34,8 +34,10 @@ def lexical_diversity_mtld(doc, ttr_segment=0.72):
     for token in doc:
         if is_word(token.pos_):
             word_list.append(token.lemma_)
-    return (one_side_lexical_diversity_mtld(word_list, ttr_segment) +
-            one_side_lexical_diversity_mtld(word_list[::-1], ttr_segment)) / 2
+    return (
+        one_side_lexical_diversity_mtld(word_list, ttr_segment)
+        + one_side_lexical_diversity_mtld(word_list[::-1], ttr_segment)
+    ) / 2
 
 
 def one_side_lexical_diversity_mtld(doc, ttr_segment=0.72):
@@ -61,8 +63,9 @@ def one_side_lexical_diversity_mtld(doc, ttr_segment=0.72):
             factor += 1
 
     if word_list:
-        factor += 1 - (
-            type_token_ratio(word_list) - ttr_segment) / non_ttr_segment
+        factor += (
+            1 - (type_token_ratio(word_list) - ttr_segment) / non_ttr_segment
+        )
         total_words += 1
 
     return total_words / factor

@@ -24,7 +24,8 @@ def avg_w2v_semantic_similarity(docs, N):
     """
     if N <= 1:  # pragma: no cover
         raise RuntimeError(
-            "N of sentences should be > 1, {} was provided".format(N))
+            "N of sentences should be > 1, {} was provided".format(N)
+        )
 
     avg_sim = 0
     prev_doc = next(docs)
@@ -78,8 +79,10 @@ def overlap(lemma_list_group, synset_dict):
     """
     if len(lemma_list_group) < 2:  # pragma: no cover
         raise RuntimeError(
-            "At least two sentences should be provided, you provided {}"
-            .format(lemma_list_group))
+            "At least two sentences should be provided, you provided {}".format(
+                lemma_list_group
+            )
+        )
 
     N = len(lemma_list_group)
 

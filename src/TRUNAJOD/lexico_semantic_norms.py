@@ -57,27 +57,35 @@ class LexicoSemanticNorm(object):
             if word in lexico_semantic_norm_dict:
                 valence += lexico_semantic_norm_dict[word].get("valence")
                 arousal += lexico_semantic_norm_dict[word].get("arousal")
-                concreteness += (
-                    lexico_semantic_norm_dict[word].get("concreteness"))
-                imageability += (
-                    lexico_semantic_norm_dict[word].get("imageability"))
-                context_availability += (lexico_semantic_norm_dict[word].get(
-                    "context_availability"))
-                familiarity += (
-                    lexico_semantic_norm_dict[word].get("familiarity"))
+                concreteness += lexico_semantic_norm_dict[word].get(
+                    "concreteness"
+                )
+                imageability += lexico_semantic_norm_dict[word].get(
+                    "imageability"
+                )
+                context_availability += lexico_semantic_norm_dict[word].get(
+                    "context_availability"
+                )
+                familiarity += lexico_semantic_norm_dict[word].get(
+                    "familiarity"
+                )
                 count += 1
             elif word_lemma in lexico_semantic_norm_dict:
                 word = word_lemma
                 valence += lexico_semantic_norm_dict[word].get("valence")
                 arousal += lexico_semantic_norm_dict[word].get("arousal")
-                concreteness += (
-                    lexico_semantic_norm_dict[word].get("concreteness"))
-                imageability += (
-                    lexico_semantic_norm_dict[word].get("imageability"))
-                context_availability += (lexico_semantic_norm_dict[word].get(
-                    "context_availability"))
-                familiarity += (
-                    lexico_semantic_norm_dict[word].get("familiarity"))
+                concreteness += lexico_semantic_norm_dict[word].get(
+                    "concreteness"
+                )
+                imageability += lexico_semantic_norm_dict[word].get(
+                    "imageability"
+                )
+                context_availability += lexico_semantic_norm_dict[word].get(
+                    "context_availability"
+                )
+                familiarity += lexico_semantic_norm_dict[word].get(
+                    "familiarity"
+                )
                 count += 1.0
 
         self.__valence = valence
@@ -163,11 +171,12 @@ def get_conc_imag_familiarity(doc):
     lsnorm_total = [0, 0, 0]
 
     for token in doc:
-        if (token.pos_ == "NOUN"):
+        if token.pos_ == "NOUN":
             lemma = token.lemma_
             if lemma in LEXICOSEMANTIC_ESPAL:
-                concreteness, imageability, familiarity =\
-                    LEXICOSEMANTIC_ESPAL[lemma.lower()]
+                concreteness, imageability, familiarity = LEXICOSEMANTIC_ESPAL[
+                    lemma.lower()
+                ]
                 n_found_tokens = [x + 1 for x in n_found_tokens]
                 lsnorm_total[LSNorm.CONCRETENESS] += concreteness
                 lsnorm_total[LSNorm.IMAGEABILITY] += imageability

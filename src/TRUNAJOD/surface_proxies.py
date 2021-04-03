@@ -18,14 +18,23 @@ from TRUNAJOD.verb_types import GERUND_VERBS
 from TRUNAJOD.verb_types import INFINITIVE_VERBS
 from TRUNAJOD.verb_types import PAST_TENSE_VERBS
 
-PERIPHRASIS_GER = 'VerbForm=Ger'
-PERIPHRASIS_INF = 'VerbForm=Inf'
-PERIPHRASIS_PAR = 'VerbForm=Part'
+PERIPHRASIS_GER = "VerbForm=Ger"
+PERIPHRASIS_INF = "VerbForm=Inf"
+PERIPHRASIS_PAR = "VerbForm=Part"
 PERIPHRASIS_SUF = "|Perif"
 
 NEGATION_WORDS = {
-    "no", "ni", "nunca", "jamás", "jamás", "tampoco", "nadie", "nada",
-    "ningún", "ninguno", "ninguna"
+    "no",
+    "ni",
+    "nunca",
+    "jamás",
+    "jamás",
+    "tampoco",
+    "nadie",
+    "nada",
+    "ningún",
+    "ninguno",
+    "ninguna",
 }
 
 
@@ -64,7 +73,7 @@ def add_periphrasis(doc, periphrasis_type, periphrasis_list):
                     # For multi-word periphrases
                     periphrasis_words = periphrasis.split()
                     pos = token.i - len(periphrasis_words)
-                    if (pos >= 0):
+                    if pos >= 0:
                         fail = False
                         for word in periphrasis_words:
                             if word.lower() != doc[pos].lemma_:
@@ -133,10 +142,13 @@ def char_count(doc):
     :return: Char count
     :rtype: int
     """
-    return sum([
-        len(token.lower_) for token in doc
-        if token.pos_ not in {"PUNCT", "SPACE"}
-    ])
+    return sum(
+        [
+            len(token.lower_)
+            for token in doc
+            if token.pos_ not in {"PUNCT", "SPACE"}
+        ]
+    )
 
 
 @_fix_doc
@@ -155,7 +167,7 @@ def clause_count(doc, infinitive_map):
     :rtype: int
     """
     n_clauses = 0
-    regexp = re.compile('VerbForm=Fin')
+    regexp = re.compile("VerbForm=Fin")
     regexp_perif = re.compile("Perif")
     for token in doc:
         verb_or_aux = token.pos_ in {"VERB", "AUX"}
@@ -173,7 +185,7 @@ def first_second_person_count(doc):
     :return: First and second person count
     :rtype: int
     """
-    criteria = re.compile('Person=1|Person=2')
+    criteria = re.compile("Person=1|Person=2")
     return sum([1 for token in doc if criteria.search(token.tag_)])
 
 
@@ -316,10 +328,14 @@ def connection_words_ratio(doc):
     :return: Connection word ratio
     :rtype: float
     """
-    return sum([
-        1 for token in doc if token.lemma_.lower() in {"y", "o", "no", "si"}
-        and is_word(token.pos_)
-    ]) / word_count(doc)
+    return sum(
+        [
+            1
+            for token in doc
+            if token.lemma_.lower() in {"y", "o", "no", "si"}
+            and is_word(token.pos_)
+        ]
+    ) / word_count(doc)
 
 
 def negation_density(doc):
@@ -371,14 +387,15 @@ def node_similarity(node1, node2, is_central_node=False):
 
     for child1 in node1.children:
         for child2 in node2.children:
-            child_not_seen = child1 not in common_childs_node1\
+            child_not_seen = (
+                child1 not in common_childs_node1
                 and child2 not in common_childs_node2
+            )
             if child1.pos_ == child2.pos_ and child_not_seen:
                 similarity += 1
                 common_childs_node1.add(child1)
                 common_childs_node2.add(child2)
-                similarity +=\
-                    node_similarity(child1, child2, False)
+                similarity += node_similarity(child1, child2, False)
 
     return similarity
 
@@ -456,8 +473,9 @@ def pos_dissimilarity(doc):
 
     disimilarity = 0
     for i in range(len(sent_pos_dist) - 1):
-        common_adj_tags = set(sent_pos_dist[i].keys())\
-            | set(sent_pos_dist[i + 1].keys())
+        common_adj_tags = set(sent_pos_dist[i].keys()) | set(
+            sent_pos_dist[i + 1].keys()
+        )
         difference = 0
         totals = 0
         for pos in common_adj_tags:
@@ -537,10 +555,13 @@ def syllable_count(doc):
     :return: Number of syllables in the text
     :rtype: int
     """
-    return sum([
-        Syllabizer.number_of_syllables(token.lower_) for token in doc
-        if token.pos_ != "PUNCT"
-    ])
+    return sum(
+        [
+            Syllabizer.number_of_syllables(token.lower_)
+            for token in doc
+            if token.pos_ != "PUNCT"
+        ]
+    )
 
 
 def syntactic_similarity(doc):
@@ -562,8 +583,9 @@ def syntactic_similarity(doc):
         n_sentences += 1
         if prev_sent is not None:
             common_nodes = node_similarity(sent.root, prev_sent.root, True)
-            aggregate_similarity += common_nodes\
-                / (len(sent) + len(prev_sent) - common_nodes)
+            aggregate_similarity += common_nodes / (
+                len(sent) + len(prev_sent) - common_nodes
+            )
         prev_sent = sent
     return aggregate_similarity / (n_sentences - 1)
 
@@ -605,7 +627,7 @@ def verb_noun_ratio(doc):
     :return: Verb Noun ratio
     :rtype: float
     """
-    return pos_ratio(doc, 'VERB|AUX') / pos_ratio(doc, 'NOUN|PROPN')
+    return pos_ratio(doc, "VERB|AUX") / pos_ratio(doc, "NOUN|PROPN")
 
 
 def words_before_root(doc, max_depth=4):

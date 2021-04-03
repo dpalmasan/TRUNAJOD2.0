@@ -16,7 +16,7 @@ def _init_lexical_dict(value):
         "concreteness": value,
         "imageability": value,
         "context_availability": value,
-        "familiarity": value
+        "familiarity": value,
     }
 
 
@@ -28,7 +28,7 @@ def test_lexico_semantic_norm():
         "atroza": "atroz",
         "cocolíaa": "cocolía",
         "admirablea": "admirable",
-        "almaa": "alma"
+        "almaa": "alma",
     }
 
     lexico_semantic_norms = {
@@ -40,14 +40,17 @@ def test_lexico_semantic_norm():
         "alma": _init_lexical_dict(6),
     }
 
-    lexico_semantic_norms_calc = LexicoSemanticNorm([
-        Token("Abundancia", ""),
-        Token("abominación", ""),
-        Token("atroz", ""),
-        Token("cocolía", ""),
-        Token("admirable", ""),
-        Token("alma", "")
-    ], lexico_semantic_norms)
+    lexico_semantic_norms_calc = LexicoSemanticNorm(
+        [
+            Token("Abundancia", ""),
+            Token("abominación", ""),
+            Token("atroz", ""),
+            Token("cocolía", ""),
+            Token("admirable", ""),
+            Token("alma", ""),
+        ],
+        lexico_semantic_norms,
+    )
 
     assert lexico_semantic_norms_calc.get_arousal() == 21 / 6.0
     assert lexico_semantic_norms_calc.get_concreteness() == 21 / 6.0
@@ -56,14 +59,18 @@ def test_lexico_semantic_norm():
     assert lexico_semantic_norms_calc.get_imageability() == 21 / 6.0
     assert lexico_semantic_norms_calc.get_valence() == 21 / 6.0
 
-    lexico_semantic_norms_calc = LexicoSemanticNorm([
-        Token("Abundanciaa", "abundancia"),
-        Token("abominacióna", "abominacion"),
-        Token("atroza", "atroz"),
-        Token("cocolíaa", ""),
-        Token("admirablea", ""),
-        Token("almaa", "")
-    ], lexico_semantic_norms, lemmatizer)
+    lexico_semantic_norms_calc = LexicoSemanticNorm(
+        [
+            Token("Abundanciaa", "abundancia"),
+            Token("abominacióna", "abominacion"),
+            Token("atroza", "atroz"),
+            Token("cocolíaa", ""),
+            Token("admirablea", ""),
+            Token("almaa", ""),
+        ],
+        lexico_semantic_norms,
+        lemmatizer,
+    )
 
     assert lexico_semantic_norms_calc.get_arousal() == 21 / 6.0
     assert lexico_semantic_norms_calc.get_concreteness() == 21 / 6.0
@@ -73,8 +80,10 @@ def test_lexico_semantic_norm():
     assert lexico_semantic_norms_calc.get_valence() == 21 / 6.0
 
 
-@mock.patch("TRUNAJOD.lexico_semantic_norms.LEXICOSEMANTIC_ESPAL",
-            {"abundancia": [1, 2, 3]})
+@mock.patch(
+    "TRUNAJOD.lexico_semantic_norms.LEXICOSEMANTIC_ESPAL",
+    {"abundancia": [1, 2, 3]},
+)
 def test_get_conc_imag_familiarity():
     """Test get_conc_imag_familiarity."""
     Token = namedtuple("Token", "text lemma_ pos_")
@@ -84,7 +93,7 @@ def test_get_conc_imag_familiarity():
         Token("atroza", "atroz", "NOUN"),
         Token("cocolíaa", "", "NOUN"),
         Token("admirablea", "", "NOUN"),
-        Token("almaa", "", "NOUN")
+        Token("almaa", "", "NOUN"),
     ]
     result = get_conc_imag_familiarity(doc)
     assert tuple(result) == (1, 2, 3)

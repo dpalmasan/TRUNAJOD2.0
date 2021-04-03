@@ -4,8 +4,11 @@ from enum import Enum
 
 
 class SupportedModels(str, Enum):
+    """Enum for supported Doc models."""
+
     SPACY = "spacy"
     STANZA = "stanza"
+
 
 def flatten(list_of_lists):
     """Flatten a list of list.
@@ -98,7 +101,7 @@ def get_stopwords(filename):
     :rtype: set
     """
     stopwords = set()
-    with open(filename, 'r', encoding='utf8') as fp:
+    with open(filename, "r", encoding="utf8") as fp:
         for line in fp:
             word = line.strip()
             stopwords.add(word)
@@ -175,7 +178,7 @@ def is_adjective(pos_tag):
     :return: True if POS is adjective
     :rtype: boolean
     """
-    return pos_tag == 'ADJ'
+    return pos_tag == "ADJ"
 
 
 def is_adverb(pos_tag):
@@ -186,7 +189,7 @@ def is_adverb(pos_tag):
     :return: True if POS is adverb
     :rtype: boolean
     """
-    return pos_tag == 'ADV'
+    return pos_tag == "ADV"
 
 
 def is_noun(pos_tag):
@@ -197,7 +200,7 @@ def is_noun(pos_tag):
     :return: True if POS is noun or proper noun
     :rtype: boolean
     """
-    return pos_tag == 'PROPN' or pos_tag == 'NOUN'
+    return pos_tag == "PROPN" or pos_tag == "NOUN"
 
 
 def is_pronoun(pos_tag):
@@ -208,7 +211,7 @@ def is_pronoun(pos_tag):
     :return: True if POS is pronoun
     :rtype: boolean
     """
-    return pos_tag == 'PRON'
+    return pos_tag == "PRON"
 
 
 def is_stopword(word, stopwords):
@@ -232,7 +235,7 @@ def is_verb(pos_tag):
     :return: True if POS is verb
     :rtype: boolean
     """
-    return pos_tag == 'VERB'
+    return pos_tag == "VERB"
 
 
 def is_word(pos_tag):
@@ -246,7 +249,7 @@ def is_word(pos_tag):
     :return: True if POS is a word
     :rtype: boolean
     """
-    return pos_tag != 'PUNCT' and pos_tag != 'SYM' and pos_tag != 'SPACE'
+    return pos_tag != "PUNCT" and pos_tag != "SYM" and pos_tag != "SPACE"
 
 
 def lemmatize(lemma_dict, word):
@@ -293,6 +296,6 @@ def read_text(filename):
     :return: Text in the file
     :rtype: string
     """
-    with open(filename, 'r', encoding='utf8') as fp:
+    with open(filename, "r", encoding="utf8") as fp:
         text = fp.read()
     return text
