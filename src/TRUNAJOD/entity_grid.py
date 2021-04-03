@@ -18,8 +18,9 @@ It is also worth noting, that we consider an entity grid of two-sentence
 sequence and the API currently does not provide any hyper-parameter tunning to
 change this.
 """
+from TRUNAJOD.utils import SupportedModels
 
-SPACY_UNIVERSAL_NOUN_TAGS = set([u'NOUN', u'PRON', u'PROPN'])
+UNIVERSAL_NOUN_TAGS = set([u'NOUN', u'PRON', u'PROPN'])
 
 ordered_transitions = [
     u'SS', u'SO', u'SX', u'S-', u'OS', u'OO', u'OX', u'O-', u'XS', u'XO',
@@ -63,7 +64,7 @@ class EntityGrid(object):
     module. It only supports 2-transitions entity grid.
     """
 
-    def __init__(self, doc):
+    def __init__(self, doc, model_name="spacy"):
         """Construct EntityGrid object."""
         # Initialization
         entity_map = dict()
@@ -88,9 +89,14 @@ class EntityGrid(object):
             u'-X': 0,
             u'--': 0
         }
+        # check model
+        model = SupportedModels(model_name)
 
         # Get number of sentences in the text
-        n_sent = len(list(doc.sents))
+        if model == SupportedModels.SPACY:
+            n_sent = len(list(doc.sents))
+        elif model == SupportedModels.STANZA:
+            n_sent = len(list(doc.sentences))
 
         # To get coherence measurements we need at least 2 sentences
         if n_sent < 2:
@@ -99,15 +105,26 @@ class EntityGrid(object):
                 .format(n_sent))
 
         # For each sentence, get dependencies and its grammatical role
-        for sent in doc.sents:
-            for token in sent:
-                if token.pos_ in SPACY_UNIVERSAL_NOUN_TAGS:
-                    entity_map['s%d' % i].append((token.text.upper(),
-                                                  token.dep_))
-                    if token.text.upper() not in entity_grid:
-                        entity_grid[token.text.upper()] = [u'-'] * n_sent
-            i += 1
-            entity_map['s%d' % i] = []
+        if model == SupportedModels.SPACY:
+            for sent in doc.sents:
+                for token in sent:
+                    if token.pos_ in UNIVERSAL_NOUN_TAGS:
+                        entity_map['s%d' % i].append((token.text.upper(),
+                                                    token.dep_))
+                        if token.text.upper() not in entity_grid:
+                            entity_grid[token.text.upper()] = [u'-'] * n_sent
+                i += 1
+                entity_map['s%d' % i] = []
+        elif model == SupportedModels.STANZA:
+            for sent in doc.sentences:
+                for word in sent.words:
+                    if word.upos in UNIVERSAL_NOUN_TAGS:
+                        entity_map['s%d' % i].append((word.text.upper(),
+                                                    word.deprel))
+                        if word.text.upper() not in entity_grid:
+                            entity_grid[word.text.upper()] = ['-'] * n_sent
+                i += 1
+                entity_map['s%d' % i] = []
 
         # Last iteration will create an extra element, so I remove it.
         entity_map.pop('s%d' % i)
