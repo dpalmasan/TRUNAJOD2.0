@@ -52,6 +52,7 @@ The following module constants are defined as sets ``CAUSE_DISCOURSE_MARKERS``,
 """
 import re
 from typing import List
+from spacy.tokens import Doc
 
 CAUSE_DISCOURSE_MARKERS = {
     "dado que",

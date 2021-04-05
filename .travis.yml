@@ -9,5 +9,4 @@ before_install:
   - pip install -U pytest-cov
 install:
   - pip install tox-travis
-  - pip install spacy
 script: tox
