@@ -21,3 +21,7 @@ addopts = "-ra --cov=. --cov-fail-under=80"
 testpaths = [
     "tests"
 ]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
