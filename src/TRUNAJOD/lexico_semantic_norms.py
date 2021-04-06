@@ -1,7 +1,7 @@
 """TRUNAJOD lexico semantic norms module.
 
-Lexico-Semantic norms do also require external knowledge to be computed. We compute
-the following lexico-semantic variables:
+Lexico-Semantic norms do also require external knowledge to be computed. We
+compute the following lexico-semantic variables:
 
 * Arousal
 * Concreteness
