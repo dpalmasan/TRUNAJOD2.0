@@ -20,7 +20,7 @@ This section is TBD.
 
 ### Your First Code Contribution
 
-Unsure where to begin contributing to Atom? You can start by looking through these `beginner` and `help-wanted` issues:
+Unsure where to begin contributing to `TRUNAJOD`? You can start by looking through these `good-first-issue` and `help-wanted` issues:
 
 * [Good first issue][good-first-issue] - issues which should only require a few lines of code, and a test or two.
 * [Help wanted issues][help-wanted] - issues which should be a bit more involved than `good first issue` issues.
