@@ -8,6 +8,9 @@ the text this measurement is 1, and if there is infinite repetition, it will
 tend to 0. This measurement is not recommended if analyzing texts of different
 lengths, as when the number of tokens increases, the TTR tends flatten.
 """
+from typing import List
+
+from spacy.tokens import Doc
 from TRUNAJOD.utils import is_word
 from TRUNAJOD.utils import SupportedModels
 
@@ -15,7 +18,7 @@ from TRUNAJOD.utils import SupportedModels
 # from src.TRUNAJOD.utils import is_word
 
 
-def type_token_ratio(word_list):
+def type_token_ratio(word_list: List[str]) -> float:
     """Return Type Token Ratio of a word list.
 
     :param word_list: List of words
@@ -26,11 +29,17 @@ def type_token_ratio(word_list):
     return len(set(word_list)) / len(word_list)
 
 
-def lexical_diversity_mtld(doc, model_name="spacy", ttr_segment=0.72):
+def lexical_diversity_mtld(
+    doc: Doc, model_name: str = "spacy", ttr_segment: float = 0.72
+) -> float:
     """Compute MTLD lexical diversity in a bi-directional fashion.
 
     :param doc: Processed text
     :type doc: NLP Doc
+    :param model_name: Determines which model is used (spacy or stanza)
+    :type model_name: str
+    :param ttr_segment: Threshold for TTR mean computation
+    :type ttr_segment: float
     :return: Bi-directional lexical diversity MTLD
     :rtype: float
     """
@@ -53,11 +62,15 @@ def lexical_diversity_mtld(doc, model_name="spacy", ttr_segment=0.72):
     ) / 2
 
 
-def one_side_lexical_diversity_mtld(doc, model_name="spacy", ttr_segment=0.72):
+def one_side_lexical_diversity_mtld(
+    doc: Doc, model_name: str = "spacy", ttr_segment: float = 0.72
+) -> float:
     """Lexical diversity per MTLD.
 
     :param doc: Tokenized text
     :type doc: NLP Doc
+    :param model_name: Determines which model is used (spacy or stanza)
+    :type model_name: str
     :param ttr_segment: Threshold for TTR mean computation
     :type ttr_segment: float
     :return: MLTD lexical diversity
