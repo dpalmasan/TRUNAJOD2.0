@@ -51,6 +51,9 @@ The following module constants are defined as sets ``CAUSE_DISCOURSE_MARKERS``,
 ``VAGUE_MEANING_CLOSED_CLASS_WORDS``.
 """
 import re
+from typing import List
+
+from spacy.tokens import Doc
 
 CAUSE_DISCOURSE_MARKERS = {
     "dado que",
@@ -168,7 +171,7 @@ VAGUE_MEANING_CLOSED_CLASS_WORDS = {
 }
 
 
-def find_matches(text, list):
+def find_matches(text: str, list: List[str]) -> int:
     """Return matches of words in list in a target text.
 
     Given a text and a list of possible matches (in this module, discourse
@@ -194,7 +197,7 @@ def find_matches(text, list):
     return counter
 
 
-def get_cause_dm_count(text):
+def get_cause_dm_count(text: Doc) -> float:
     """Count discourse markers associated with cause.
 
     :param text: The text to be analized
@@ -209,7 +212,7 @@ def get_cause_dm_count(text):
     return sum(sentences) / len(sentences)
 
 
-def get_closed_class_vague_meaning_count(text):
+def get_closed_class_vague_meaning_count(text: Doc) -> float:
     """Count words that have vague meaning.
 
     :param text: The text to be analized
@@ -224,7 +227,7 @@ def get_closed_class_vague_meaning_count(text):
     return sum(sentences) / len(sentences)
 
 
-def get_context_dm_count(text):
+def get_context_dm_count(text: Doc) -> float:
     """Count discourse markers associated with context.
 
     :param text: The text to be analized
@@ -239,7 +242,7 @@ def get_context_dm_count(text):
     return sum(sentences) / len(sentences)
 
 
-def get_equality_dm_count(text):
+def get_equality_dm_count(text: Doc) -> float:
     """Count discourse markers associated with equality.
 
     :param text: The text to be analized
@@ -254,7 +257,7 @@ def get_equality_dm_count(text):
     return sum(sentences) / len(sentences)
 
 
-def get_polysemic_dm_count(text):
+def get_polysemic_dm_count(text: Doc) -> float:
     """Count discourse markers that are highly polysemic.
 
     :param text: The text to be analized
@@ -269,7 +272,7 @@ def get_polysemic_dm_count(text):
     return sum(sentences) / len(sentences)
 
 
-def get_overall_markers(text):  # pragma: no cover
+def get_overall_markers(text: Doc) -> float:  # pragma: no cover
     """Count all types of discourse markers.
 
     :param text: The text to be analized
@@ -310,7 +313,7 @@ def get_overall_markers(text):  # pragma: no cover
     return sum(sentences) / len(sentences)
 
 
-def get_revision_dm_count(text):
+def get_revision_dm_count(text: Doc) -> float:
     """Count discourse markers associated with revisions.
 
     :param text: The text to be analized
