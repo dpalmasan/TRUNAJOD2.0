@@ -10,7 +10,7 @@ long_description = open("README.md", "r", encoding="utf-8").read()
 
 setup(
     name="TRUNAJOD",
-    version="0.1.1",
+    version="0.1.1b",
     license="MIT",
     description="A python lib for readability analyses.",
     long_description=long_description,
@@ -19,7 +19,7 @@ setup(
     author_email="dipalma@udec.cl",
     url="https://github.com/dpalmasan/TRUNAJOD2.0",
     download_url=(
-        "https://github.com/dpalmasan/TRUNAJOD2.0/archive/v0.1.tar.gz"
+        "https://github.com/dpalmasan/TRUNAJOD2.0/archive/refs/tags/v0.1.1.tar.gz"
     ),
     keywords=[
         "NLP",
@@ -34,7 +34,7 @@ setup(
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
-        "Topic :: Software Development :: NLP Research",
+        "Topic :: Education :: Computer Aided Instruction (CAI)",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
