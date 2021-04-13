@@ -16,9 +16,6 @@ from spacy.tokens import Doc
 from TRUNAJOD.utils import is_word
 from TRUNAJOD.utils import SupportedModels
 
-# dev import
-# from src.TRUNAJOD.utils import is_word
-
 
 def type_token_ratio(word_list: List[str]) -> float:
     """Return Type Token Ratio of a word list.
@@ -124,9 +121,9 @@ def yule_k(doc: Doc) -> float:
     Where `Vr` is the number of tokens ocurring `r` times.
     This is a measurement of lexical diversity.
 
-    :param doc: [description]
+    :param doc: Processed spaCy Doc
     :type doc: Doc
-    :return: [description]
+    :return: Texts' Yule's K
     :rtype: float
     """
     counts: Dict[str, int] = defaultdict(int)

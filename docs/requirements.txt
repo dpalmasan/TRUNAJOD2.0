@@ -1,3 +1,4 @@
 sphinxcontrib-bibtex
 m2r
 sphinx==2.4.4
+spacy
