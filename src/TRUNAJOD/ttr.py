@@ -8,6 +8,8 @@ the text this measurement is 1, and if there is infinite repetition, it will
 tend to 0. This measurement is not recommended if analyzing texts of different
 lengths, as when the number of tokens increases, the TTR tends flatten.
 """
+from collections import defaultdict
+from typing import Dict
 from typing import List
 
 from spacy.tokens import Doc
@@ -109,3 +111,33 @@ def one_side_lexical_diversity_mtld(
         )
         total_words += 1
     return total_words / factor
+
+
+def yule_k(doc: Doc) -> float:
+    r"""Compute Yule's K from a text.
+
+    Yule's K is defined as follows:
+
+    .. math::
+        K=10^{-4}\displaystyle\frac{\sum{r^2V_r-N}}{N^2}
+
+    Where `Vr` is the number of tokens ocurring `r` times.
+    This is a measurement of lexical diversity.
+
+    :param doc: [description]
+    :type doc: Doc
+    :return: [description]
+    :rtype: float
+    """
+    counts: Dict[str, int] = defaultdict(int)
+    N: int = 0
+    for token in doc:
+        if is_word(token.pos_):
+            counts[token.lemma_] += 1
+            N += 1
+
+    rs: Dict[int, int] = defaultdict(int)
+    for key, value in counts.items():
+        rs[value] += 1
+
+    return 1e-4 * sum(r ** 2 * vr - N for r, vr in rs.items()) / N ** 2
