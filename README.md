@@ -141,7 +141,7 @@ Entity grid:
 
 ## Contributing to _TRUNAJOD_
 
-Bug reports and fixes are always welcome! Feel free to file issues, or do a feature requests. We use `Github` issue tracker for this. If you'd like to contribute, feel free to submite a pull requests. For more questions you can contact me at `dipalma (at) udec (dot) cl`.
+Bug reports and fixes are always welcome! Feel free to file issues, or ask for a feature request. We use `Github` issue tracker for this. If you'd like to contribute, feel free to submit a pull request. For more questions you can contact me at `dipalma (at) udec (dot) cl`.
 
 More details can be found in
 [CONTRIBUTING](https://github.com/dpalmasan/TRUNAJOD2.0/blob/master/CONTRIBUTING.md).
