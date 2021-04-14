@@ -99,7 +99,7 @@ class Emotions(object):
             self.__sorpresa /= count
             self.__tristeza /= count
 
-    def get_alegria(self):
+    def get_alegria(self: object) -> float:
         """Get alegria.
 
         :return: Average alegria over number of tokens
@@ -107,7 +107,7 @@ class Emotions(object):
         """
         return self.__alegria
 
-    def get_enojo(self):
+    def get_enojo(self: object) -> float:
         """Get enojo.
 
         :return: Average enojo over number of tokens
@@ -115,7 +115,7 @@ class Emotions(object):
         """
         return self.__enojo
 
-    def get_miedo(self):
+    def get_miedo(self: object) -> float:
         """Get miedo.
 
         :return: Average miedo over number of tokens
@@ -123,7 +123,7 @@ class Emotions(object):
         """
         return self.__miedo
 
-    def get_repulsion(self):
+    def get_repulsion(self: object) -> float:
         """Get repulsion.
 
         :return: Average repulsion over number of tokens
@@ -131,7 +131,7 @@ class Emotions(object):
         """
         return self.__repulsion
 
-    def get_sorpresa(self):
+    def get_sorpresa(self: object) -> float:
         """Get sorpresa.
 
         :return: Average sorpresa over number of tokens
@@ -139,7 +139,7 @@ class Emotions(object):
         """
         return self.__sorpresa
 
-    def get_tristeza(self):
+    def get_tristeza(self: object) -> float:
         """Get tristeza.
 
         :return: Average tristeza over number of tokens
