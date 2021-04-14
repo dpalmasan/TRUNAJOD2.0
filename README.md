@@ -4,7 +4,8 @@
 high-performance [spaCy](https://spacy.io/) library. With all the basic NLP capabilities provided by
 spaCy (dependency parsing, POS tagging, tokenizing), ``TRUNAJOD`` focuses on extracting
 measurements from texts that might be interesting for different applications and use cases.
-Currently we only support Spanish.
+While most of the indices could be computed for different languages, currently we mostly support 
+Spanish. We are happy if you contribute with indices implemented for your language!
 
 <p align="center">
 <a href="https://travis-ci.com/dpalmasan/TRUNAJOD2.0"><img alt="Build Status" src="https://travis-ci.com/dpalmasan/TRUNAJOD2.0.svg?branch=master"></a>
