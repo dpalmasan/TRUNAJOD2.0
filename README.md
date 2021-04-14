@@ -45,6 +45,9 @@ You can download pre-build `TRUNAJOD` models from the repo, under the `models` d
 
 Below is a small snippet of code that can help you in getting started with this lib. Don´t forget to take a look at the [documentation](https://trunajod20.readthedocs.io/en/latest).
 
+The example below assumes you have the `es_core_news_sm` spaCy Spanish model installed. You can install the model running: `python -m spacy download es_core_news_sm`. For other models, please check [spaCy docs](https://spacy.io/usage/models).
+
+
 ```python
 from TRUNAJOD import surface_proxies
 from TRUNAJOD.entity_grid import EntityGrid
@@ -88,7 +91,7 @@ class ModelLoader(object):
 model = ModelLoader("trunajod_models_v0.1.tar.gz")
 
 # Load spaCy model
-nlp = spacy.load("es", disable=["ner", "textcat"])
+nlp = spacy.load("es_core_news_sm", disable=["ner", "textcat"])
 
 example_text = (
     "El espectáculo del cielo nocturno cautiva la mirada y suscita preguntas"
