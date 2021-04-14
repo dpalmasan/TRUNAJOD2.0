@@ -8,11 +8,13 @@ While most of the indices could be computed for different languages, currently w
 Spanish. We are happy if you contribute with indices implemented for your language!
 
 <p align="center">
-<a href="https://travis-ci.com/dpalmasan/TRUNAJOD2.0"><img alt="Build Status" src="https://travis-ci.com/dpalmasan/TRUNAJOD2.0.svg?branch=master"></a>
-<a href="https://trunajod20.readthedocs.io/en/latest/?badge=latest"><img alt="Documentation Status" src="https://readthedocs.org/projects/trunajod20/badge/?version=latest"></a>
+<a href="https://github.com/dpalmasan/TRUNAJOD2.0/actions"><img alt="Actions Status" src="https://github.com/dpalmasan/TRUNAJOD2.0/workflows/Test/badge.svg"></a>
+<a href="https://trunajod20.readthedocs.io/en/stable/?badge=stable"><img alt="Documentation Status" src="https://readthedocs.org/projects/trunajod20/badge/?version=stable"></a>
+<img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/trunajod">
 <a href="https://github.com/dpalmasan/TRUNAJOD2.0/blob/master/LICENSE"><img alt="License: MIT" src="https://img.shields.io/github/license/dpalmasan/TRUNAJOD2.0"></a>
 <a href="https://pypi.org/project/TRUNAJOD/"><img alt="PyPI" src="https://img.shields.io/pypi/v/TRUNAJOD"></a>
 <a href="https://pepy.tech/project/trunajod"><img alt="Downloads" src="https://static.pepy.tech/badge/TRUNAJOD"></a>
+<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 </p>
 
 ## Features
@@ -33,11 +35,7 @@ Spanish. We are happy if you contribute with indices implemented for your langua
 
 ## Installation
 
-To install the package:
-
-```
-pip install TRUNAJOD
-```
+`TRUNAJOD` can be installed by running `pip install trunajod`. It requires Python 3.6.2+ to run.
 
 ## Getting Started
 
@@ -46,6 +44,9 @@ Using this package has some other pre-requisites. It assumes that you already ha
 You can download pre-build `TRUNAJOD` models from the repo, under the `models` directory.
 
 Below is a small snippet of code that can help you in getting started with this lib. Don´t forget to take a look at the [documentation](https://trunajod20.readthedocs.io/en/latest).
+
+The example below assumes you have the `es_core_news_sm` spaCy Spanish model installed. You can install the model running: `python -m spacy download es_core_news_sm`. For other models, please check [spaCy docs](https://spacy.io/usage/models).
+
 
 ```python
 from TRUNAJOD import surface_proxies
@@ -90,7 +91,7 @@ class ModelLoader(object):
 model = ModelLoader("trunajod_models_v0.1.tar.gz")
 
 # Load spaCy model
-nlp = spacy.load("es", disable=["ner", "textcat"])
+nlp = spacy.load("es_core_news_sm", disable=["ner", "textcat"])
 
 example_text = (
     "El espectáculo del cielo nocturno cautiva la mirada y suscita preguntas"
@@ -136,6 +137,14 @@ Clause count: 10
 Entity grid:
 {'ESPECTÁCULO': ['S', '-', '-'], 'CIELO': ['X', '-', '-'], 'MIRADA': ['O', '-', '-'], 'UNIVERSO': ['O', '-', 'S'], 'ORIGEN': ['X', '-', '-'], 'FUNCIONAMIENTO': ['X', '-', '-'], 'CIVILIZACIONES': ['-', 'S', '-'], 'CULTURAS': ['-', 'X', '-'], 'COSMOLOGÍAS': ['-', 'O', '-'], 'EJEMPLO': ['-', '-', 'X'], 'TAL': ['-', '-', 'X'], 'CICLOS': ['-', '-', 'X'], 'QUE': ['-', '-', 'S'], 'SE': ['-', '-', 'O'], 'OTRAS': ['-', '-', 'S'], 'PRINCIPIO': ['-', '-', 'O'], 'OBRA': ['-', '-', 'X'], 'DIVINIDAD': ['-', '-', 'X']}
 ```
+
+
+## Contributing to _TRUNAJOD_
+
+Bug reports and fixes are always welcome! Feel free to file issues, or ask for a feature request. We use `Github` issue tracker for this. If you'd like to contribute, feel free to submit a pull request. For more questions you can contact me at `dipalma (at) udec (dot) cl`.
+
+More details can be found in
+[CONTRIBUTING](https://github.com/dpalmasan/TRUNAJOD2.0/blob/master/CONTRIBUTING.md).
 
 
 ## References

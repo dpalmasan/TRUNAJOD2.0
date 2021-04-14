@@ -12,6 +12,10 @@ constant ``TRUNAJOD.spanish_emotion_lexicon.SPANISH_EMOTION_LEXICON``.
 The following emotions are captured: alegría, enojo, miedo, repulsión,
 sorpresa, tristeza.
 """
+from typing import Dict
+from typing import Optional
+
+from spacy.tokens import Doc
 from TRUNAJOD.spanish_emotion_lexicon import SPANISH_EMOTION_LEXICON
 from TRUNAJOD.utils import lemmatize
 
@@ -29,7 +33,7 @@ class Emotions(object):
     - Averaging over emotions and not the total count?
     """
 
-    def __init__(self, doc, lemmatizer=None):
+    def __init__(self, doc: Doc, lemmatizer: Optional[Dict[str, str]] = None):
         """Initialize emotions class.
 
         Average over number of tokens.
