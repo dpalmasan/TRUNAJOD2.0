@@ -12,11 +12,11 @@ constant ``TRUNAJOD.spanish_emotion_lexicon.SPANISH_EMOTION_LEXICON``.
 The following emotions are captured: alegría, enojo, miedo, repulsión,
 sorpresa, tristeza.
 """
-from TRUNAJOD.spanish_emotion_lexicon import SPANISH_EMOTION_LEXICON
-from TRUNAJOD.utils import lemmatize
-from spacy.tokens import Doc
 from typing import Dict
 from typing import Optional
+from spacy.tokens import Doc
+from TRUNAJOD.spanish_emotion_lexicon import SPANISH_EMOTION_LEXICON
+from TRUNAJOD.utils import lemmatize
 
 
 class Emotions(object):
