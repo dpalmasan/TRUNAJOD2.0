@@ -7,11 +7,13 @@ measurements from texts that might be interesting for different applications and
 Currently we only support Spanish.
 
 <p align="center">
-<a href="https://travis-ci.com/dpalmasan/TRUNAJOD2.0"><img alt="Build Status" src="https://travis-ci.com/dpalmasan/TRUNAJOD2.0.svg?branch=master"></a>
-<a href="https://trunajod20.readthedocs.io/en/latest/?badge=latest"><img alt="Documentation Status" src="https://readthedocs.org/projects/trunajod20/badge/?version=latest"></a>
+<a href="https://github.com/dpalmasan/TRUNAJOD2.0/actions"><img alt="Actions Status" src="https://github.com/dpalmasan/TRUNAJOD2.0/workflows/Test/badge.svg"></a>
+<a href="https://trunajod20.readthedocs.io/en/stable/?badge=stable"><img alt="Documentation Status" src="https://readthedocs.org/projects/trunajod20/badge/?version=stable"></a>
+<img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/trunajod">
 <a href="https://github.com/dpalmasan/TRUNAJOD2.0/blob/master/LICENSE"><img alt="License: MIT" src="https://img.shields.io/github/license/dpalmasan/TRUNAJOD2.0"></a>
 <a href="https://pypi.org/project/TRUNAJOD/"><img alt="PyPI" src="https://img.shields.io/pypi/v/TRUNAJOD"></a>
 <a href="https://pepy.tech/project/trunajod"><img alt="Downloads" src="https://static.pepy.tech/badge/TRUNAJOD"></a>
+<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 </p>
 
 ## Features
@@ -32,11 +34,7 @@ Currently we only support Spanish.
 
 ## Installation
 
-To install the package:
-
-```
-pip install TRUNAJOD
-```
+`TRUNAJOD` can be installed by running `pip install trunajod`. It requires Python 3.6.2+ to run.
 
 ## Getting Started
 
