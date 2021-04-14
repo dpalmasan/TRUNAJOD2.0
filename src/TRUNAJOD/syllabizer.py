@@ -192,7 +192,7 @@ class Syllabizer(object):
     """
 
     @staticmethod
-    def split(chars: CharLine) -> list[CharLine]:
+    def split(chars: CharLine) -> [CharLine]:
         """Split CharLine into syllabes.
 
         :param chars: Word to be syllabized
