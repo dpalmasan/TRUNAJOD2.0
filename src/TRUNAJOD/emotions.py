@@ -12,6 +12,10 @@ constant ``TRUNAJOD.spanish_emotion_lexicon.SPANISH_EMOTION_LEXICON``.
 The following emotions are captured: alegría, enojo, miedo, repulsión,
 sorpresa, tristeza.
 """
+from typing import Dict
+from typing import Optional
+
+from spacy.tokens import Doc
 from TRUNAJOD.spanish_emotion_lexicon import SPANISH_EMOTION_LEXICON
 from TRUNAJOD.utils import lemmatize
 
@@ -29,7 +33,7 @@ class Emotions(object):
     - Averaging over emotions and not the total count?
     """
 
-    def __init__(self, doc, lemmatizer=None):
+    def __init__(self, doc: Doc, lemmatizer: Optional[Dict[str, str]] = None):
         """Initialize emotions class.
 
         Average over number of tokens.
@@ -99,7 +103,7 @@ class Emotions(object):
             self.__sorpresa /= count
             self.__tristeza /= count
 
-    def get_alegria(self):
+    def get_alegria(self: object) -> float:
         """Get alegria.
 
         :return: Average alegria over number of tokens
@@ -107,7 +111,7 @@ class Emotions(object):
         """
         return self.__alegria
 
-    def get_enojo(self):
+    def get_enojo(self: object) -> float:
         """Get enojo.
 
         :return: Average enojo over number of tokens
@@ -115,7 +119,7 @@ class Emotions(object):
         """
         return self.__enojo
 
-    def get_miedo(self):
+    def get_miedo(self: object) -> float:
         """Get miedo.
 
         :return: Average miedo over number of tokens
@@ -123,7 +127,7 @@ class Emotions(object):
         """
         return self.__miedo
 
-    def get_repulsion(self):
+    def get_repulsion(self: object) -> float:
         """Get repulsion.
 
         :return: Average repulsion over number of tokens
@@ -131,7 +135,7 @@ class Emotions(object):
         """
         return self.__repulsion
 
-    def get_sorpresa(self):
+    def get_sorpresa(self: object) -> float:
         """Get sorpresa.
 
         :return: Average sorpresa over number of tokens
@@ -139,7 +143,7 @@ class Emotions(object):
         """
         return self.__sorpresa
 
-    def get_tristeza(self):
+    def get_tristeza(self: object) -> float:
         """Get tristeza.
 
         :return: Average tristeza over number of tokens
