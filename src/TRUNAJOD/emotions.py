@@ -32,7 +32,7 @@ class Emotions(object):
     - Averaging over emotions and not the total count?
     """
 
-    def __init__(self, doc: Doc, lemmatizer: Optional[Dict[str, str]]=None):
+    def __init__(self, doc: Doc, lemmatizer: Optional[Dict[str, str]] = None):
         """Initialize emotions class.
 
         Average over number of tokens.
