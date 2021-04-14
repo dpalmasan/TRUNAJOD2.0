@@ -42,7 +42,7 @@ ordered_transitions = [
 ]
 
 
-def dependency_mapping(dep : str) -> str:
+def dependency_mapping(dep: str) -> str:
     """Map dependency tag to entity grid tag.
 
     We consider the notation provided in :cite:`barzilay2008modeling`:
@@ -329,7 +329,7 @@ class EntityGrid(object):
         return self.__n_sent
 
 
-def weighting_syntactic_role(entity_role : str) -> int:
+def weighting_syntactic_role(entity_role: str) -> int:
     """Return weight given an entity grammatical role.
 
     Weighting scheme for syntactic role of an entity. This uses the heuristic
@@ -362,7 +362,7 @@ def weighting_syntactic_role(entity_role : str) -> int:
     return 0
 
 
-def get_local_coherence(egrid : EntityGrid) -> tuple[float, float, float, float]:
+def get_local_coherence(egrid: EntityGrid) -> [float, float, float, float]:
     """Get local coherence from entity grid.
 
     This method gets the coherence value using all the approaches described
