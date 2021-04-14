@@ -136,6 +136,14 @@ Entity grid:
 ```
 
 
+## Contributing to _TRUNAJOD_
+
+Bug reports and fixes are always welcome! Feel free to file issues, or do a feature requests. We use `Github` issue tracker for this. If you'd like to contribute, feel free to submite a pull requests. For more questions you can contact me at `dipalma (at) udec (dot) cl`.
+
+More details can be found in
+[CONTRIBUTING](https://github.com/dpalmasan/TRUNAJOD2.0/blob/master/CONTRIBUTING.md).
+
+
 ## References
 
 If you find anything of this useful, feel free to cite the following papers, from which a lot of this python library was made for (I am also in the process of submitting this lib to an open software journal):
