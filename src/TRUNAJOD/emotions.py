@@ -14,6 +14,7 @@ sorpresa, tristeza.
 """
 from typing import Dict
 from typing import Optional
+
 from spacy.tokens import Doc
 from TRUNAJOD.spanish_emotion_lexicon import SPANISH_EMOTION_LEXICON
 from TRUNAJOD.utils import lemmatize
