@@ -13,7 +13,7 @@ from TRUNAJOD.utils import is_word
 THIRD_PERSON_LABEL = "Person=3"
 
 
-def pronoun_density(doc):
+def pronoun_density(doc : spacy.doc) -> float:
     """Compute pronoun density.
 
     This is a measurement of text complexity, in the sense that a text
@@ -38,7 +38,7 @@ def pronoun_density(doc):
     return float(third_person_pronouns) / word_counter
 
 
-def pronoun_noun_ratio(doc):
+def pronoun_noun_ratio(doc : spacy.doc) -> float:
     """Compute Pronoun Noun ratio.
 
     This is an approximation of text complexity/readability, since pronouns

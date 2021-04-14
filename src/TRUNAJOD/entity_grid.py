@@ -42,7 +42,7 @@ ordered_transitions = [
 ]
 
 
-def dependency_mapping(dep):
+def dependency_mapping(dep : str) -> str:
     """Map dependency tag to entity grid tag.
 
     We consider the notation provided in :cite:`barzilay2008modeling`:
@@ -184,7 +184,7 @@ class EntityGrid(object):
         self.__n_sent = n_sent
         self.__prob = entity_features
 
-    def get_ss_transitions(self):
+    def get_ss_transitions(self) -> float:
         """Get SS transitions.
 
         :return: Ratio of transitions
@@ -192,7 +192,7 @@ class EntityGrid(object):
         """
         return self.__prob[u"SS"]
 
-    def get_so_transitions(self):
+    def get_so_transitions(self) -> float:
         """Get SO transitions.
 
         :return: Ratio of transitions
@@ -200,7 +200,7 @@ class EntityGrid(object):
         """
         return self.__prob[u"SO"]
 
-    def get_sx_transitions(self):
+    def get_sx_transitions(self) -> float:
         """Get SX transitions.
 
         :return: Ratio of transitions
@@ -208,7 +208,7 @@ class EntityGrid(object):
         """
         return self.__prob[u"SX"]
 
-    def get_sn_transitions(self):
+    def get_sn_transitions(self) -> float:
         """Get S- transitions.
 
         :return: Ratio of transitions
@@ -216,7 +216,7 @@ class EntityGrid(object):
         """
         return self.__prob[u"S-"]
 
-    def get_os_transitions(self):
+    def get_os_transitions(self) -> float:
         """Get OS transitions.
 
         :return: Ratio of transitions
@@ -224,7 +224,7 @@ class EntityGrid(object):
         """
         return self.__prob[u"OS"]
 
-    def get_oo_transitions(self):
+    def get_oo_transitions(self) -> float:
         """Get OO transitions.
 
         :return: Ratio of transitions
@@ -232,7 +232,7 @@ class EntityGrid(object):
         """
         return self.__prob[u"OO"]
 
-    def get_ox_transitions(self):
+    def get_ox_transitions(self) -> float:
         """Get OX transitions.
 
         :return: Ratio of transitions
@@ -240,7 +240,7 @@ class EntityGrid(object):
         """
         return self.__prob[u"OX"]
 
-    def get_on_transitions(self):
+    def get_on_transitions(self) -> float:
         """Get O- transitions.
 
         :return: Ratio of transitions
@@ -248,7 +248,7 @@ class EntityGrid(object):
         """
         return self.__prob[u"O-"]
 
-    def get_xs_transitions(self):
+    def get_xs_transitions(self) -> float:
         """Get XS transitions.
 
         :return: Ratio of transitions
@@ -256,7 +256,7 @@ class EntityGrid(object):
         """
         return self.__prob[u"XS"]
 
-    def get_xo_transitions(self):
+    def get_xo_transitions(self) -> float:
         """Get XO transitions.
 
         :return: Ratio of transitions
@@ -264,7 +264,7 @@ class EntityGrid(object):
         """
         return self.__prob[u"XO"]
 
-    def get_xx_transitions(self):
+    def get_xx_transitions(self) -> float:
         """Get XX transitions.
 
         :return: Ratio of transitions
@@ -272,7 +272,7 @@ class EntityGrid(object):
         """
         return self.__prob[u"XX"]
 
-    def get_xn_transitions(self):
+    def get_xn_transitions(self) -> float:
         """Get X- transitions.
 
         :return: Ratio of transitions
@@ -280,7 +280,7 @@ class EntityGrid(object):
         """
         return self.__prob[u"X-"]
 
-    def get_ns_transitions(self):
+    def get_ns_transitions(self) -> float:
         """Get -S transitions.
 
         :return: Ratio of transitions
@@ -288,7 +288,7 @@ class EntityGrid(object):
         """
         return self.__prob[u"-S"]
 
-    def get_no_transitions(self):
+    def get_no_transitions(self) -> float:
         """Get -O transitions.
 
         :return: Ratio of transitions
@@ -296,7 +296,7 @@ class EntityGrid(object):
         """
         return self.__prob[u"-O"]
 
-    def get_nx_transitions(self):
+    def get_nx_transitions(self) -> float:
         """Get -X transitions.
 
         :return: Ratio of transitions
@@ -304,7 +304,7 @@ class EntityGrid(object):
         """
         return self.__prob[u"-X"]
 
-    def get_nn_transitions(self):
+    def get_nn_transitions(self) -> float:
         """Get -- transitions.
 
         :return: Ratio of transitions
@@ -312,7 +312,7 @@ class EntityGrid(object):
         """
         return self.__prob[u"--"]
 
-    def get_egrid(self):
+    def get_egrid(self) -> dict:
         """Return obtained entity grid (for debugging purposes).
 
         :return: entity grid represented as a dict
@@ -320,7 +320,7 @@ class EntityGrid(object):
         """
         return self.__grid
 
-    def get_sentence_count(self):
+    def get_sentence_count(self) -> int:
         """Return sentence count obtained while processing.
 
         :return: Number of sentences
@@ -329,7 +329,7 @@ class EntityGrid(object):
         return self.__n_sent
 
 
-def weighting_syntactic_role(entity_role):
+def weighting_syntactic_role(entity_role : str) -> int:
     """Return weight given an entity grammatical role.
 
     Weighting scheme for syntactic role of an entity. This uses the heuristic
@@ -362,7 +362,7 @@ def weighting_syntactic_role(entity_role):
     return 0
 
 
-def get_local_coherence(egrid):
+def get_local_coherence(egrid : EntityGrid) -> tuple[float, float, float, float]:
     """Get local coherence from entity grid.
 
     This method gets the coherence value using all the approaches described

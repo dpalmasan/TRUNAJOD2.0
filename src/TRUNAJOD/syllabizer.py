@@ -43,6 +43,8 @@ The following rules are applied:
 +----------------+------------------------------------------------------------+
 """
 
+from typing import TypeVar
+
 STRONG_VOWELS = {"a", "á", "e", "é", "o", "ó", "í", "ú"}
 WEAK_VOWELS = {"i", "u"}
 RULES = [
@@ -68,6 +70,8 @@ RULES = [
 ]
 
 
+CharLine = TypeVar('CharLine')
+
 class CharLine(object):
     """Auxiliary object to set char types on a word.
 
@@ -89,7 +93,7 @@ class CharLine(object):
         self.type_line = "".join(chartype for _, chartype in charline)
 
     @staticmethod
-    def char_type(char):
+    def char_type(char : str) -> str:
         """Get char type (vowel, consonant, etc).
 
         This method checks a ``char`` type based on syllabization rules.
@@ -112,7 +116,7 @@ class CharLine(object):
         # c stands for consonant
         return char if char in {"x", "s"} else "c"
 
-    def find(self, finder):
+    def find(self, finder : str) -> int:
         """Find string occurrence in the type representation.
 
         :param finder: String to be searched
@@ -122,7 +126,7 @@ class CharLine(object):
         """
         return self.type_line.find(finder)
 
-    def split(self, pos, where):
+    def split(self, pos : int, where : int) -> tuple[CharLine, CharLine]:
         """Split the object into two Charline objects.
 
         :param pos: Start position of the split
@@ -137,7 +141,7 @@ class CharLine(object):
             CharLine(self.word[pos + where :]),
         )
 
-    def split_by(self, finder, where):
+    def split_by(self, finder : str, where : int) -> tuple[CharLine, CharLine]:
         """Split charline by `finder` occurrence on `type_char`.
 
         :param finder: Type char string
@@ -153,7 +157,7 @@ class CharLine(object):
             return chl1, chl2
         return self, None
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Implement string representation of a CharLine object.
 
         :return: <word:char_types>
@@ -161,7 +165,7 @@ class CharLine(object):
         """
         return "<" + self.word + ":" + self.type_line + ">"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Implement representation of a CharLine object.
 
         :return: <word:char_types>
@@ -169,7 +173,7 @@ class CharLine(object):
         """
         return "<" + repr(self.word) + ":" + self.type_line + ">"
 
-    def __eq__(self, other):
+    def __eq__(self, other : CharLine) -> bool:
         """Equal operator implementation.
 
         :param other: CharLine to be compared to.
@@ -188,7 +192,7 @@ class Syllabizer(object):
     """
 
     @staticmethod
-    def split(chars):
+    def split(chars : CharLine) -> list[CharLine]:
         """Split CharLine into syllabes.
 
         :param chars: Word to be syllabized
@@ -222,7 +226,7 @@ class Syllabizer(object):
         return [chars]
 
     @staticmethod
-    def number_of_syllables(word):
+    def number_of_syllables(word : str) -> int:
         """Return number of sillables of a word.
 
         :param word: Word to be processed
