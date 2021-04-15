@@ -13,6 +13,7 @@ compute the following lexico-semantic variables:
 We provide two downloadable models of these variables, which come from
 :cite:`duchon2013espal` and :cite:`guasch2016spanish`.
 """
+from spacy.tokens import Doc
 from TRUNAJOD.lexicosemantic_norms_espal import LEXICOSEMANTIC_ESPAL
 from TRUNAJOD.lexicosemantic_norms_espal import LSNorm
 from TRUNAJOD.utils import lemmatize
@@ -28,7 +29,12 @@ class LexicoSemanticNorm(object):
     :cite:`guasch2016spanish`.
     """
 
-    def __init__(self, doc, lexico_semantic_norm_dict, lemmatizer=None):
+    def __init__(
+        self,
+        doc: Doc,
+        lexico_semantic_norm_dict: dict,
+        lemmatizer: dict = None,
+    ):
         """Initialize lexico semantic norm object.
 
         Calculate average over number of tokens given a text.
@@ -102,7 +108,7 @@ class LexicoSemanticNorm(object):
             self.__context_avilability /= count
             self.__familiarity /= count
 
-    def get_arousal(self):
+    def get_arousal(self) -> float:
         """Get arousal.
 
         :return: Average arousal.
@@ -110,7 +116,7 @@ class LexicoSemanticNorm(object):
         """
         return self.__arousal
 
-    def get_concreteness(self):
+    def get_concreteness(self) -> float:
         """Get concreteness.
 
         :return: Average concreteness.
@@ -118,7 +124,7 @@ class LexicoSemanticNorm(object):
         """
         return self.__concreteness
 
-    def get_context_availability(self):
+    def get_context_availability(self) -> float:
         """Get context_availability.
 
         :return: Average context_availability.
@@ -126,7 +132,7 @@ class LexicoSemanticNorm(object):
         """
         return self.__context_avilability
 
-    def get_familiarity(self):
+    def get_familiarity(self) -> float:
         """Get familiarity.
 
         :return: Average familiarity.
@@ -134,7 +140,7 @@ class LexicoSemanticNorm(object):
         """
         return self.__familiarity
 
-    def get_imageability(self):
+    def get_imageability(self) -> float:
         """Get imageability.
 
         :return: Average imageability.
@@ -142,7 +148,7 @@ class LexicoSemanticNorm(object):
         """
         return self.__imageability
 
-    def get_valence(self):
+    def get_valence(self) -> float:
         """Get valence.
 
         :return: Average valence.
@@ -151,7 +157,7 @@ class LexicoSemanticNorm(object):
         return self.__valence
 
 
-def get_conc_imag_familiarity(doc):
+def get_conc_imag_familiarity(doc: Doc) -> [float, float, float]:
     """Get lexico-semantic variables.
 
     Computes three lexico-semantic variables: Concreteness, Imageability and
