@@ -138,6 +138,77 @@ Entity grid:
 {'ESPECTÁCULO': ['S', '-', '-'], 'CIELO': ['X', '-', '-'], 'MIRADA': ['O', '-', '-'], 'UNIVERSO': ['O', '-', 'S'], 'ORIGEN': ['X', '-', '-'], 'FUNCIONAMIENTO': ['X', '-', '-'], 'CIVILIZACIONES': ['-', 'S', '-'], 'CULTURAS': ['-', 'X', '-'], 'COSMOLOGÍAS': ['-', 'O', '-'], 'EJEMPLO': ['-', '-', 'X'], 'TAL': ['-', '-', 'X'], 'CICLOS': ['-', '-', 'X'], 'QUE': ['-', '-', 'S'], 'SE': ['-', '-', 'O'], 'OTRAS': ['-', '-', 'S'], 'PRINCIPIO': ['-', '-', 'O'], 'OBRA': ['-', '-', 'X'], 'DIVINIDAD': ['-', '-', 'X']}
 ```
 
+## A real world example
+
+`TRUNAJOD` lib was used to make `TRUNAJOD` web app, which is an application to assess text complexity and to check the adquacy of a text to a particular school level. To achieve this, several `TRUNAJOD` indices were analyzed for multiple Chilean school system texts (from textbooks), and latent features were created. Here is a snippet:
+
+```python
+"""Example of TRUNAJOD usage."""
+import glob
+
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+import spacy
+import textract  # To read .docx files
+import TRUNAJOD.givenness
+import TRUNAJOD.ttr
+from TRUNAJOD import surface_proxies
+from TRUNAJOD.syllabizer import Syllabizer
+
+plt.rcParams["figure.figsize"] = (11, 4)
+plt.rcParams["figure.dpi"] = 200
+
+
+nlp = spacy.load("es_core_news_sm", disable=["ner", "textcat"])
+
+features = {
+    "lexical_diversity_mltd": [],
+    "lexical_density": [],
+    "pos_dissimilarity": [],
+    "connection_words_ratio": [],
+    "grade": [],
+}
+for filename in glob.glob("corpus/*/*.docx"):
+    text = textract.process(filename).decode("utf8")
+    doc = nlp(text)
+    features["lexical_diversity_mltd"].append(
+        TRUNAJOD.ttr.lexical_diversity_mtld(doc)
+    )
+    features["lexical_density"].append(surface_proxies.lexical_density(doc))
+    features["pos_dissimilarity"].append(
+        surface_proxies.pos_dissimilarity(doc)
+    )
+    features["connection_words_ratio"].append(
+        surface_proxies.connection_words_ratio(doc)
+    )
+
+    # In our case corpus was organized as:
+    # corpus/5B/5_2_55.docx where the folder that
+    # contained the doc, contained the school level, in
+    # this example 5th grade
+    features["grade"].append(filename.split("/")[1][0])
+
+df = pd.DataFrame(features)
+
+
+fig, axes = plt.subplots(2, 2)
+
+sns.boxplot(x="grade", y="lexical_diversity_mltd", data=df, ax=axes[0, 0])
+sns.boxplot(x="grade", y="lexical_density", data=df, ax=axes[0, 1])
+sns.boxplot(x="grade", y="pos_dissimilarity", data=df, ax=axes[1, 0])
+sns.boxplot(x="grade", y="connection_words_ratio", data=df, ax=axes[1, 1])
+```
+
+Which yields:
+
+<img width="600" height="480" src="https://raw.githubusercontent.com/dpalmasan/TRUNAJOD2.0/master/figure2.png">
+
+### _TRUNAJOD_ web app example
+
+`TRUNAJOD` web app backend was built using `TRUNAJOD` lib. A demo video is shown below (it is in Spanish):
+
+[![TRUNAJOD demo](https://img.youtube.com/vi/wl3ImqEVjeQ/0.jpg)](https://www.youtube.com/watch?v=wl3ImqEVjeQ)
 
 ## Contributing to _TRUNAJOD_
 
