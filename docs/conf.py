@@ -47,6 +47,7 @@ bibtex_bibfiles = [
     "./api_reference/semantic_ref.bib",
     "./api_reference/givenness_ref.bib",
     "./api_reference/lexico_ref.bib",
+    "./api_reference/ttr.bib",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
