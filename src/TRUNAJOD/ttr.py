@@ -12,6 +12,7 @@ from collections import defaultdict
 from typing import Dict
 from typing import List
 
+import numpy as np
 from spacy.tokens import Doc
 from TRUNAJOD.utils import is_word
 from TRUNAJOD.utils import SupportedModels
@@ -113,7 +114,7 @@ def one_side_lexical_diversity_mtld(
 def yule_k(doc: Doc) -> float:
     r"""Compute Yule's K from a text.
 
-    Yule's K is defined as follows:
+    Yule's K is defined as follows :cite:`yule2014statistical`:
 
     .. math::
         K=10^{-4}\displaystyle\frac{\sum{r^2V_r-N}}{N^2}
@@ -138,3 +139,64 @@ def yule_k(doc: Doc) -> float:
         rs[value] += 1
 
     return 1e-4 * sum(r ** 2 * vr - N for r, vr in rs.items()) / N ** 2
+
+
+def d_estimate(
+    doc: Doc, min_range: int = 35, max_range: int = 50, trials: int = 5
+) -> float:
+    r"""Compute D measurement for lexical diversity.
+
+    The measurement is based in :cite:`richards2000measuring`. We pick ``n``
+    numbers of tokens, varying ``N`` from ``min_range`` up to ``max_range``.
+    For each ``n`` we do the following:
+
+    1. Sample ``n`` tokens without replacement
+    2. Compute ``TTR``
+    3. Repeat steps 1 and 2 ``trials`` times
+    4. Compute the average ``TTR``
+
+    At this point, we have a set of points ``(n, ttr)``. We then fit
+    these observations to the following model:
+
+    .. math::
+        TTR = \displaystyle\frac{D}{N}\left[\sqrt{1 + 2\frac{N}{D}} - 1\right]
+
+    The fit is done to get an estimation for the ``D`` parameter, and we use
+    a least squares as the criteria for the fit.
+
+    :param doc: SpaCy doc of the text.
+    :type doc: Doc
+    :param min_range: Lower bound for n, defaults to 35
+    :type min_range: int, optional
+    :param max_range: Upper bound for n, defaults to 50
+    :type max_range: int, optional
+    :param trials: Number of trials to estimate TTR, defaults to 5
+    :type trials: int, optional
+    :raises ValueError: If invalid range is provided.
+    :return: D metric
+    :rtype: float
+    """
+    if min_range >= max_range:
+        raise ValueError(
+            "max_range should be greater than min_range"
+            f"you provided [{min_range}, {max_range}]"
+        )
+    token_list: List[str] = []
+    for token in doc:
+        if is_word(token.pos_):
+            token_list.append(token.lemma_)
+
+    ns = np.arange(min_range, max_range + 1)
+    ttrs = np.zeros(len(ns))
+    for idx, sample_size in enumerate(ns):
+        ttr = 0
+        for trial in range(trials):
+            word_list = np.random.choice(
+                token_list, sample_size, replace=False
+            )
+            ttr += type_token_ratio(word_list)
+        ttrs[idx] = ttr / trials
+    A = np.vstack([2 * (1 - ttrs) / ns]).T
+    y = ttrs ** 2
+    d = np.linalg.lstsq(A, y, rcond=None)[0]
+    return d[0]
