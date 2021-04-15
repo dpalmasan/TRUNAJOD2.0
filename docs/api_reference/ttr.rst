@@ -5,3 +5,5 @@ Type Token Ratios
 
 .. automodule:: TRUNAJOD.ttr
     :members:
+
+.. bibliography:: ttr_ref.bib

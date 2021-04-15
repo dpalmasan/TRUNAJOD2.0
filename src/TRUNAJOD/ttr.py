@@ -8,6 +8,7 @@ the text this measurement is 1, and if there is infinite repetition, it will
 tend to 0. This measurement is not recommended if analyzing texts of different
 lengths, as when the number of tokens increases, the TTR tends flatten.
 """
+import math
 from collections import defaultdict
 from typing import Dict
 from typing import List
@@ -138,3 +139,29 @@ def yule_k(doc: Doc) -> float:
         rs[value] += 1
 
     return 1e-4 * sum(r ** 2 * vr - N for r, vr in rs.items()) / N ** 2
+
+
+def guirauds_index(doc: Doc) -> float:
+    """Compute Guiraud's Index from a text.
+
+    Yule's K is defined as follows:
+
+    .. math::
+        GI = V / Squarert(N)
+
+    Where 'V' is the number of distinct words and 'N' is the total number of words.
+
+    :param doc: Processed spaCy Doc
+    :type doc: Doc
+    :return: Texts' Guiraud's Index
+    :rtype: float
+    """
+    word_counter = 0
+    words = {}
+    for token in doc:
+        if is_word(token.pos_):
+            word_counter += 1
+            if token not in words:
+                words[str(token)] = ""
+
+    return len(words) / math.sqrt(word_counter)

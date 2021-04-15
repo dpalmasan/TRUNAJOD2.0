@@ -1,4 +1,5 @@
 """TRUNAJOD ttr tests."""
+import math
 from collections import namedtuple
 
 from TRUNAJOD import ttr
@@ -55,3 +56,18 @@ def test_yule_k():
     }
     expected_k = 1e-4 * sum(r ** 2 * vr - n for r, vr in rs.items()) / n ** 2
     assert ttr.yule_k(doc) == expected_k
+
+
+def test_guirauds_index():
+    """Test guirauds_i."""
+    Token = namedtuple("Token", "lemma_ pos_")
+    doc = [
+        Token("hola", "hola"),
+        Token("hola", "hola"),
+        Token("chao", "chao"),
+        Token("hola", "hola"),
+        Token("perro", "perro"),
+        Token("hola", "hola"),
+    ]
+    answer = 3 / math.sqrt(6)
+    assert ttr.guirauds_index(doc) == answer
