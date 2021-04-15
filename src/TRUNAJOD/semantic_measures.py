@@ -6,9 +6,10 @@ synonym overlap measurement requires knowledge from a word onthology, and
 semantic measurements require word vectors (word embeddings) obtained from
 CORPUS semantics.
 """
+from spacy.tokens import Doc
 
 
-def avg_w2v_semantic_similarity(docs, N):
+def avg_w2v_semantic_similarity(docs: Doc, N: int) -> float:
     """Compute average semantic similarity between adjacent sentences.
 
     This is using word2vec :cite:`mikolov2013word2vec` model based on SPACY
@@ -43,7 +44,7 @@ def avg_w2v_semantic_similarity(docs, N):
     return avg_sim / float(N - 1)
 
 
-def get_synsets(lemma, synset_dict):
+def get_synsets(lemma: str, synset_dict: dict) -> str:
     """Return synonym set given a word lemma.
 
     The function requires that the synset_dict is passed into it. In our case
@@ -61,7 +62,7 @@ def get_synsets(lemma, synset_dict):
     return synset_dict.get(lemma, {lemma})
 
 
-def overlap(lemma_list_group, synset_dict):
+def overlap(lemma_list_group: list, synset_dict: dict) -> float:
     """Compute average overlap in a text.
 
     Computes semantic synset overlap (synonyms), based on a lemma list group
