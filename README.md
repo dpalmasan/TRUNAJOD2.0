@@ -1,12 +1,5 @@
 # TRUNAJOD: A text complexity library for text analysis built on spaCy
 
-``TRUNAJOD`` is a Python library for text complexity analysis build on the 
-high-performance [spaCy](https://spacy.io/) library. With all the basic NLP capabilities provided by
-spaCy (dependency parsing, POS tagging, tokenizing), ``TRUNAJOD`` focuses on extracting
-measurements from texts that might be interesting for different applications and use cases.
-While most of the indices could be computed for different languages, currently we mostly support 
-Spanish. We are happy if you contribute with indices implemented for your language!
-
 <p align="center">
 <a href="https://github.com/dpalmasan/TRUNAJOD2.0/actions"><img alt="Actions Status" src="https://github.com/dpalmasan/TRUNAJOD2.0/workflows/Test/badge.svg"></a>
 <a href="https://trunajod20.readthedocs.io/en/stable/?badge=stable"><img alt="Documentation Status" src="https://readthedocs.org/projects/trunajod20/badge/?version=stable"></a>
@@ -16,6 +9,13 @@ Spanish. We are happy if you contribute with indices implemented for your langua
 <a href="https://pepy.tech/project/trunajod"><img alt="Downloads" src="https://static.pepy.tech/badge/TRUNAJOD"></a>
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 </p>
+
+``TRUNAJOD`` is a Python library for text complexity analysis build on the 
+high-performance [spaCy](https://spacy.io/) library. With all the basic NLP capabilities provided by
+spaCy (dependency parsing, POS tagging, tokenizing), ``TRUNAJOD`` focuses on extracting
+measurements from texts that might be interesting for different applications and use cases.
+While most of the indices could be computed for different languages, currently we mostly support 
+Spanish. We are happy if you contribute with indices implemented for your language!
 
 ## Features
 
