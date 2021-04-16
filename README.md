@@ -1,3 +1,7 @@
+<p align="center">
+<img style="width: 50%; height: 50%" src="https://raw.githubusercontent.com/dpalmasan/TRUNAJOD2.0/master/imgs/trunajod_logo.png">
+</p>
+
 # TRUNAJOD: A text complexity library for text analysis built on spaCy
 
 <p align="center">
@@ -202,7 +206,7 @@ sns.boxplot(x="grade", y="connection_words_ratio", data=df, ax=axes[1, 1])
 
 Which yields:
 
-<img width="600" height="480" src="https://raw.githubusercontent.com/dpalmasan/TRUNAJOD2.0/master/figure2.png">
+<img width="600" height="480" src="https://raw.githubusercontent.com/dpalmasan/TRUNAJOD2.0/master/imgs/figure2.png">
 
 ### _TRUNAJOD_ web app example
 
