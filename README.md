@@ -1,5 +1,5 @@
 <p align="center">
-<img style="width: 50%; height: 50%" src="https://raw.githubusercontent.com/dpalmasan/TRUNAJOD2.0/master/imgs/trunajod_logo.png">
+<img style="width: 30%; height: 30%" src="https://raw.githubusercontent.com/dpalmasan/TRUNAJOD2.0/master/imgs/trunajod_logo.png">
 </p>
 
 # TRUNAJOD: A text complexity library for text analysis built on spaCy
