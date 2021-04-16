@@ -56,7 +56,7 @@ One drawback of using surface proxies (shallow measurements) is that they do not
 
 `TRUNAJOD` architectural design is shown in figure 1.
 
-![Fig 1. `TRUNAJOD` architectural design.](figure1.png){ width=50% }
+![Fig 1. `TRUNAJOD` architectural design.](imgs/figure1.png){ width=50% }
 
 Basically, `TRUNAJOD` API takes as input a spaCy Doc and TRUNAJOD models (lemmatizer, synonym map, lexical-semantic norm map, etc.) and then it can compute supported text complexity metrics. It is worth noting that TRUNAJOD has available downloadable models from its Github repository, but currently only Spanish models are available. Nevertheless, it should be straightforward adding models for different languages.
 
