@@ -140,6 +140,7 @@ def yule_k(doc: Doc) -> float:
 
     return 1e-4 * sum(r ** 2 * vr - N for r, vr in rs.items()) / N ** 2
 
+
 def d_estimate(
     doc: Doc, min_range: int = 35, max_range: int = 50, trials: int = 5
 ) -> float:
@@ -200,6 +201,7 @@ def d_estimate(
     d = np.linalg.lstsq(A, y, rcond=None)[0]
     return d[0]
 
+
 def hapax_legomena_index(doc: Doc) -> int:
     """Hapax Legomena Index from a text.
 
@@ -225,4 +227,3 @@ def hapax_legomena_index(doc: Doc) -> int:
         if int(value) > 1:
             word_dupe_counter += int(value)
     return word_counter - word_dupe_counter
-
