@@ -8,6 +8,7 @@ the text this measurement is 1, and if there is infinite repetition, it will
 tend to 0. This measurement is not recommended if analyzing texts of different
 lengths, as when the number of tokens increases, the TTR tends flatten.
 """
+import math
 from collections import defaultdict
 from typing import Dict
 from typing import List
@@ -139,7 +140,6 @@ def yule_k(doc: Doc) -> float:
         rs[value] += 1
 
     return 1e-4 * sum(r ** 2 * vr - N for r, vr in rs.items()) / N ** 2
-<<<<<<< HEAD
 
 
 def d_estimate(
@@ -201,5 +201,3 @@ def d_estimate(
     y = ttrs ** 2
     d = np.linalg.lstsq(A, y, rcond=None)[0]
     return d[0]
-=======
->>>>>>> bd81ddf (remove g index from this branch)
