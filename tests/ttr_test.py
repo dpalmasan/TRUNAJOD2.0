@@ -90,3 +90,19 @@ def test_d_estimate():
 
     np.random.seed(0)
     assert ttr.d_estimate(doc) == 119.4468681409897
+
+
+def test_hapax_legomena_index():
+    """Test hapax_legomena_index."""
+    Token = namedtuple("Token", "lemma_ pos_")
+    doc = [
+        Token("hola", "hola"),
+        Token("hola", "hola"),
+        Token("chao", "chao"),
+        Token("hola", "hola"),
+        Token("perro", "perro"),
+        Token("hola", "hola"),
+    ]
+
+    answer = 2
+    assert ttr.hapax_legomena_index(doc) == answer
