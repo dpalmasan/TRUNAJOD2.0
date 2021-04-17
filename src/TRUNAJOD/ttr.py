@@ -8,7 +8,6 @@ the text this measurement is 1, and if there is infinite repetition, it will
 tend to 0. This measurement is not recommended if analyzing texts of different
 lengths, as when the number of tokens increases, the TTR tends flatten.
 """
-import math
 from collections import defaultdict
 from typing import Dict
 from typing import List
