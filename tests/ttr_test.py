@@ -1,5 +1,8 @@
 """TRUNAJOD ttr tests."""
+<<<<<<< HEAD
 import string
+=======
+>>>>>>> bd81ddf (remove g index from this branch)
 from collections import namedtuple
 
 import numpy as np
@@ -55,6 +58,7 @@ def test_yule_k(test_doc):
         4: 1,
     }
     expected_k = 1e-4 * sum(r ** 2 * vr - n for r, vr in rs.items()) / n ** 2
+<<<<<<< HEAD
     assert ttr.yule_k(test_doc) == expected_k
 
 
@@ -90,3 +94,6 @@ def test_d_estimate():
 
     np.random.seed(0)
     assert ttr.d_estimate(doc) == 119.4468681409897
+=======
+    assert ttr.yule_k(doc) == expected_k
+>>>>>>> bd81ddf (remove g index from this branch)
