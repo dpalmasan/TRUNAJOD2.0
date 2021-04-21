@@ -54,7 +54,7 @@ def test_yule_k(test_doc):
         1: 2,
         4: 1,
     }
-    expected_k = 1e-4 * sum(r ** 2 * vr - n for r, vr in rs.items()) / n ** 2
+    expected_k = 1e4 * sum(r ** 2 * vr - n for r, vr in rs.items()) / n ** 2
     assert ttr.yule_k(test_doc) == expected_k
 
 
