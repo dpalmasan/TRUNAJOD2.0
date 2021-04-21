@@ -12,6 +12,8 @@
 <a href="https://pypi.org/project/TRUNAJOD/"><img alt="PyPI" src="https://img.shields.io/pypi/v/TRUNAJOD"></a>
 <a href="https://pepy.tech/project/trunajod"><img alt="Downloads" src="https://static.pepy.tech/badge/TRUNAJOD"></a>
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+<a href="https://doi.org/10.21105/joss.03153"><img alt="JOSS paper" src="https://joss.theoj.org/papers/10.21105/joss.03153/status.svg"></a>
+<a href="https://doi.org/10.5281/zenodo.4707403"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4707403.svg" alt="DOI"></a>
 </p>
 
 ``TRUNAJOD`` is a Python library for text complexity analysis build on the 
