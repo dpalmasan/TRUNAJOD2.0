@@ -231,7 +231,20 @@ If you find anything of this useful, feel free to cite the following papers, fro
 1. [Palma, D., & Atkinson, J. (2018). Coherence-based automatic essay assessment. IEEE Intelligent Systems, 33(5), 26-36.](https://ieeexplore.ieee.org/abstract/document/8506398/)
 2. [Palma, D., Soto, C., Veliz, M., Riffo, B., & Gutiérrez, A. (2019, August). A Data-Driven Methodology to Assess Text Complexity Based on Syntactic and Semantic Measurements. In International Conference on Human Interaction and Emerging Technologies (pp. 509-515). Springer, Cham.](https://link.springer.com/chapter/10.1007/978-3-030-25629-6_79)
 
-```
+```bib
+@article{Palma2021,
+  doi = {10.21105/joss.03153},
+  url = {https://doi.org/10.21105/joss.03153},
+  year = {2021},
+  publisher = {The Open Journal},
+  volume = {6},
+  number = {60},
+  pages = {3153},
+  author = {Diego A. Palma and Christian Soto and Mónica Veliz and Bruno Karelovic and Bernardo Riffo},
+  title = {TRUNAJOD: A text complexity library to enhance natural language processing},
+  journal = {Journal of Open Source Software}
+}
+
 @article{palma2018coherence,
   title={Coherence-based automatic essay assessment},
   author={Palma, Diego and Atkinson, John},
