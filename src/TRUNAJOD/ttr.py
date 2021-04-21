@@ -117,7 +117,7 @@ def yule_k(doc: Doc) -> float:
     Yule's K is defined as follows :cite:`yule2014statistical`:
 
     .. math::
-        K=10^{-4}\displaystyle\frac{\sum{r^2V_r-N}}{N^2}
+        K=10^{4}\displaystyle\frac{\sum{r^2V_r-N}}{N^2}
 
     Where `Vr` is the number of tokens ocurring `r` times.
     This is a measurement of lexical diversity.
@@ -138,7 +138,7 @@ def yule_k(doc: Doc) -> float:
     for key, value in counts.items():
         rs[value] += 1
 
-    return 1e-4 * sum(r ** 2 * vr - N for r, vr in rs.items()) / N ** 2
+    return 1e4 * sum(r ** 2 * vr - N for r, vr in rs.items()) / N ** 2
 
 
 def d_estimate(
