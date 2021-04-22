@@ -90,3 +90,14 @@ def test_d_estimate():
 
     np.random.seed(0)
     assert ttr.d_estimate(doc) == 119.4468681409897
+
+
+def test_word_variation_index():
+    """Test WVI."""
+    doc = [
+        Token(lemma_="hola", pos_="hola"),
+        Token(lemma_="hola", pos_="hola"),
+        Token(lemma_="chao", pos_="chao"),
+    ]
+    expected = np.log(3) / np.log(2 - np.log(2) / np.log(3))
+    assert ttr.word_variation_index(doc) == expected
