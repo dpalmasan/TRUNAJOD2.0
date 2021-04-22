@@ -200,3 +200,30 @@ def d_estimate(
     y = ttrs ** 2
     d = np.linalg.lstsq(A, y, rcond=None)[0]
     return d[0]
+
+
+def hapax_legomena_index(doc: Doc) -> int:
+    """Hapax Legomena Index from a text.
+
+    Hapax Legomena Index is the number of words occuring once in a text.
+
+    :param doc: Processed spaCy Doc
+    :type doc: Doc
+    :return: Texts' Hapex Legomena Index
+    :rtype: int
+    """
+    word_counter = 0
+    word_dupe_counter = 0
+    words = {}
+    for token in doc:
+        if is_word(token.pos_):
+            word_counter += 1
+            if str(token.pos_) not in words:
+                words[str(token.pos_)] = 1
+            else:
+                words[str(token.pos_)] += 1
+
+    for key, value in words.items():
+        if int(value) > 1:
+            word_dupe_counter += int(value)
+    return word_counter - word_dupe_counter
