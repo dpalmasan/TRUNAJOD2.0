@@ -55,7 +55,7 @@ def test_yule_k(test_doc):
         1: 2,
         4: 1,
     }
-    expected_k = 1e-4 * sum(r ** 2 * vr - n for r, vr in rs.items()) / n ** 2
+    expected_k = 1e4 * sum(r ** 2 * vr - n for r, vr in rs.items()) / n ** 2
     assert ttr.yule_k(test_doc) == expected_k
 
 
@@ -106,3 +106,14 @@ def test_guirauds_index():
     ]
     answer = 3 / math.sqrt(6)
     assert ttr.guirauds_index(doc) == answer
+
+
+def test_word_variation_index():
+    """Test WVI."""
+    doc = [
+        Token(lemma_="hola", pos_="hola"),
+        Token(lemma_="hola", pos_="hola"),
+        Token(lemma_="chao", pos_="chao"),
+    ]
+    expected = np.log(3) / np.log(2 - np.log(2) / np.log(3))
+    assert ttr.word_variation_index(doc) == expected

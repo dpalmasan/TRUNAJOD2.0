@@ -118,7 +118,7 @@ def yule_k(doc: Doc) -> float:
     Yule's K is defined as follows :cite:`yule2014statistical`:
 
     .. math::
-        K=10^{-4}\displaystyle\frac{\sum{r^2V_r-N}}{N^2}
+        K=10^{4}\displaystyle\frac{\sum{r^2V_r-N}}{N^2}
 
     Where `Vr` is the number of tokens ocurring `r` times.
     This is a measurement of lexical diversity.
@@ -139,7 +139,7 @@ def yule_k(doc: Doc) -> float:
     for key, value in counts.items():
         rs[value] += 1
 
-    return 1e-4 * sum(r ** 2 * vr - N for r, vr in rs.items()) / N ** 2
+    return 1e4 * sum(r ** 2 * vr - N for r, vr in rs.items()) / N ** 2
 
 
 def d_estimate(
@@ -227,3 +227,33 @@ def guirauds_index(doc: Doc) -> float:
                 words[str(token)] = ""
 
     return len(words) / math.sqrt(word_counter)
+
+
+def word_variation_index(doc: Doc) -> float:
+    r"""Compute Word Variation Index.
+
+    Word variation index might be thought as the density
+    of ideas in a text. It is computed as:
+
+    .. math::
+        WVI = \displaystyle\frac{log\left(n(w)\right)}
+        {log\left(2 - \frac{log(n(vw))}{log(n(w))}\right)}
+
+    Where `n(w)` is the number of words in the text, and `n(vw)` is
+    the number of unique words in the text.
+
+    :param doc: Document to be processed
+    :type doc: Doc
+    :return: Word variation index
+    :rtype: float
+    """
+    token_list: List[str] = []
+    for token in doc:
+        if is_word(token.pos_):
+            token_list.append(token.lemma_)
+
+    number_of_words = len(token_list)
+    number_of_types = len(set(token_list))
+    return np.log(number_of_words) / np.log(
+        2 - np.log(number_of_types) / np.log(number_of_words)
+    )
