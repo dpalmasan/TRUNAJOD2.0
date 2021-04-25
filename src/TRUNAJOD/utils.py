@@ -2,6 +2,8 @@
 """Utility functions for TRUNAJOD library."""
 from enum import Enum
 
+from spacy.tokens import Doc
+
 
 class SupportedModels(str, Enum):
     """Enum for supported Doc models."""
@@ -10,7 +12,7 @@ class SupportedModels(str, Enum):
     STANZA = "stanza"
 
 
-def flatten(list_of_lists):
+def flatten(list_of_lists: {}) -> {}:
     """Flatten a list of list.
 
     This is a utility function that takes a list of lists and
@@ -25,7 +27,9 @@ def flatten(list_of_lists):
     return [item for sublist in list_of_lists for item in sublist]
 
 
-def get_sentences_lemmas(docs, lemma_dict, stopwords=[]):  # pragma: no cover
+def get_sentences_lemmas(
+    docs: Doc, lemma_dict: dict, stopwords=[]
+) -> {}:  # pragma: no cover
     """Get lemmas from sentences.
 
     Get different types of lemma measurements, such as noun lemmas, verb
@@ -88,7 +92,7 @@ def get_sentences_lemmas(docs, lemma_dict, stopwords=[]):  # pragma: no cover
     )
 
 
-def get_stopwords(filename):
+def get_stopwords(filename: str) -> set:
     """Read stopword list from file.
 
     Assumes that the list is defined as a newline separated words. It is
@@ -109,7 +113,9 @@ def get_stopwords(filename):
     return stopwords
 
 
-def get_token_lemmas(doc, lemma_dict, stopwords=[]):  # pragma: no cover
+def get_token_lemmas(
+    doc: Doc, lemma_dict: dict, stopwords=[]
+) -> {}:  # pragma: no cover
     """Return lemmas from a sentence.
 
     From a sentence, extracts the following lemmas:
@@ -170,7 +176,7 @@ def get_token_lemmas(doc, lemma_dict, stopwords=[]):  # pragma: no cover
     )
 
 
-def is_adjective(pos_tag):
+def is_adjective(pos_tag: str) -> bool:
     """Return ``True`` if ``pos_tag`` is ``ADJ``, False otherwise.
 
     :param pos_tag: Part of Speech tag
@@ -181,7 +187,7 @@ def is_adjective(pos_tag):
     return pos_tag == "ADJ"
 
 
-def is_adverb(pos_tag):
+def is_adverb(pos_tag: str) -> bool:
     """Return ``True`` if ``pos_tag`` is ``ADV``, False otherwise.
 
     :param pos_tag: Part of Speech tag
@@ -192,7 +198,7 @@ def is_adverb(pos_tag):
     return pos_tag == "ADV"
 
 
-def is_noun(pos_tag):
+def is_noun(pos_tag: str) -> bool:
     """Return ``True`` if ``pos_tag`` is ``NOUN`` or ``PROPN``, False otherwise.
 
     :param pos_tag: Part of Speech tag
@@ -203,7 +209,7 @@ def is_noun(pos_tag):
     return pos_tag == "PROPN" or pos_tag == "NOUN"
 
 
-def is_pronoun(pos_tag):
+def is_pronoun(pos_tag: str) -> bool:
     """Return ``True`` if ``pos_tag`` is ``PRON``, False otherwise.
 
     :param pos_tag: Part of Speech tag
@@ -214,7 +220,7 @@ def is_pronoun(pos_tag):
     return pos_tag == "PRON"
 
 
-def is_stopword(word, stopwords):
+def is_stopword(word: str, stopwords: {}) -> bool:
     """Return ``True`` if ``word`` is in ``stopwords``, False otherwise.
 
     :param word: Word to be checked
@@ -227,7 +233,7 @@ def is_stopword(word, stopwords):
     return word in stopwords
 
 
-def is_verb(pos_tag):
+def is_verb(pos_tag: str) -> bool:
     """Return ``True`` if ``pos_tag`` is ``VERB``, False otherwise.
 
     :param pos_tag: Part of Speech tag
@@ -238,7 +244,7 @@ def is_verb(pos_tag):
     return pos_tag == "VERB"
 
 
-def is_word(pos_tag):
+def is_word(pos_tag: str) -> bool:
     """Return ``True`` if ``pos_tag`` is not punctuation, False otherwise.
 
     This method checks that the ``pos_tag`` does not belong to the following
@@ -252,7 +258,7 @@ def is_word(pos_tag):
     return pos_tag != "PUNCT" and pos_tag != "SYM" and pos_tag != "SPACE"
 
 
-def lemmatize(lemma_dict, word):
+def lemmatize(lemma_dict: {}, word: str) -> str:
     """Lemmatize a word.
 
     Lemmatizes a word using a lemmatizer which is represented as a dict that
@@ -272,7 +278,7 @@ def lemmatize(lemma_dict, word):
     return lemma_dict.get(word, word)
 
 
-def process_text(text, sent_tokenize):
+def process_text(text: str, sent_tokenize) -> {}:
     """Process text by tokenizing sentences given a tokenizer.
 
     :param text: Text to be processed
@@ -285,7 +291,7 @@ def process_text(text, sent_tokenize):
     return sent_tokenize(text)
 
 
-def read_text(filename):
+def read_text(filename: str) -> str:
     """Read a ``utf-8`` encoded text file and returns the text as ``string``.
 
     This is just a utily function, that is not recommended to use if the text
