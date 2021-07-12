@@ -2,6 +2,8 @@
 """Utility functions for TRUNAJOD library."""
 from enum import Enum
 
+from spacy.tokens import Token
+
 
 class SupportedModels(str, Enum):
     """Enum for supported Doc models."""
@@ -142,21 +144,21 @@ def get_token_lemmas(doc, lemma_dict, stopwords=[]):  # pragma: no cover
     for token in doc:
         word = token.text.lower()
         word_lemma = lemmatize(lemma_dict, word)
-        if is_noun(token.pos_):
+        if is_noun(token):
             noun_lemmas.append(word_lemma)
-        elif is_verb(token.pos_):
+        elif is_verb(token):
             verb_lemmas.append(word_lemma)
-        elif is_adjective(token.pos_):
+        elif is_adjective(token):
             adj_lemmas.append(word_lemma)
-        elif is_adverb(token.pos_):
+        elif is_adverb(token):
             adv_lemmas.append(word_lemma)
-        elif is_pronoun(token.pos_):
+        elif is_pronoun(token):
             prp_lemmas.append(word_lemma)
 
         if is_stopword(word, stopwords):
             function_lemmas.append(word_lemma)
         else:
-            if is_word(token.pos_):
+            if is_word(token):
                 content_lemmas.append(word_lemma)
 
     return (
@@ -170,7 +172,7 @@ def get_token_lemmas(doc, lemma_dict, stopwords=[]):  # pragma: no cover
     )
 
 
-def is_adjective(pos_tag):
+def is_adjective(token: Token):
     """Return ``True`` if ``pos_tag`` is ``ADJ``, False otherwise.
 
     :param pos_tag: Part of Speech tag
@@ -178,10 +180,10 @@ def is_adjective(pos_tag):
     :return: True if POS is adjective
     :rtype: boolean
     """
-    return pos_tag == "ADJ"
+    return token.pos_ == "ADJ"
 
 
-def is_adverb(pos_tag):
+def is_adverb(token: Token):
     """Return ``True`` if ``pos_tag`` is ``ADV``, False otherwise.
 
     :param pos_tag: Part of Speech tag
@@ -189,10 +191,10 @@ def is_adverb(pos_tag):
     :return: True if POS is adverb
     :rtype: boolean
     """
-    return pos_tag == "ADV"
+    return token.pos_ == "ADV"
 
 
-def is_noun(pos_tag):
+def is_noun(token: Token):
     """Return ``True`` if ``pos_tag`` is ``NOUN`` or ``PROPN``, False otherwise.
 
     :param pos_tag: Part of Speech tag
@@ -200,10 +202,10 @@ def is_noun(pos_tag):
     :return: True if POS is noun or proper noun
     :rtype: boolean
     """
-    return pos_tag == "PROPN" or pos_tag == "NOUN"
+    return token.pos_ in ("PROPN", "NOUN")
 
 
-def is_pronoun(pos_tag):
+def is_pronoun(token: Token):
     """Return ``True`` if ``pos_tag`` is ``PRON``, False otherwise.
 
     :param pos_tag: Part of Speech tag
@@ -211,7 +213,7 @@ def is_pronoun(pos_tag):
     :return: True if POS is pronoun
     :rtype: boolean
     """
-    return pos_tag == "PRON"
+    return token.pos_ == "PRON"
 
 
 def is_stopword(word, stopwords):
@@ -227,7 +229,7 @@ def is_stopword(word, stopwords):
     return word in stopwords
 
 
-def is_verb(pos_tag):
+def is_verb(token: Token):
     """Return ``True`` if ``pos_tag`` is ``VERB``, False otherwise.
 
     :param pos_tag: Part of Speech tag
@@ -235,10 +237,10 @@ def is_verb(pos_tag):
     :return: True if POS is verb
     :rtype: boolean
     """
-    return pos_tag == "VERB"
+    return token.pos_ == "VERB"
 
 
-def is_word(pos_tag):
+def is_word(token: Token):
     """Return ``True`` if ``pos_tag`` is not punctuation, False otherwise.
 
     This method checks that the ``pos_tag`` does not belong to the following
@@ -249,7 +251,7 @@ def is_word(pos_tag):
     :return: True if POS is a word
     :rtype: boolean
     """
-    return pos_tag != "PUNCT" and pos_tag != "SYM" and pos_tag != "SPACE"
+    return token.pos_ not in ("PUNCT", "SYM", "SPACE")
 
 
 def lemmatize(lemma_dict, word):
