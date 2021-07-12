@@ -1,6 +1,14 @@
 """Unit tests for utils TRUNAJOD module."""
+from typing import NamedTuple
+
 import mock
 from TRUNAJOD import utils
+
+
+class Token(NamedTuple):
+    """Implement Token mock for spacy.tokens.Token."""
+
+    pos_: str
 
 
 def test_is_stopword():
@@ -23,13 +31,13 @@ def test_lemmatize():
 
 def test_pos_booleans():
     """Test POS boolean methods."""
-    assert utils.is_adjective("ADJ")
-    assert utils.is_adverb("ADV")
-    assert utils.is_noun("NOUN")
-    assert utils.is_noun("PROPN")
-    assert utils.is_pronoun("PRON")
-    assert utils.is_verb("VERB")
-    assert utils.is_word("NOUN")
+    assert utils.is_adjective(Token(pos_="ADJ"))
+    assert utils.is_adverb(Token(pos_="ADV"))
+    assert utils.is_noun(Token(pos_="NOUN"))
+    assert utils.is_noun(Token(pos_="PROPN"))
+    assert utils.is_pronoun(Token(pos_="PRON"))
+    assert utils.is_verb(Token(pos_="VERB"))
+    assert utils.is_word(Token(pos_="NOUN"))
 
 
 @mock.patch("builtins.open", mock.mock_open(read_data="the"))

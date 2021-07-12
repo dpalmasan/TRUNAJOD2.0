@@ -47,15 +47,9 @@ def lexical_diversity_mtld(
     model = SupportedModels(model_name)
 
     word_list = []
-    if model == SupportedModels.SPACY:
-        for token in doc:
-            if is_word(token.pos_):
-                word_list.append(token.lemma_)
-    elif model == SupportedModels.STANZA:
-        for sent in doc.sentences:
-            for word in sent.words:
-                if is_word(word.upos):
-                    word_list.append(word.lemma)
+    for token in doc:
+        if is_word(token):
+            word_list.append(token.lemma_)
     return (
         one_side_lexical_diversity_mtld(word_list, model, ttr_segment)
         + one_side_lexical_diversity_mtld(word_list[::-1], model, ttr_segment)
@@ -130,7 +124,7 @@ def yule_k(doc: Doc) -> float:
     counts: Dict[str, int] = defaultdict(int)
     N: int = 0
     for token in doc:
-        if is_word(token.pos_):
+        if is_word(token):
             counts[token.lemma_] += 1
             N += 1
 
@@ -183,7 +177,7 @@ def d_estimate(
         )
     token_list: List[str] = []
     for token in doc:
-        if is_word(token.pos_):
+        if is_word(token):
             token_list.append(token.lemma_)
 
     ns = np.arange(min_range, max_range + 1)
@@ -222,7 +216,7 @@ def word_variation_index(doc: Doc) -> float:
     """
     token_list: List[str] = []
     for token in doc:
-        if is_word(token.pos_):
+        if is_word(token):
             token_list.append(token.lemma_)
 
     number_of_words = len(token_list)

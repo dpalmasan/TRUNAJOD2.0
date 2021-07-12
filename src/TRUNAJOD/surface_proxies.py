@@ -244,7 +244,7 @@ def frequency_index(doc, frequency_dict):
     for sent in doc.sents:
         minimum = 99999999999999
         for token in sent:
-            if is_word(token.pos_):
+            if is_word(token):
                 frec = frequency_dict.get(token.lower_, 0)
                 if frec < minimum and frec > 0:
                     minimum = frec
@@ -333,7 +333,7 @@ def connection_words_ratio(doc):
             1
             for token in doc
             if token.lemma_.lower() in {"y", "o", "no", "si"}
-            and is_word(token.pos_)
+            and is_word(token)
         ]
     ) / word_count(doc)
 
@@ -352,7 +352,7 @@ def negation_density(doc):
     """
     negation_count = 0
     for token in doc:
-        if is_word(token.pos_) and token.lemma_.lower() in NEGATION_WORDS:
+        if is_word(token) and token.lemma_.lower() in NEGATION_WORDS:
             negation_count += 1
 
     return negation_count / word_count(doc)
@@ -529,7 +529,7 @@ def pos_ratio(doc, pos_types):
     total_words = 0
     total_pos_tags = 0
     for token in doc:
-        if is_word(token.pos_):
+        if is_word(token):
             total_words += 1
             if pos_regex.search(token.tag_):
                 total_pos_tags += 1
@@ -686,4 +686,4 @@ def word_count(doc):
     :return: Word count
     :rtype: int
     """
-    return sum([1 for token in doc if is_word(token.pos_)])
+    return sum([1 for token in doc if is_word(token)])

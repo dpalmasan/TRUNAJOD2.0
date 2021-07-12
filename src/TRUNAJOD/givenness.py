@@ -31,9 +31,9 @@ def pronoun_density(doc: Doc) -> float:
     word_counter = 0
     third_person_pronouns = 0
     for token in doc:
-        if is_word(token.pos_):
+        if is_word(token):
             word_counter += 1
-            if is_pronoun(token.pos_) and THIRD_PERSON_LABEL in token.tag_:
+            if is_pronoun(token) and THIRD_PERSON_LABEL in token.tag_:
                 third_person_pronouns += 1
 
     return float(third_person_pronouns) / word_counter
@@ -55,9 +55,9 @@ def pronoun_noun_ratio(doc: Doc) -> float:
     third_person_pronouns = 0
 
     for token in doc:
-        if is_noun(token.pos_):
+        if is_noun(token):
             noun_counter += 1
-        if is_pronoun(token.pos_) and THIRD_PERSON_LABEL in token.tag_:
+        if is_pronoun(token) and THIRD_PERSON_LABEL in token.tag_:
             third_person_pronouns += 1
 
     return float(third_person_pronouns) / noun_counter
