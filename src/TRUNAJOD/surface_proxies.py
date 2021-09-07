@@ -531,7 +531,7 @@ def pos_ratio(doc, pos_types):
     for token in doc:
         if is_word(token):
             total_words += 1
-            if pos_regex.search(token.tag_):
+            if pos_regex.search(token.pos_):
                 total_pos_tags += 1
     return total_pos_tags / total_words
 
