@@ -1,4 +1,5 @@
 """TRUNAJOD ttr tests."""
+import math
 import string
 from collections import namedtuple
 
@@ -90,6 +91,21 @@ def test_d_estimate():
 
     np.random.seed(0)
     assert ttr.d_estimate(doc) == 119.4468681409897
+
+
+def test_guirauds_index():
+    """Test guirauds_index."""
+    Token = namedtuple("Token", "lemma_ pos_")
+    doc = [
+        Token("hola", "hola"),
+        Token("hola", "hola"),
+        Token("chao", "chao"),
+        Token("hola", "hola"),
+        Token("perro", "perro"),
+        Token("hola", "hola"),
+    ]
+    answer = 3 / math.sqrt(6)
+    assert ttr.guirauds_index(doc) == answer
 
 
 def test_word_variation_index():
